@@ -16,22 +16,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.dbmi.sharephe.ws;
+package edu.pitt.dbmi.sharephe.api.endpoint;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import edu.pitt.dbmi.sharephe.api.model.SharepheWorkBook;
+import edu.pitt.dbmi.sharephe.api.service.SharepheWorkBookService;
+import java.util.List;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * Jul 14, 2022 8:49:16 PM
+ * Jul 15, 2022 12:12:22 PM
  *
  * @author Kevin V. Bui (kvb2univpitt@gmail.com)
  */
-@SpringBootTest
-public class SharepheWsApplicationTests {
+@Path("/api/workbook")
+public class WorkbookEndpoint {
 
-    @Test
-    public void contextLoads() {
+    private final SharepheWorkBookService sharepheWorkBookService;
+
+    @Autowired
+    public WorkbookEndpoint(SharepheWorkBookService sharepheWorkBookService) {
+        this.sharepheWorkBookService = sharepheWorkBookService;
+    }
+
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<SharepheWorkBook> test() {
+        return sharepheWorkBookService.fetchSharepheWorkBooks();
     }
 
 }

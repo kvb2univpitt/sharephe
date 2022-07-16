@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.dbmi.sharephe.ws;
+package edu.pitt.dbmi.sharephe.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,18 +30,18 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author Kevin V. Bui (kvb2univpitt@gmail.com)
  */
 @SpringBootApplication
-public class SharepheWsApplication extends SpringBootServletInitializer {
+public class SharepheApiApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SharepheWsApplication.class);
+        return application.sources(SharepheApiApplication.class);
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(SharepheWsApplication.class, args);
+        SpringApplication.run(SharepheApiApplication.class, args);
     }
 
 }
