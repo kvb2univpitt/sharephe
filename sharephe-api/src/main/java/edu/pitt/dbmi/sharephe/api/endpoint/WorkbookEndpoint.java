@@ -18,13 +18,23 @@
  */
 package edu.pitt.dbmi.sharephe.api.endpoint;
 
-import edu.pitt.dbmi.sharephe.api.model.SharepheWorkBook;
-import edu.pitt.dbmi.sharephe.api.service.SharepheWorkBookService;
+import com.amazonaws.SdkClientException;
+import edu.pitt.dbmi.sharephe.api.model.SharepheWorkbook;
+import edu.pitt.dbmi.sharephe.api.service.SharepheWorkbookService;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -36,18 +46,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Path("/api/workbook")
 public class WorkbookEndpoint {
 
-    private final SharepheWorkBookService sharepheWorkBookService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkbookEndpoint.class);
+
+    private final SharepheWorkbookService sharepheWorkbookService;
 
     @Autowired
-    public WorkbookEndpoint(SharepheWorkBookService sharepheWorkBookService) {
-        this.sharepheWorkBookService = sharepheWorkBookService;
+    public WorkbookEndpoint(SharepheWorkbookService sharepheWorkbookService) {
+        this.sharepheWorkbookService = sharepheWorkbookService;
     }
 
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SharepheWorkBook> test() {
-        return sharepheWorkBookService.fetchSharepheWorkBooks();
+    public List<SharepheWorkbook> listWorkbooks() {
+        return sharepheWorkbookService.fetchSharepheWorkBooks();
+    }
+
+    @POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response saveWorkbook(FormDataMultiPart multiPart, @Context HttpServletRequest req) {
+        try {
+            SharepheWorkbook sharepheWorkbook = sharepheWorkbookService.save(multiPart);
+            return Response.ok(sharepheWorkbook, MediaType.APPLICATION_JSON).build();
+        } catch (IOException | SdkClientException exception) {
+            LOGGER.error("Unable to save workbook", exception);
+
+            return Response.serverError().build();
+        }
     }
 
 }

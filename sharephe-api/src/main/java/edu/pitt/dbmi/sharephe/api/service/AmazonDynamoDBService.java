@@ -21,7 +21,7 @@ package edu.pitt.dbmi.sharephe.api.service;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import edu.pitt.dbmi.sharephe.api.model.WorkBook;
+import edu.pitt.dbmi.sharephe.api.model.Workbook;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,17 +35,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class AmazonDynamoDBService {
 
-    private final AmazonDynamoDB amazonDynamoDB;
     private final DynamoDBMapper dynamoDBMapper;
 
     @Autowired
     public AmazonDynamoDBService(AmazonDynamoDB amazonDynamoDB) {
-        this.amazonDynamoDB = amazonDynamoDB;
         this.dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
     }
 
-    public List<WorkBook> getWorkBooks() {
-        return dynamoDBMapper.scan(WorkBook.class, new DynamoDBScanExpression());
+    public Workbook saveWorkbook(Workbook workbook) {
+        dynamoDBMapper.save(workbook);
+
+        return workbook;
+    }
+
+    public List<Workbook> getWorkBooks() {
+        return dynamoDBMapper.scan(Workbook.class, new DynamoDBScanExpression());
     }
 
 }

@@ -30,7 +30,7 @@ import java.io.Serializable;
  * @author Kevin V. Bui (kvb2univpitt@gmail.com)
  */
 @DynamoDBTable(tableName = "Sharephe-Testing")
-public class WorkBook implements Serializable {
+public class Workbook implements Serializable {
 
     private static final long serialVersionUID = 7133872453765442750L;
 
@@ -55,7 +55,23 @@ public class WorkBook implements Serializable {
     @DynamoDBAttribute(attributeName = "Type")
     private String type;
 
-    public WorkBook() {
+    public Workbook() {
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Workbook{");
+        sb.append("phenotypeId=").append(phenotypeId);
+        sb.append(", authors=").append(authors);
+        sb.append(", institution=").append(institution);
+        sb.append(", queryXML=").append(queryXML);
+        sb.append(", s3Address=").append(s3Address);
+        sb.append(", title=").append(title);
+        sb.append(", type=").append(type);
+        sb.append('}');
+
+        return sb.toString();
     }
 
     public String getPhenotypeId() {

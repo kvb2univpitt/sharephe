@@ -18,6 +18,7 @@
  */
 package edu.pitt.dbmi.sharephe.api.conf;
 
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +35,7 @@ public class JerseyConfig extends ResourceConfig {
         packages(
                 "edu.pitt.dbmi.sharephe.api.endpoint"
         );
+        register(MultiPartFeature.class);
     }
 
 }

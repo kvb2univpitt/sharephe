@@ -20,42 +20,38 @@ package edu.pitt.dbmi.sharephe.api.model;
 
 import java.io.Serializable;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * Jul 16, 2022 12:40:05 PM
+ * Aug 1, 2022 4:36:00 PM
  *
  * @author Kevin V. Bui (kvb2univpitt@gmail.com)
  */
-public class SharepheWorkBook implements Serializable {
+public class WorkbookForm implements Serializable {
 
-    private static final long serialVersionUID = -7689631681813234554L;
+    private static final long serialVersionUID = -6339817486051996188L;
 
-    private WorkBook workBook;
+    private String phenotypeId;
 
-    private List<String> files;
+    private List<MultipartFile> files;
 
-    public SharepheWorkBook() {
+    public WorkbookForm() {
     }
 
-    public SharepheWorkBook(WorkBook workBook, List<String> files) {
-        this.workBook = workBook;
-        this.files = files;
+    public String getPhenotypeId() {
+        return phenotypeId;
     }
 
-    public WorkBook getWorkBook() {
-        return workBook;
+    public void setPhenotypeId(String phenotypeId) {
+        this.phenotypeId = phenotypeId;
     }
 
-    public void setWorkBook(WorkBook workBook) {
-        this.workBook = workBook;
-    }
-
-    public List<String> getFiles() {
+    public List<MultipartFile> getFiles() {
         return files;
     }
 
-    public void setFiles(List<String> files) {
+    public void setFiles(List<MultipartFile> files) {
         this.files = files;
     }
 
