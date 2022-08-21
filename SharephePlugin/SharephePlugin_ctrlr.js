@@ -64,7 +64,7 @@ i2b2.SharephePlugin.syncFromCloud = function () {
     jQuery.ajax({
         type: 'GET',
         dataType: 'json',
-        url: 'http://' + location.host + '/sharephe-api/workbook'
+        url: 'http://' + location.host + '/sharephe/api/workbook'
     }).done(function (data) {
         let datatable = i2b2.SharephePlugin.workbookTable;
         datatable.clear();
@@ -464,7 +464,7 @@ i2b2.SharephePlugin.Init = function (loadedDiv) {
             cache: false,
             contentType: false,
             processData: false,
-            url: 'http://' + location.host + '/sharephe-api/workbook/upload'
+            url: 'http://' + location.host + '/sharephe/api/workbook/upload'
         }).success(function (data) {
             let workbook = data.workbook;
             i2b2.SharephePlugin.workbooks[workbook.phenotypeId] = data;
