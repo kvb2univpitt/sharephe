@@ -97,7 +97,7 @@ i2b2.SharephePlugin.workbook = {
         isReadOnly: false,
         clear: function () {
             i2b2.SharephePlugin.model.details = [];
-            i2b2.Sharephe.model.QMRecords = [];
+            i2b2.SharephePlugin.model.QMRecords = [];
             i2b2.SharephePlugin.model.QMRecord = false;
             i2b2.SharephePlugin.model.highestPSDDIndex = 0;
             i2b2.SharephePlugin.model.dirtyResultsData = false;
