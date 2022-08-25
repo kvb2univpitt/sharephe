@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Sharephe Template</title>
+    </head>
+    <body>
+        <div id='Sharephe-mainDiv'>
+            <div id="Sharephe-PhenoName"></div>
+            <div id="Sharephe-TABS" class="yui-navset">
+                <ul class="yui-nav">
+                    <li id="Sharephe-TAB0" class="selected"><a href="#Sharephe-TAB0"><em>Library</em></a></li>
+                    <li id="Sharephe-TAB1"><a href="#Sharephe-TAB1"><em>Workbook</em></a></li>
+                    <li id="Sharephe-TAB2"><a href="#Sharephe-TAB2"><em>Details</em></a></li>
+                </ul>
+                <div class="yui-content" id="Sharephe-CONTENT">
+                    <!--TAB0-->
+                    <div class="Sharephe-MainContent">
+                        <div class="Sharephe-MainContentPad">
+                            <button class="sharephe-btn sharephe-btn-primary sharephe-mb-4" onclick="i2b2.Sharephe.syncFromCloud();">
+                                <i class="bi bi-cloud-download-fill"></i> Sync From Cloud
+                            </button>
+                            <div class="sharephe-card sharephe-mt-2 sharephe-mb-4" id="Sharephe-WorkbookList" style="display: none;">
+                                <div class="sharephe-card-body">
+                                    <div class="sharephe-table-responsive">
+                                        <table id="Sharephe-WorkbookTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Workbook ID</th>
+                                                    <th>Type</th>
+                                                    <th>Title</th>
+                                                    <th>Authors</th>
+                                                    <th>Institution</th>
+                                                    <th>Files</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TAB1-->
+                    <div class="Sharephe-MainContent">
+                        <div class="Sharephe-MainContentPad">
+                            <div class="sharephe-card" id="Sharephe-WorkbookCard">
+                                <div class="sharephe-card-header sharephe-d-flex sharephe-justify-content-between sharephe-align-items-center Sharephe-Border">
+                                    <div class="sharephe-h6">Phenotype Workbook</div>
+                                    <div id="Sharephe-ButtonGroup">
+                                        <button type="button" class="sharephe-btn sharephe-btn-sm sharephe-btn-warning" id="Sharephe-CancelButton" onclick="i2b2.Sharephe.workbook.form.cancelEdit();"><i class="bi bi-x-circle"></i> Cancel</button>
+                                        <button type="button" class="sharephe-btn sharephe-btn-sm sharephe-btn-info" id="Sharephe-EditButton" onclick="i2b2.Sharephe.workbook.form.enableEdit();"><i class="bi bi-pencil-square"></i> Edit</button>
+                                        <button type="button" class="sharephe-btn sharephe-btn-sm sharephe-btn-success" id="Sharephe-NewButton" onclick="i2b2.Sharephe.workbook.form.createNew();"><i class="bi bi-file-earmark-plus"></i> New</button>
+                                    </div>
+                                </div>
+                                <div class="sharephe-card-body Sharephe-Border" id="Sharephe-UploadFormArea">
+                                    <form id="Sharephe-UploadForm" enctype="multipart/form-data" method="POST">
+                                        <input type="hidden" id="Sharephe-QueryXml" name="queryXML" value=""  />
+                                        <table id="Sharephe-Upload">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Workbook ID:</th>
+                                                    <td>
+                                                        <input class="sharephe-form-control" type="text" id="Sharephe-PhenotypeId" name="phenotypeId" value="" required="required" disabled="disabled" readonly="readonly" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Workbook Type:</th>
+                                                    <td>
+                                                        <select class="sharephe-form-control" name="type" id="Sharephe-Type" required="required">
+                                                            <option value="">Please select one.</option>
+                                                            <option value="Clinical Trial">Clinical Trial</option>
+                                                            <option value="Computable Phenotypes">Computable Phenotypes</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">WorkBook Title:</th>
+                                                    <td><input class="sharephe-form-control" type="text" id="Sharephe-Title" name="title" value="" required="required" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Main Authors:</th>
+                                                    <td><input class="sharephe-form-control" type="text" id="Sharephe-Authors" name="authors" value="" required="required" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Institution:</th>
+                                                    <td><input class="sharephe-form-control" type="text" id="Sharephe-Institution" name="institution" value="" required="required" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: text-top">Supporting Attachments:</th>
+                                                    <td>
+                                                        <input type="file" id="Sharephe-AttachedFiles" name="files" multiple="multiple" />
+                                                        <div id="Sharephe-AttachedFileList" style="display: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td>
+                                                        <select class="sharephe-form-control" id="Sharephe-SelectedFileList" multiple="multiple" style="height: 100%;" size="6" disabled="disabled"></select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: top;">Queries:</th>
+                                                    <td>
+                                                        <table id="Sharephe-QueryDropArea">
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="sharephe-btn sharephe-btn-success sharephe-btn-block sharephe-mt-4" id="Sharephe-SubmitButton" type="submit">
+                                            <i class="bi bi-cloud-upload"></i> Save and Publish
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TAB2-->
+                    <div class="Sharephe-MainContent">
+                        <div class="Sharephe-MainContentPad">
+                            <div class="demo" id="Sharephe-Details"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal dialog content markup -->
+            <div id="Sharephe-ProgressModal" style="visibility:hidden">
+                <div class="hd"><span id="Sharephe-ProgressModalTitle"></span></div>
+                <div class="bd">
+                    <img alt="Spinner" src="assets/images/spin.gif" height="200" width="200" />
+                </div>
+            </div>
+            <div id="Sharephe-MessageModal" style="visibility:hidden">
+                <div class="hd"><span id="Sharephe-MessageModalTitle"></span></div>
+                <div class="bd">
+                    <p id="Sharephe-MessageModalMessage" style="padding: 10px;"></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

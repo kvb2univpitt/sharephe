@@ -1,0 +1,377 @@
+/* Selected styles extracted from Bootstrap v4.6 (https://getbootstrap.com/docs/4.6/getting-started/introduction/) */
+
+.sharephe-btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.sharephe-btn:hover {
+    color: #212529;
+    text-decoration: none;
+}
+
+.sharephe-btn:focus, .sharephe-btn.focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.sharephe-btn.disabled, .sharephe-btn:disabled {
+    opacity: 0.65;
+}
+
+.sharephe-btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.sharephe-btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.sharephe-btn-primary:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.sharephe-btn-primary:focus, .sharephe-btn-primary.focus {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+.sharephe-btn-primary.disabled, .sharephe-btn-primary:disabled {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.sharephe-btn-primary:not(:disabled):not(.disabled):active, .sharephe-btn-primary:not(:disabled):not(.disabled).active,
+.show > .sharephe-btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+
+.sharephe-btn-primary:not(:disabled):not(.disabled):active:focus, .sharephe-btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .sharephe-btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+.sharephe-btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.sharephe-btn-success:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.sharephe-btn-success:focus, .sharephe-btn-success.focus {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+}
+
+.sharephe-btn-success.disabled, .sharephe-btn-success:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.sharephe-btn-success:not(:disabled):not(.disabled):active, .sharephe-btn-success:not(:disabled):not(.disabled).active,
+.show > .sharephe-btn-success.dropdown-toggle {
+    color: #fff;
+    background-color: #1e7e34;
+    border-color: #1c7430;
+}
+
+.sharephe-btn-success:not(:disabled):not(.disabled):active:focus, .sharephe-btn-success:not(:disabled):not(.disabled).active:focus,
+.show > .sharephe-btn-success.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+}
+
+.sharephe-btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.sharephe-btn-info:hover {
+    color: #fff;
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+.sharephe-btn-info:focus, .sharephe-btn-info.focus {
+    color: #fff;
+    background-color: #138496;
+    border-color: #117a8b;
+    box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+}
+
+.sharephe-btn-info.disabled, .sharephe-btn-info:disabled {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.sharephe-btn-info:not(:disabled):not(.disabled):active, .sharephe-btn-info:not(:disabled):not(.disabled).active,
+.show > .sharephe-btn-info.dropdown-toggle {
+    color: #fff;
+    background-color: #117a8b;
+    border-color: #10707f;
+}
+
+.sharephe-btn-info:not(:disabled):not(.disabled):active:focus, .sharephe-btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .sharephe-btn-info.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+}
+
+.sharephe-btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.sharephe-btn-secondary:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.sharephe-btn-secondary:focus, .sharephe-btn-secondary.focus {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
+
+.sharephe-btn-secondary.disabled, .sharephe-btn-secondary:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.sharephe-btn-secondary:not(:disabled):not(.disabled):active, .sharephe-btn-secondary:not(:disabled):not(.disabled).active,
+.show > .sharephe-btn-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #545b62;
+    border-color: #4e555b;
+}
+
+.sharephe-btn-secondary:not(:disabled):not(.disabled):active:focus, .sharephe-btn-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .sharephe-btn-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+}
+
+.sharephe-btn-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.sharephe-btn-warning:hover {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.sharephe-btn-warning:focus, .sharephe-btn-warning.focus {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+    box-shadow: 0 0 0 0.2rem rgba(222, 170, 12, 0.5);
+}
+
+.sharephe-btn-warning.disabled, .sharephe-btn-warning:disabled {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.sharephe-btn-warning:not(:disabled):not(.disabled):active, .sharephe-btn-warning:not(:disabled):not(.disabled).active,
+.show > .sharephe-btn-warning.dropdown-toggle {
+    color: #212529;
+    background-color: #d39e00;
+    border-color: #c69500;
+}
+
+.sharephe-btn-warning:not(:disabled):not(.disabled):active:focus, .sharephe-btn-warning:not(:disabled):not(.disabled).active:focus,
+.show > .sharephe-btn-warning.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(222, 170, 12, 0.5);
+}
+
+.sharephe-mb-2,
+.sharephe-my-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.sharephe-mb-4,
+.sharephe-my-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+
+.sharephe-mt-2,
+.sharephe-my-2 {
+    margin-top: 0.5rem !important;
+}
+
+
+.sharephe-mt-4,
+.sharephe-my-4 {
+    margin-top: 1.5rem !important;
+}
+
+.sharephe-card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+
+.sharephe-card > .sharephe-card-header + .list-group,
+.sharephe-card > .list-group + .sharephe-card-footer {
+    border-top: 0;
+}
+
+.sharephe-card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.sharephe-card-header:first-child {
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+.sharephe-card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.sharephe-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sharephe-d-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+
+.sharephe-justify-content-between {
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+}
+
+.sharephe-align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+.sharephe-btn-sm, .sharephe-btn-group-sm > .sharephe-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+.sharephe-btn-lg, .sharephe-btn-group-lg > .sharephe-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+}
+
+.sharephe-h6 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.sharephe-form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.sharephe-form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.sharephe-form-control:disabled, .sharephe-form-control[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+select.sharephe-form-control:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #495057;
+}
+
+select.sharephe-form-control:focus::-ms-value {
+    color: #495057;
+    background-color: #fff;
+}
+
+.sharephe-form-control-sm {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+.sharephe-btn-block {
+    display: block;
+    width: 100%;
+}
