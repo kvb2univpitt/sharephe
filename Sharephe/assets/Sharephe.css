@@ -73,6 +73,8 @@ table#Sharephe-Upload {
 }
 
 table#Sharephe-Upload th {
+    border: 0;
+    text-align: left;
     width: 150px;
 }
 
