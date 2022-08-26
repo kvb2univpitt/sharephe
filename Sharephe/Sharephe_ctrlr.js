@@ -309,7 +309,7 @@ i2b2.Sharephe.createNewBtn = function () {
     queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
     queryRunBtnElement.className = 'viewRun SDX sharephe-btn sharephe-btn-secondary sharephe-btn-sm';
     queryRunBtnElement.type = 'button';
-    queryRunBtnElement.innerHTML = `Execute Query ${index + 1}`;
+    queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query ' + (index + 1);
     queryRunBtnElement.addEventListener("click", function () {
         i2b2.Sharephe.masterView(this.id);
     }, false);

@@ -75,7 +75,7 @@ table#Sharephe-Upload {
 table#Sharephe-Upload th {
     border: 0;
     text-align: left;
-    width: 150px;
+    width: 120px;
 }
 
 table#Sharephe-Upload td {
@@ -97,7 +97,7 @@ table#Sharephe-QueryDropArea {
 }
 
 .Sharephe-QueryButtonCell {
-    width: 170px;
+    width: 140px;
     text-align: right;
 }
 
