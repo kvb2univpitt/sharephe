@@ -107,7 +107,7 @@ i2b2.Sharephe.workbook = {
             let anchorTags = [];
             for (let i = 0; i < files.length; i++) {
                 let ahref = fileURL + '/' + files[i];
-                anchorTags.push('<a href="' + ahref + '" target="_blank">' + files[i] + '</a>');
+                anchorTags.push('<a class="sharephe-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>');
             }
 
             document.getElementById("Sharephe-AttachedFileList").innerHTML = anchorTags.join('<br />');

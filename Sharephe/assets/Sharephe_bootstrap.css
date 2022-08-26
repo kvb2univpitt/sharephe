@@ -287,6 +287,7 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 2rem;
 }
 
 .sharephe-d-flex {
@@ -374,4 +375,25 @@ select.sharephe-form-control:focus::-ms-value {
 .sharephe-btn-block {
     display: block;
     width: 100%;
+}
+
+.sharephe-a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.sharephe-a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.sharephe-a:not([href]):not([class]) {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sharephe-a:not([href]):not([class]):hover {
+    color: inherit;
+    text-decoration: none;
 }
