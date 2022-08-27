@@ -52,13 +52,19 @@ table#Sharephe-WorkbookTable th {
     background-color: #216288 !important;
     color: lightgrey;
 }
+
 table#Sharephe-WorkbookTable td {
     border: 1px solid dimgray;
     padding: 0.5rem;
     vertical-align: top;
 }
+
 table#Sharephe-WorkbookTable tr:hover td {
     background-color: #DCDCDC;
+}
+
+#Sharephe-WorkbookTable_paginate {
+    padding-top: 20px;
 }
 
 #Sharephe-WorkbookTable_filter {
