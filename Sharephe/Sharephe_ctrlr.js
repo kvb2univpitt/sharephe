@@ -561,6 +561,16 @@ i2b2.Sharephe.downloadDetails = function () {
     }
 };
 
+i2b2.Sharephe.copyDetailsToClipboard = function () {
+    let select = document.getElementById("Sharephe-FileType");
+    let fileType = select.options[select.selectedIndex].value;
+    if (fileType === 'csv') {
+        navigator.clipboard.writeText(i2b2.Sharephe.toTabular(i2b2.Sharephe.model.details));
+    } else {
+        navigator.clipboard.writeText(JSON.stringify(i2b2.Sharephe.model.details, null, 4));
+    }
+};
+
 i2b2.Sharephe.addDownloadDetailButton = function (mainElement) {
     let downloadDetailElement = document.createElement("div");
     downloadDetailElement.style = 'position: absolute; right: 20px;';
@@ -568,7 +578,7 @@ i2b2.Sharephe.addDownloadDetailButton = function (mainElement) {
     downloadDetailElement.innerHTML = `
     <div class="card">
         <div class="card-body">
-            <div id="filetype-selection" style="padding-bottom: 4px">
+            <div class="sharephe-mb-4" id="filetype-selection">
                 <div class="form-group">
                     <label for="Sharephe-FileType">File type:</label>
                     <select id="Sharephe-FileType">Sh
@@ -577,9 +587,14 @@ i2b2.Sharephe.addDownloadDetailButton = function (mainElement) {
                     </select>
                 </div>
             </div>
-            <div id="file-data-download">
-                <button class="sharephe-btn sharephe-btn-sm sharephe-btn-secondary" onclick="i2b2.Sharephe.downloadDetails()" style="padding-left: 15px; padding-right: 15px;">
+            <div class="sharephe-mb-2" id="Sharephe-DataExport">
+                <button class="sharephe-btn sharephe-btn-sm sharephe-btn-secondary sharephe-btn-block" onclick="i2b2.Sharephe.downloadDetails()">
                     <i class="bi bi-download"></i> Export Data
+                </button>
+            </div>
+            <div id="Sharephe-DetailsCopy">
+                <button class="sharephe-btn sharephe-btn-sm sharephe-btn-info sharephe-btn-block" onclick="i2b2.Sharephe.copyDetailsToClipboard();">
+                    <i class="bi bi-clipboard2-fill"></i> Copy to Clipboard
                 </button>
             </div>
         </div>
