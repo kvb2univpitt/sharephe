@@ -370,6 +370,12 @@ i2b2.Sharephe.Init = function (loadedDiv) {
             case "Sharephe-TAB2":
                 i2b2.Sharephe.showQueryDetails();
                 break;
+            case "Sharephe-TAB3":
+                break;
+            case "Sharephe-TAB4":
+                break;
+            case "Sharephe-TAB5":
+                break;
         }
     });
 
