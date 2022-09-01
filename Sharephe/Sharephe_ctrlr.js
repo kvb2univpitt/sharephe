@@ -95,7 +95,7 @@ i2b2.Sharephe.workbook = {
         clear: function () {
             i2b2.Sharephe.model.details = [];
             i2b2.Sharephe.model.QMRecord = false;
-            i2b2.Sharephe.model.highestPSDDIndex = 0;
+            i2b2.Sharephe.model.highestPSDDIndex = -1;
             i2b2.Sharephe.queryXmls = [];
 
             jQuery("#Sharephe-UploadForm  :input").val('');
@@ -146,6 +146,10 @@ i2b2.Sharephe.workbook = {
                 jQuery('#Sharephe-QMDROP-' + lastIndex).text(i2b2.Sharephe.queryXmlUtils.getName(queryXML[lastIndex]));
                 i2b2.Sharephe.queryXmls.push(queryXML[lastIndex]);
             }
+
+            if (!this.isReadOnly) {
+                i2b2.Sharephe.createNewPSDDField();
+            }
         },
         readOnly: function (isReadOnly) {
             document.getElementById("Sharephe-PhenotypeId").readOnly = true;
@@ -174,8 +178,8 @@ i2b2.Sharephe.workbook = {
             this.addToQueryXmlList(workbook);
         },
         populateReadOnly: function (data) {
-            this.populate(data);
             this.readOnly(true);
+            this.populate(data);
 
             document.getElementById("Sharephe-CancelButton").hide();
             document.getElementById("Sharephe-EditButton").show();
@@ -192,6 +196,8 @@ i2b2.Sharephe.workbook = {
             this.generateAndSetId();
             this.readOnly(false);
 
+            i2b2.Sharephe.createNewPSDDField();
+
             i2b2.Sharephe.selectedPheotypeId = '';
 
             document.getElementById("Sharephe-CancelButton").hide();
@@ -206,6 +212,7 @@ i2b2.Sharephe.workbook = {
         },
         enableEdit: function () {
             this.readOnly(false);
+            this.populate(i2b2.Sharephe.workbooks[i2b2.Sharephe.selectedPheotypeId]);
 
             document.getElementById("Sharephe-CancelButton").show();
             document.getElementById("Sharephe-EditButton").hide();
@@ -218,8 +225,7 @@ i2b2.Sharephe.workbook = {
             document.getElementById("Sharephe-SubmitButton").show();
         },
         cancelEdit: function () {
-            let element = i2b2.Sharephe.workbooks[i2b2.Sharephe.selectedPheotypeId];
-            i2b2.Sharephe.workbook.form.populateReadOnly(element);
+            i2b2.Sharephe.workbook.form.populateReadOnly(i2b2.Sharephe.workbooks[i2b2.Sharephe.selectedPheotypeId]);
         }
     }
 };
@@ -336,7 +342,8 @@ i2b2.Sharephe.createNewBtn = function () {
     }, false);
 
     let table = document.getElementById("Sharephe-QueryDropArea");
-    let row = table.rows[table.rows.length - 2];
+    let rowIndex = table.rows.length - 1;
+    let row = table.rows[rowIndex];
     row.cells[1].appendChild(queryRunBtnElement);
 };
 
@@ -348,8 +355,8 @@ i2b2.Sharephe.QMDropped = function (sdxData, droppedOnID) {
     // Check if something was dropped on the lowest field (=field with highest id). If yes create a new field under it
     let fieldIndex = parseInt(droppedOnID.slice(droppedOnID.lastIndexOf('-') + 1, droppedOnID.length));
     if (i2b2.Sharephe.model.highestPSDDIndex === fieldIndex && fieldIndex < 9) {
-        i2b2.Sharephe.createNewPSDDField();
         i2b2.Sharephe.createNewBtn();
+        i2b2.Sharephe.createNewPSDDField();
     }
 
     // Save the info to our local data model
@@ -375,7 +382,7 @@ i2b2.Sharephe.clearDDFields = function () {
     i2b2.Sharephe.model.highestPSDDIndex = -1;
 
     // Create one patient set field
-    i2b2.Sharephe.createNewPSDDField();
+//    i2b2.Sharephe.createNewPSDDField();
 };
 
 i2b2.Sharephe.Init = function (loadedDiv) {
@@ -480,7 +487,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     i2b2.Sharephe.selectedPheotypeId = '';
     i2b2.Sharephe.queryXmls = [];
     i2b2.Sharephe.model.details = []; // query details for downloading
-    i2b2.Sharephe.model.highestPSDDIndex = 0;
+    i2b2.Sharephe.model.highestPSDDIndex = -1;
 
     i2b2.Sharephe.buildBackToPlugInButton();
     i2b2.Sharephe.showBckBtn = false;
@@ -501,7 +508,6 @@ i2b2.Sharephe.Unload = function () {
     i2b2.Sharephe.selectedPheotypeId = '';
     i2b2.Sharephe.queryXmls = [];
     i2b2.Sharephe.model.details = []; // query details for downloading
-    i2b2.Sharephe.model.highestPSDDIndex = 0;
 
     i2b2.Sharephe.model.BtnIndex = -1;
     i2b2.Sharephe.model.highestPSDDIndex = -1;
