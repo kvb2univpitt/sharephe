@@ -405,3 +405,8 @@ select.sharephe-form-control:focus::-ms-value {
 a.sharephe-text-danger:hover, a.text-danger:focus {
     color: #a71d2a !important;
 }
+
+
+.sharephe-float-right {
+    float: right !important;
+}

@@ -89,6 +89,11 @@ i2b2.Sharephe.deleteAttachement = function (obj) {
     $(obj).closest('tr').remove();
 };
 
+i2b2.Sharephe.deleteQueryXml = function (obj, index) {
+    i2b2.Sharephe.queryXmls[index] = null;
+    $(obj).closest('tr').remove();
+};
+
 i2b2.Sharephe.workbook = {
     form: {
         isReadOnly: false,
@@ -126,9 +131,14 @@ i2b2.Sharephe.workbook = {
 
                 let row = tBody.insertRow(-1);
                 row.insertCell(0).innerHTML = url;
-                row.insertCell(1).innerHTML = '<a class="Sharephe-AttachedFileDelete sharephe-text-danger" title="Delete" onclick="i2b2.Sharephe.deleteAttachement(this);"><i class="bi bi-trash3"></i></a>';
+                row.insertCell(1).innerHTML = '<a class="sharephe-text-danger" title="Delete" onclick="i2b2.Sharephe.deleteAttachement(this);"><i class="bi bi-trash3"></i></a>';
             }
 
+        },
+        createQueryXmlText: function (text, index) {
+            return this.isReadOnly
+                    ? text
+                    : text + `<a class="sharephe-text-danger sharephe-float-right" title="Delete Query" onclick="i2b2.Sharephe.deleteQueryXml(this, ${index});"><i class="bi bi-trash3"></i></a>`;
         },
         addToQueryXmlList: function (workbook) {
             let queryXML = i2b2.Sharephe.queryXmlUtils.parse(workbook.queryXML);
@@ -137,13 +147,13 @@ i2b2.Sharephe.workbook = {
                 for (let i = 0; i < lastIndex; i++) {
                     i2b2.Sharephe.createNewPSDDField();
                     i2b2.Sharephe.createNewBtn();
-                    jQuery('#Sharephe-QMDROP-' + i).text(i2b2.Sharephe.queryXmlUtils.getName(queryXML[i]));
+                    jQuery('#Sharephe-QMDROP-' + i).html(this.createQueryXmlText(i2b2.Sharephe.queryXmlUtils.getName(queryXML[i]), i));
                     i2b2.Sharephe.queryXmls.push(queryXML[i]);
                 }
 
                 i2b2.Sharephe.createNewPSDDField();
                 i2b2.Sharephe.createNewBtn();
-                jQuery('#Sharephe-QMDROP-' + lastIndex).text(i2b2.Sharephe.queryXmlUtils.getName(queryXML[lastIndex]));
+                jQuery('#Sharephe-QMDROP-' + lastIndex).html(this.createQueryXmlText(i2b2.Sharephe.queryXmlUtils.getName(queryXML[lastIndex]), lastIndex));
                 i2b2.Sharephe.queryXmls.push(queryXML[lastIndex]);
             }
 
@@ -368,7 +378,7 @@ i2b2.Sharephe.QMDropped = function (sdxData, droppedOnID) {
         i2b2.Sharephe.queryXmls.push(jQuery.parseXML(query));
     });
     // Change appearance of the drop field
-    $("Sharephe-QMDROP-" + fieldIndex).innerHTML = i2b2.h.Escape(sdxData.sdxInfo.sdxDisplayName);
+    jQuery('#Sharephe-QMDROP-' + fieldIndex).html(i2b2.Sharephe.workbook.form.createQueryXmlText(i2b2.h.Escape(sdxData.sdxInfo.sdxDisplayName), fieldIndex));
 };
 
 i2b2.Sharephe.clearDDFields = function () {
@@ -439,10 +449,13 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         evt.preventDefault();
 
         // save XML queries
-        let xmlSerializer = new window.XMLSerializer();
         let queryXmlData = [];
+        let xmlSerializer = new window.XMLSerializer();
         jQuery.each(i2b2.Sharephe.queryXmls, function (index, element) {
-            queryXmlData.push(xmlSerializer.serializeToString(element));
+            // get valid (non-null) queries
+            if (element) {
+                queryXmlData.push(xmlSerializer.serializeToString(element));
+            }
         });
         jQuery('#Sharephe-QueryXml').val(queryXmlData.toString());
 
@@ -523,9 +536,18 @@ i2b2.Sharephe.showQueryDetails = function () {
     let mainElement = document.getElementById("Sharephe-Details");
     mainElement.innerHTML = '';
 
-    if (i2b2.Sharephe.queryXmls.length > 0) {
+    // get valid (non-null) queries
+    let queryXmls = [];
+    jQuery.each(i2b2.Sharephe.queryXmls, function (index, element) {
+        if (element) {
+            queryXmls.push(element);
+        }
+    });
+
+    // show details if there are queries
+    if (queryXmls.length > 0) {
         i2b2.Sharephe.addDownloadDetailButton(mainElement);
-        jQuery.each(i2b2.Sharephe.queryXmls, function (index, element) {
+        jQuery.each(queryXmls, function (index, element) {
             i2b2.Sharephe.extractAndShowQueryDetails(element, index, mainElement);
         });
     }
