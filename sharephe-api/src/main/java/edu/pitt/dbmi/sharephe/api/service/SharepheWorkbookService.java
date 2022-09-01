@@ -21,15 +21,11 @@ package edu.pitt.dbmi.sharephe.api.service;
 import edu.pitt.dbmi.sharephe.api.model.SharepheWorkbook;
 import edu.pitt.dbmi.sharephe.api.model.Workbook;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,13 +67,16 @@ public class SharepheWorkbookService {
     }
 
     private Workbook saveWorkbook(FormDataMultiPart multiPart) throws IOException {
+        amazonS3Service.syncAttachmentFiles(multiPart);
+        amazonS3Service.uploadAttachementFiles(multiPart);
+
         String phenotypeId = multiPart.getField("phenotypeId").getValue();
         String title = multiPart.getField("title").getValue();
         String type = multiPart.getField("type").getValue();
         String authors = multiPart.getField("authors").getValue();
         String institution = multiPart.getField("institution").getValue();
         String queryXML = multiPart.getField("queryXML").getValue();
-        String s3Address = "computable-phenotype:" + saveFiles(multiPart).toString();
+        String s3Address = "computable-phenotype:" + amazonS3Service.getFiles(phenotypeId).toString();
 
         Workbook workbook = new Workbook();
         workbook.setAuthors(authors);
@@ -89,36 +88,6 @@ public class SharepheWorkbookService {
         workbook.setType(type);
 
         return amazonDynamoDBService.saveWorkbook(workbook);
-    }
-
-    private List<String> saveFiles(FormDataMultiPart multiPart) throws IOException {
-        List<String> fileNames = new LinkedList<>();
-
-        String phenotypeId = multiPart.getField("phenotypeId").getValue();
-        amazonS3Service.deleteFile(phenotypeId);
-
-        for (FormDataBodyPart file : multiPart.getFields("files")) {
-            // upload to temp file
-            String fileName = file.getFormDataContentDisposition().getFileName();
-
-            try {
-                Path tmpFile = Files.createTempFile(fileName, ".tmp");
-                Files.deleteIfExists(tmpFile);
-                try ( InputStream inputStream = file.getValueAs(InputStream.class)) {
-                    Files.copy(inputStream, tmpFile);
-                }
-
-                amazonS3Service.uploadFile(tmpFile, fileName, phenotypeId);
-                Files.deleteIfExists(tmpFile);
-            } catch (IOException exception) {
-                LOGGER.error("Fail to upload file to AWS S3.", exception);
-                throw exception;
-            }
-
-            fileNames.add(fileName);
-        }
-
-        return fileNames;
     }
 
     public List<SharepheWorkbook> fetchSharepheWorkBooks() {

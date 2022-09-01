@@ -60,6 +60,7 @@
                                 <div class="sharephe-card-body Sharephe-Border" id="Sharephe-UploadFormArea">
                                     <form id="Sharephe-UploadForm" enctype="multipart/form-data" method="POST">
                                         <input type="hidden" id="Sharephe-QueryXml" name="queryXML" value=""  />
+                                        <input type="hidden" id="Sharephe-SavedAttachements" name="savedAttachments" value=""  />
                                         <table id="Sharephe-Upload">
                                             <tbody>
                                                 <tr>
@@ -102,6 +103,16 @@
                                                     <th scope="row"></th>
                                                     <td>
                                                         <select class="sharephe-form-control" id="Sharephe-SelectedFileList" multiple="multiple" style="height: 100%;" size="6" disabled="disabled"></select>
+                                                    </td>
+                                                </tr>
+                                                <tr id="Sharephe-CurrentAttachementView" style="display: none;">
+                                                    <th scope="row" style="vertical-align: text-top">Current Attachments:</th>
+                                                    <td>
+                                                        <div id="Sharephe-CurrentAttachements">
+                                                            <table id="Sharephe-CurrentAttachementTable">
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>

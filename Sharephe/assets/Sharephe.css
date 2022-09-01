@@ -152,6 +152,23 @@ div.Sharephe-MainContent div.droptrgt {
     border-radius: 0.25rem;
 }
 
+#Sharephe-CurrentAttachements {
+    background-color: #e9ecef;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+table#Sharephe-CurrentAttachementTable {
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#Sharephe-CurrentAttachementTable tr:hover td {
+    background-color: #DCDCDC;
+}
+
 /*** Details tab ***/
 
 #Sharephe-FileType {

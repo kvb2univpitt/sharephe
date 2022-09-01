@@ -26,12 +26,21 @@ import com.amazonaws.services.s3.model.CopyObjectResult;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pitt.dbmi.sharephe.api.model.Workbook;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +60,8 @@ public class AmazonS3Service {
 
     private static final Pattern DELIM = Pattern.compile("\\/");
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final String bucketName;
     private final String uploadFolder;
     private final AmazonS3 amazonS3;
@@ -66,7 +77,10 @@ public class AmazonS3Service {
     }
 
     public List<String> getFiles(Workbook workBook) {
-        String phenotypeId = workBook.getPhenotypeId();
+        return getFiles(workBook.getPhenotypeId());
+    }
+
+    public List<String> getFiles(String phenotypeId) {
         String prefix = String.format("%s/%s/", uploadFolder, phenotypeId);
 
         ListObjectsV2Request request = new ListObjectsV2Request()
@@ -80,10 +94,12 @@ public class AmazonS3Service {
                 .map(e -> DELIM.split(e))
                 .filter(e -> e.length > 0)
                 .map(e -> e[e.length - 1])
+                .filter(e -> !e.equals(phenotypeId))
                 .collect(Collectors.toList());
     }
 
-    public void deleteFile(String phenotypeId) {
+    public void deleteAllAttachementFiles(FormDataMultiPart multiPart) {
+        String phenotypeId = multiPart.getField("phenotypeId").getValue();
         String prefix = String.format("%s/%s/", uploadFolder, phenotypeId);
         ListObjectsV2Request request = new ListObjectsV2Request()
                 .withBucketName(bucketName)
@@ -103,7 +119,74 @@ public class AmazonS3Service {
         }
     }
 
-    public void uploadFile(Path file, String fileName, String phenotypeId) {
+    public void uploadAttachementFiles(FormDataMultiPart multiPart) throws IOException {
+        String phenotypeId = multiPart.getField("phenotypeId").getValue();
+        for (FormDataBodyPart file : multiPart.getFields("files")) {
+            // upload to temp file
+            String fileName = file.getFormDataContentDisposition().getFileName();
+            try {
+                Path tmpFile = Files.createTempFile(fileName, ".tmp");
+                Files.deleteIfExists(tmpFile);
+                try ( InputStream inputStream = file.getValueAs(InputStream.class)) {
+                    Files.copy(inputStream, tmpFile);
+                }
+
+                uploadFile(tmpFile, fileName, phenotypeId);
+                Files.deleteIfExists(tmpFile);
+            } catch (IOException exception) {
+                LOGGER.error("Fail to upload file to AWS S3.", exception);
+                throw exception;
+            }
+        }
+    }
+
+    public void syncAttachmentFiles(FormDataMultiPart multiPart) {
+        // get a list of files to keep
+        Set<String> filesToBeKept = getAttachementFilesToBeKept(multiPart);
+
+        String phenotypeId = multiPart.getField("phenotypeId").getValue();
+        String prefix = String.format("%s/%s/", uploadFolder, phenotypeId);
+        ListObjectsV2Request request = new ListObjectsV2Request()
+                .withBucketName(bucketName)
+                .withPrefix(prefix)
+                .withDelimiter("/");
+
+        // get a list of files to delete (files that are not in the list of files to keep)
+        Set<String> filesToDelete = amazonS3.listObjectsV2(request)
+                .getObjectSummaries().stream()
+                .map(objSummary -> objSummary.getKey())
+                .filter(key -> key.contains(phenotypeId))
+                .filter(key -> !filesToBeKept.contains(key))
+                .collect(Collectors.toSet());
+
+        if (!filesToDelete.isEmpty()) {
+            DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucketName)
+                    .withKeys(filesToDelete.toArray(new String[filesToDelete.size()]));
+            amazonS3.deleteObjects(deleteObjectsRequest);
+        }
+    }
+
+    private Set<String> getAttachementFilesToBeKept(FormDataMultiPart multiPart) {
+        Set<String> names = new HashSet<>();
+
+        String phenotypeId = multiPart.getField("phenotypeId").getValue();
+        FormDataBodyPart saveAttachements = multiPart.getField("savedAttachments");
+        if (saveAttachements != null) {
+            String jsonArray = saveAttachements.getValue();
+            try {
+                String[] filenames = objectMapper.readValue(jsonArray, String[].class);
+                Arrays.stream(filenames)
+                        .map(e -> String.format("%s/%s/%s", uploadFolder, phenotypeId, e))
+                        .forEach(names::add);
+            } catch (JsonProcessingException exception) {
+                LOGGER.error("Fail to parse attachement filenames from JSON format.", exception);
+            }
+        }
+
+        return names;
+    }
+
+    private void uploadFile(Path file, String fileName, String phenotypeId) {
         String objectKey = String.format("%s/%s/%s", uploadFolder, phenotypeId, fileName);
         PutObjectRequest objectRequest = new PutObjectRequest(bucketName, objectKey, file.toFile())
                 .withCannedAcl(CannedAccessControlList.PublicRead);

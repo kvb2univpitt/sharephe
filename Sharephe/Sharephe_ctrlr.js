@@ -85,6 +85,10 @@ i2b2.Sharephe.syncFromCloud = function () {
     });
 };
 
+i2b2.Sharephe.deleteAttachement = function (obj) {
+    $(obj).closest('tr').remove();
+};
+
 i2b2.Sharephe.workbook = {
     form: {
         isReadOnly: false,
@@ -96,6 +100,7 @@ i2b2.Sharephe.workbook = {
 
             jQuery("#Sharephe-UploadForm  :input").val('');
             jQuery("#Sharephe-SelectedFileList").empty();
+            jQuery("table#Sharephe-CurrentAttachementTable tbody").empty();
             document.getElementById("Sharephe-AttachedFileList").innerHTML = '';
 
             i2b2.Sharephe.clearDDFields();
@@ -111,6 +116,19 @@ i2b2.Sharephe.workbook = {
             }
 
             document.getElementById("Sharephe-AttachedFileList").innerHTML = anchorTags.join('<br />');
+        },
+        addToFileAttachementTable: function (files, fileURL) {
+            let attachedFileTable = document.getElementById("Sharephe-CurrentAttachementTable");
+            let tBody = (attachedFileTable.tBodies.length > 0) ? attachedFileTable.tBodies[0] : attachedFileTable.createTBody();
+            for (let i = 0; i < files.length; i++) {
+                let ahref = fileURL + '/' + files[i];
+                let url = '<a class="sharephe-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>';
+
+                let row = tBody.insertRow(-1);
+                row.insertCell(0).innerHTML = url;
+                row.insertCell(1).innerHTML = '<a class="Sharephe-AttachedFileDelete sharephe-text-danger" title="Delete" onclick="i2b2.Sharephe.deleteAttachement(this);"><i class="bi bi-trash3"></i></a>';
+            }
+
         },
         addToQueryXmlList: function (workbook) {
             let queryXML = i2b2.Sharephe.queryXmlUtils.parse(workbook.queryXML);
@@ -152,6 +170,7 @@ i2b2.Sharephe.workbook = {
             jQuery('#Sharephe-Institution').val(workbook.institution);
 
             this.addToFileAttachementList(data.files, data.fileURL);
+            this.addToFileAttachementTable(data.files, data.fileURL);
             this.addToQueryXmlList(workbook);
         },
         populateReadOnly: function (data) {
@@ -165,6 +184,7 @@ i2b2.Sharephe.workbook = {
             document.getElementById("Sharephe-AttachedFiles").hide();
             document.getElementById("Sharephe-AttachedFileList").show();
             document.getElementById("Sharephe-SelectedFileList").hide();
+            document.getElementById("Sharephe-CurrentAttachementView").hide();
             document.getElementById("Sharephe-SubmitButton").hide();
         },
         createNew: function () {
@@ -181,6 +201,7 @@ i2b2.Sharephe.workbook = {
             document.getElementById("Sharephe-AttachedFiles").show();
             document.getElementById("Sharephe-AttachedFileList").hide();
             document.getElementById("Sharephe-SelectedFileList").show();
+            document.getElementById("Sharephe-CurrentAttachementView").hide();
             document.getElementById("Sharephe-SubmitButton").show();
         },
         enableEdit: function () {
@@ -193,6 +214,7 @@ i2b2.Sharephe.workbook = {
             document.getElementById("Sharephe-AttachedFiles").show();
             document.getElementById("Sharephe-AttachedFileList").hide();
             document.getElementById("Sharephe-SelectedFileList").show();
+            document.getElementById("Sharephe-CurrentAttachementView").show();
             document.getElementById("Sharephe-SubmitButton").show();
         },
         cancelEdit: function () {
@@ -289,7 +311,6 @@ i2b2.Sharephe.createNewPSDDField = function () {
     let row = table.insertRow(-1);
 
     let dropQueryCell = row.insertCell(0);
-//    dropQueryCell.width = '75%';
     dropQueryCell.appendChild(queryDropElement);
 
     let queryBtnCell = row.insertCell(1);
@@ -396,7 +417,6 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         $('Sharephe-TAB1').click();
     });
 
-    // add selected files (attachements) to list
     jQuery('#Sharephe-AttachedFiles').on('change', function () {
         jQuery('#Sharephe-SelectedFileList').empty();
 
@@ -418,6 +438,18 @@ i2b2.Sharephe.Init = function (loadedDiv) {
             queryXmlData.push(xmlSerializer.serializeToString(element));
         });
         jQuery('#Sharephe-QueryXml').val(queryXmlData.toString());
+
+        // save current attachement files
+        let saveFiles = [];
+        let attachmentTable = document.getElementById('Sharephe-CurrentAttachementTable');
+        for (let i = 0; i < attachmentTable.rows.length; i++) {
+            let anchorTag = attachmentTable.rows.item(i).cells.item(0).getElementsByTagName("a")[0];
+            if (anchorTag) {
+                saveFiles.push(anchorTag.innerHTML);
+            }
+        }
+        jQuery('#Sharephe-SavedAttachements').val(JSON.stringify(saveFiles));
+
 
         jQuery('#Sharephe-PhenotypeId').removeAttr('disabled');
 
