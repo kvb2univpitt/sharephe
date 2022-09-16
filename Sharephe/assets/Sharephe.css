@@ -166,7 +166,7 @@ table#Sharephe-CurrentAttachementTable {
 }
 
 table#Sharephe-CurrentAttachementTable tr:hover td {
-    background-color: #DCDCDC;
+    background-color: #dcdcdc;
 }
 
 /*** Details tab ***/
@@ -191,12 +191,16 @@ div#Sharephe-mainDiv .query {
 div#Sharephe-mainDiv .group {
     padding-top: 5px;
 }
-div#Sharephe-mainDiv .indent {
-    padding-left: 20px;
-}
-div#Sharephe-mainDiv .spacing {
-    padding-left: 30px;
+div#Sharephe-mainDiv .spacing-left {
+    margin-left: 1em;
 }
 div#Sharephe-mainDiv .bold {
     font-weight: bold;
+}
+div#Sharephe-mainDiv table.table-concepts {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+div#Sharephe-mainDiv table.table-concepts tr:hover td {
+    background-color: #dcdcdc;
 }

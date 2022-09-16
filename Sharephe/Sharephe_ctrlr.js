@@ -596,9 +596,11 @@ i2b2.Sharephe.toTabular = function (jsonDetail) {
 }
 
 i2b2.Sharephe.showMoreLess = function (btn) {
-    jQuery(`#list-${btn.id}`).find('tr:gt(4)').slideToggle();
-    jQuery(btn).text(jQuery(btn).text() === 'Show More' ? 'Show Less' : 'Show More');
-}
+    jQuery('#list-secondary-' + btn.id).slideToggle();
+    jQuery('#list-' + btn.id).slideToggle();
+
+    btn.textContent = (btn.textContent === 'Show More') ? 'Show Less' : 'Show More';
+};
 
 i2b2.Sharephe.downloadDetails = function () {
     let select = document.getElementById("Sharephe-FileType");
@@ -734,7 +736,7 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
     i2b2.Sharephe.model.details.push(queryDetail);
 
     /**
-     * <div class="query" id="query-i"></div>
+     * <div id="query-${ithQuery}" class="query"></div>
      */
     let queryElement = document.createElement("div");
     queryElement.id = `query-${ithQuery}`;
@@ -742,8 +744,8 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
     mainElement.appendChild(queryElement);
 
     /**
-     * <div class="query" id="query-i">
-     *     <div class="query-name bold">My Query</div>
+     * <div id="query-${ithQuery}" class="query">
+     *     <div class="query-name bold">Query Name: ${queryDetail.name}</div>
      * </div>
      */
     let queryNameElement = document.createElement('div');
@@ -752,7 +754,8 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
     queryElement.appendChild(queryNameElement);
 
     /**
-     * <div class="query" id="query-i">
+     * <div id="query-${ithQuery}" class="query">
+     *     <div class="query-name bold">Query Name: ${queryDetail.name}</div>
      *     <div class="groups"></div>
      * </div>
      */
@@ -766,32 +769,41 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
 
         /**
          * <div class="groups">
-         *     <div id="group-i">
-         *     </div>
+         *     <div class="group" id="group-${i}"></div>
          * </div>
          */
         let groupElement = document.createElement('div');
+        groupElement.className = 'group';
         groupElement.id = `group-${i}`;
         groupsElement.appendChild(groupElement);
 
         /**
-         * <div id="group-i">
-         *     <div class="invert" style="color: red;">Exclude</div>
-         * </div>
+         * <div id="group-${i}" class="group"></div>
          */
         let invertElement = document.createElement('div');
         invertElement.className = 'invert';
         if (group.invert === 0) {
+            /**
+             * <div id="group-${i}" class="group">
+             *     <div class="invert">Include</div>
+             * </div>
+             */
             invertElement.innerHTML = 'Include';
         } else {
+            /**
+             * <div id="group-${i}" class="group">
+             *     <div class="invert" style="color: red;">Exclude</div>
+             * </div>
+             */
             invertElement.style = 'color: red;';
             invertElement.innerHTML = 'Exclude';
         }
         groupElement.appendChild(invertElement);
 
         /**
-         * <div id="group-i">
-         *     <div class="occurrence" style="color: green;">Occurs > 0</div>
+         * <div id="group-${i}" class="group">
+         *     <div class="invert">Include</div>
+         *     <div class="occurrence" style="color: green;">Occurs > ${group.occurrence - 1}</div>
          * </div>
          */
         let occurrenceElement = document.createElement('div');
@@ -801,7 +813,8 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
         groupElement.appendChild(occurrenceElement);
 
         /**
-         * <div id="group-i">
+         * <div id="group-${i}" class="group">
+         *     <div class="occurrence" style="color: green;">Occurs > ${group.occurrence - 1}</div>
          *     <div class="terms indent"></div>
          * </div>
          */
@@ -815,7 +828,7 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
 
             /**
              * <div class="terms indent">
-             *     <div class="term" id="term-j"></div>
+             *     <div id="term-${j}" class="term"></div>
              * </div>
              */
             let termElement = document.createElement('div');
@@ -824,8 +837,10 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
             termsElement.appendChild(termElement);
 
             /**
-             * <div class="term" id="term-j">
-             *     <div class="term-label">LDH 1 (Group:LDH1)value: < 35 %date: 1/1/1980 - 12/31/1999</div>
+             * <div class="terms indent">
+             *     <div id="term-${j}" class="term">
+             *         <div class="term-label">${i2b2.Sharephe.createTermLabel(term)}</div>
+             *     </div>
              * </div>
              */
             let termLabelElement = document.createElement('div');
@@ -833,9 +848,19 @@ i2b2.Sharephe.extractAndShowQueryDetails = function (qx, ithQuery, mainElement) 
             termLabelElement.innerHTML = i2b2.Sharephe.createTermLabel(term);
             termElement.appendChild(termLabelElement);
 
+            /**
+             * <div class="terms indent">
+             *     <div id="term-${j}" class="term">
+             *         <div class="term-label">${i2b2.Sharephe.createTermLabel(term)}</div>
+             *         <div class="concepts indent">
+             *             <img src="assets/images/spin.gif" width="20" height="20" />
+             *         </div>
+             *     </div>
+             * </div>
+             */
             let conceptsElement = document.createElement('div');
-            conceptsElement.className = 'concepts indent';
-            conceptsElement.innerHTML = '<img src="assets/images/spin.gif" height="20" width="20" />';
+            conceptsElement.className = 'concepts spacing-left';
+            conceptsElement.innerHTML = '<img src="assets/images/spin.gif" width="20" height="20" />';
             termElement.appendChild(conceptsElement);
 
             i2b2.Sharephe.fetchConcepts(term, conceptsElement, termLabelElement, ithQuery, i, j);
@@ -888,22 +913,65 @@ i2b2.Sharephe.fetchConcepts = function (term, conceptsElement, termLabelElement,
     var scopedCallback = new i2b2_scopedCallback();
     scopedCallback.callback = function (results) {
         term.concepts = i2b2.Sharephe.extractConcepts(results);
+
         let uniuqeConcepts = i2b2.Sharephe.filterUniqueConcepts(term.concepts);
-
-        let conceptTable = [];
-        conceptTable.push(`<table class="tbl-concepts" id="list-${ithQuery}-${ithGroup}-${ithTerm}">`);
-        for (let i = 0; i < uniuqeConcepts.length; i++) {
-            let concept = uniuqeConcepts[i];
-            conceptTable.push(`<tr><td>${concept.basecode}</td><td><span class="spacing">${concept.name}</span></td></tr>`);
-        }
-        conceptTable.push('</table>');
-        conceptsElement.innerHTML = conceptTable.join('\n');
-
         if (uniuqeConcepts.length > 5) {
-            let button = `<span class="indent"><button class="sharephe-btn sharephe-btn-sm sharephe-btn-info" id="${ithQuery}-${ithGroup}-${ithTerm}" onclick="i2b2.Sharephe.showMoreLess(this);">Show More</button></span>`;
-            termLabelElement.innerHTML = `${termLabelElement.innerHTML}${button}`;
+            let table = document.createElement('table');
+            table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            table.style.display = "none";
+            uniuqeConcepts.forEach(function (concept) {
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
 
-            jQuery(`#list-${ithQuery}-${ithGroup}-${ithTerm}`).find('tr:gt(4)').slideToggle();
+                let span = document.createElement('span');
+                span.className = 'spacing-left';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            });
+            conceptsElement.removeChild(conceptsElement.firstChild);
+            conceptsElement.appendChild(table);
+
+            table = document.createElement('table');
+            table.id = `list-secondary-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            for (let i = 0; i < 5; i++) {
+                let concept = uniuqeConcepts[i];
+
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                let span = document.createElement('span');
+                span.className = 'spacing-left';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            }
+            conceptsElement.appendChild(table);
+
+
+            let showHideButton = document.createElement('button');
+            showHideButton.id = `${ithQuery}-${ithGroup}-${ithTerm}`;
+            showHideButton.className = 'sharephe-btn sharephe-btn-sm sharephe-btn-info spacing-left';
+            showHideButton.appendChild(document.createTextNode('Show More'));
+            showHideButton.addEventListener("click", function () {
+                i2b2.Sharephe.showMoreLess(showHideButton);
+            });
+            termLabelElement.appendChild(showHideButton);
+        } else {
+            let table = document.createElement('table');
+            table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            uniuqeConcepts.forEach(function (concept) {
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                let span = document.createElement('span');
+                span.className = 'spacing-left';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            });
+            conceptsElement.removeChild(conceptsElement.firstChild);
+            conceptsElement.appendChild(table);
         }
     };
 
