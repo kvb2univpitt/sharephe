@@ -145,11 +145,20 @@ div.Sharephe-MainContent div.droptrgt {
     background-color: #FFF;
 }
 
-#Sharephe-AttachedFileList {
+#Sharephe-SelectedFile {
     background-color: #e9ecef;
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+}
+table#Sharephe-SelectedFileTable {
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#Sharephe-SelectedFileTable tr:hover td {
+    background-color: #dcdcdc;
 }
 
 #Sharephe-CurrentAttachements {

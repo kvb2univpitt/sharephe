@@ -1,3 +1,4 @@
+i2b2.Sharephe.tempAttachments = new DataTransfer();
 i2b2.Sharephe.modal = {
     progress: {
         show: function (title) {
@@ -85,6 +86,18 @@ i2b2.Sharephe.syncFromCloud = function () {
     });
 };
 
+i2b2.Sharephe.removeSelectedAttachment = function (obj, fileName) {
+    $(obj).closest('tr').remove();
+    for (let i = 0; i < i2b2.Sharephe.tempAttachments.items.length; i++) {
+        if (fileName === i2b2.Sharephe.tempAttachments.items[i].getAsFile().name) {
+            i2b2.Sharephe.tempAttachments.items.remove(i);
+            break;
+        }
+    }
+
+    document.getElementById("Sharephe-AttachedFiles").files = i2b2.Sharephe.tempAttachments.files;
+};
+
 i2b2.Sharephe.deleteAttachement = function (obj) {
     $(obj).closest('tr').remove();
 };
@@ -104,9 +117,11 @@ i2b2.Sharephe.workbook = {
             i2b2.Sharephe.queryXmls = [];
 
             jQuery("#Sharephe-UploadForm  :input").val('');
-            jQuery("#Sharephe-SelectedFileList").empty();
+            jQuery("table#Sharephe-SelectedFileTable tbody").empty();
             jQuery("table#Sharephe-CurrentAttachementTable tbody").empty();
             document.getElementById("Sharephe-AttachedFileList").innerHTML = '';
+
+            i2b2.Sharephe.tempAttachments.items.clear();
 
             i2b2.Sharephe.clearDDFields();
         },
@@ -197,7 +212,7 @@ i2b2.Sharephe.workbook = {
 
             document.getElementById("Sharephe-AttachedFiles").hide();
             document.getElementById("Sharephe-AttachedFileList").show();
-            document.getElementById("Sharephe-SelectedFileList").hide();
+            document.getElementById("Sharephe-SelectedFile").hide();
             document.getElementById("Sharephe-CurrentAttachementView").hide();
             document.getElementById("Sharephe-SubmitButton").hide();
         },
@@ -216,7 +231,7 @@ i2b2.Sharephe.workbook = {
 
             document.getElementById("Sharephe-AttachedFiles").show();
             document.getElementById("Sharephe-AttachedFileList").hide();
-            document.getElementById("Sharephe-SelectedFileList").show();
+            document.getElementById("Sharephe-SelectedFile").show();
             document.getElementById("Sharephe-CurrentAttachementView").hide();
             document.getElementById("Sharephe-SubmitButton").show();
         },
@@ -230,7 +245,7 @@ i2b2.Sharephe.workbook = {
 
             document.getElementById("Sharephe-AttachedFiles").show();
             document.getElementById("Sharephe-AttachedFileList").hide();
-            document.getElementById("Sharephe-SelectedFileList").show();
+            document.getElementById("Sharephe-SelectedFile").show();
             document.getElementById("Sharephe-CurrentAttachementView").show();
             document.getElementById("Sharephe-SubmitButton").show();
         },
@@ -435,14 +450,17 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     });
 
     jQuery('#Sharephe-AttachedFiles').on('change', function () {
-        jQuery('#Sharephe-SelectedFileList').empty();
+        let selectedFileTable = document.getElementById("Sharephe-SelectedFileTable");
+        let tBody = (selectedFileTable.tBodies.length > 0) ? selectedFileTable.tBodies[0] : selectedFileTable.createTBody();
+        for (let file of this.files) {
+            let row = tBody.insertRow(-1);
+            row.insertCell(0).innerHTML = file.name;
+            row.insertCell(1).innerHTML = `<a class="sharephe-text-danger" title="Delete" onclick="i2b2.Sharephe.removeSelectedAttachment(this, '${file.name}');"><i class="bi bi-trash3"></i></a>`;
 
-        let selectedFileList = document.getElementById("Sharephe-SelectedFileList");
-        jQuery.each(document.getElementById('Sharephe-AttachedFiles').files, function (index, element) {
-            let option = document.createElement("option");
-            option.text = element.name;
-            selectedFileList.add(option);
-        });
+            i2b2.Sharephe.tempAttachments.items.add(file);
+        }
+
+        this.files = i2b2.Sharephe.tempAttachments.files;
     });
 
     jQuery('#Sharephe-UploadForm').submit(function (evt) {
@@ -524,6 +542,8 @@ i2b2.Sharephe.Unload = function () {
 
     i2b2.Sharephe.model.BtnIndex = -1;
     i2b2.Sharephe.model.highestPSDDIndex = -1;
+
+    i2b2.Sharephe.tempAttachments.items.clear();
 
     return true;
 };
