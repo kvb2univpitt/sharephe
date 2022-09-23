@@ -1,4 +1,3 @@
-i2b2.Sharephe.tempAttachments = new DataTransfer();
 i2b2.Sharephe.modal = {
     progress: {
         show: function (title) {
@@ -410,6 +409,31 @@ i2b2.Sharephe.clearDDFields = function () {
 //    i2b2.Sharephe.createNewPSDDField();
 };
 
+i2b2.Sharephe.reloadTable = function () {
+    jQuery.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: 'http://' + location.host + '/sharephe/api/workbook'
+    }).done(function (data) {
+        let datatable = i2b2.Sharephe.workbookTable;
+        datatable.clear();
+        for (const element of data) {
+            let workbook = element.workbook;
+            i2b2.Sharephe.workbooks[workbook.phenotypeId] = element;
+
+            datatable.row.add([
+                workbook.phenotypeId,
+                workbook.type,
+                workbook.title,
+                workbook.authors,
+                workbook.institution,
+                element.files.join(', ')
+            ]);
+        }
+        datatable.draw();
+    });
+};
+
 i2b2.Sharephe.Init = function (loadedDiv) {
     // tabs event handler
     this.yuiTabs = new YAHOO.widget.TabView("Sharephe-TABS", {activeIndex: 0});
@@ -506,6 +530,8 @@ i2b2.Sharephe.Init = function (loadedDiv) {
             i2b2.Sharephe.workbooks[workbook.phenotypeId] = data;
             i2b2.Sharephe.workbook.form.populateReadOnly(data);
 
+            i2b2.Sharephe.reloadTable();
+
             i2b2.Sharephe.modal.progress.hide();
             i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
         }).error(function () {
@@ -514,6 +540,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         });
     });
 
+    i2b2.Sharephe.tempAttachments = new DataTransfer();
     i2b2.Sharephe.workbooks = [];
     i2b2.Sharephe.selectedPheotypeId = '';
     i2b2.Sharephe.queryXmls = [];
