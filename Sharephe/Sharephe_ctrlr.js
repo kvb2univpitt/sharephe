@@ -1,3 +1,6 @@
+i2b2.Sharephe.api = {
+    endpoint: 'http://' + location.host + '/sharephe/api'
+};
 i2b2.Sharephe.modal = {
     progress: {
         show: function (title) {
@@ -57,7 +60,7 @@ i2b2.Sharephe.syncFromCloud = function () {
     jQuery.ajax({
         type: 'GET',
         dataType: 'json',
-        url: 'http://' + location.host + '/sharephe/api/workbook'
+        url: i2b2.Sharephe.api.endpoint + '/workbook'
     }).done(function (data) {
         let datatable = i2b2.Sharephe.workbookTable;
         datatable.clear();
@@ -413,7 +416,7 @@ i2b2.Sharephe.reloadTable = function () {
     jQuery.ajax({
         type: 'GET',
         dataType: 'json',
-        url: 'http://' + location.host + '/sharephe/api/workbook'
+        url: i2b2.Sharephe.api.endpoint + '/workbook'
     }).done(function (data) {
         let datatable = i2b2.Sharephe.workbookTable;
         datatable.clear();
@@ -524,7 +527,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
             cache: false,
             contentType: false,
             processData: false,
-            url: 'http://' + location.host + '/sharephe/api/workbook/upload'
+            url: i2b2.Sharephe.api.endpoint + '/workbook/upload'
         }).success(function (data) {
             let workbook = data.workbook;
             i2b2.Sharephe.workbooks[workbook.phenotypeId] = data;
