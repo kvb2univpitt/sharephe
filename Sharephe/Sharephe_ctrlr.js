@@ -451,6 +451,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
                 i2b2.Sharephe.showQueryDetails();
                 break;
             case "Sharephe-TAB3":
+                i2b2.Sharephe.showOmop();
                 break;
             case "Sharephe-TAB4":
                 break;
@@ -1078,4 +1079,36 @@ i2b2.Sharephe.filterUniqueConcepts = function (concepts) {
     }
 
     return uniuqeConcepts;
+};
+
+i2b2.Sharephe.omop = {
+    showCopyPasteButton: function (mainElement) {
+        let button = document.createElement('div');
+        button.className = 'sharephe-btn sharephe-btn-info';
+        button.innerHTML = '<i class="bi bi-clipboard2-fill"></i> Copy to Clipboard';
+
+        let cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+        cardBody.appendChild(button);
+
+        let card = document.createElement('div');
+        card.className = 'card';
+        card.appendChild(cardBody);
+
+        let copyPasteElement = document.createElement('div');
+        copyPasteElement.style = 'position: absolute; right: 20px;';
+        copyPasteElement.appendChild(card);
+
+        mainElement.appendChild(copyPasteElement);
+    },
+    showTranslation: function (mainElement, json) {}
+};
+
+i2b2.Sharephe.showOmop = function () {
+    // get the detail panel and clear its contents
+    let mainElement = document.getElementById("Sharephe-OMOP");
+    mainElement.innerHTML = '';
+
+    i2b2.Sharephe.omop.showCopyPasteButton(mainElement);
+    i2b2.Sharephe.omop.showTranslation(mainElement);
 };
