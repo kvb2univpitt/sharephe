@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config />
+    <context:component-scan base-package="edu.pitt.dbmi.i2b2.sharephe" />
+
+    <!-- Configure spring to give a hook to axis2 without a ServletContext -->
+    <bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+
+    <!-- resolve a specified file location path -->
+    <bean id="resourcePatternResolver" class="org.springframework.core.io.support.PathMatchingResourcePatternResolver" />
+
+    <!-- application.properties -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties" />
+    </bean>
+
+    <!-- Axis2 Web Service, but to Spring, its just another bean that has dependencies -->
+    <bean id="sharepheService" class="edu.pitt.dbmi.i2b2.sharephe.ws.SharepheService" />
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceGroup>
+    <service name="SharepheService">
+        <description>Sharephe web services.</description>
+        <operation name="getWorkbooks">
+            <messageReceiver class="org.apache.axis2.receivers.RawXMLINOutMessageReceiver" />
+        </operation>
+        <parameter name="ServiceClass" locked="false">edu.pitt.dbmi.i2b2.ontologystore.ws.SharepheService</parameter>
+        <parameter name="ServiceTCCL">composite</parameter>
+        <parameter name="ServiceObjectSupplier">org.apache.axis2.extensions.spring.receivers.SpringAppContextAwareObjectSupplier</parameter>
+        <parameter name="SpringBeanName">sharepheService</parameter>
+        <parameter name="SpringContextLocation">applicationContext.xml</parameter>
+    </service>
+</serviceGroup>
