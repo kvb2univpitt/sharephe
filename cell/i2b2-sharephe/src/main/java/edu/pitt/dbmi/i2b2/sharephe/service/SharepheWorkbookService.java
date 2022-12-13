@@ -75,7 +75,7 @@ public class SharepheWorkbookService {
         FilesType filesType = new FilesType();
         filesType.getFile().addAll(getFilesFromS3Address(workbook));
         sharepheWorkbookType.setFiles(filesType);
-
+        sharepheWorkbookType.setFileURL(String.format("%s/%s", bucketLocationURL, workbook.getPhenotypeId()));
         sharepheWorkbookType.setWorkbook(toWorkbookType(workbook));
 
         return sharepheWorkbookType;

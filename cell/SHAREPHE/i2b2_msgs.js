@@ -14,6 +14,7 @@ i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults = function () {
             var obj = new Object;
             obj.workbook = {};
             obj.files = [];
+            obj.fileURL = i2b2.h.getXNodeVal(sharepheWorkbook, 'file_URL');
 
             var workbook = sharepheWorkbook.getElementsByTagName('workbook')[0];
             obj.workbook.phenotypeId = i2b2.h.getXNodeVal(workbook, 'phenotype_id');

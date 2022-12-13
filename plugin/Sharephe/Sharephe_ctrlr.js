@@ -63,6 +63,8 @@ i2b2.Sharephe.syncFromCloud = function () {
         if (results.error) {
             let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
             i2b2.Sharephe.modal.progress.hide();
+            i2b2.Sharephe.modal.message.show('Sync From Cloud Failed', 'Unable to retrieve list from server.');
+            console.log(errorMsg);
         } else {
             let datatable = i2b2.Sharephe.workbookTable;
             datatable.clear();
@@ -89,37 +91,6 @@ i2b2.Sharephe.syncFromCloud = function () {
         }
     };
     i2b2.SHAREPHE.ajax.GetSharepheWorkbooks("Sharephe Plugin", {version: i2b2.ClientVersion}, scopedCallback);
-
-//    i2b2.Sharephe.modal.progress.show('Sync From Clould');
-//    jQuery.ajax({
-//        type: 'GET',
-//        dataType: 'json',
-//        url: i2b2.Sharephe.api.endpoint + '/workbook'
-//    }).done(function (data) {
-//        let datatable = i2b2.Sharephe.workbookTable;
-//        datatable.clear();
-//        jQuery.each(data, function (index, element) {
-//            let workbook = element.workbook;
-//            i2b2.Sharephe.workbooks[workbook.phenotypeId] = element;
-//
-//            datatable.row.add([
-//                workbook.phenotypeId,
-//                workbook.type,
-//                workbook.title,
-//                workbook.authors,
-//                workbook.institution,
-//                element.files.join(', ')
-//            ]);
-//        });
-//        datatable.draw();
-//
-//        i2b2.Sharephe.modal.progress.hide();
-//        jQuery('#Sharephe-WorkbookList').show();
-//    }).fail(function () {
-//        i2b2.Sharephe.modal.progress.hide();
-//        i2b2.Sharephe.modal.message.show('Sync From Cloud Failed', 'Unable to retrieve list from server.');
-//        console.log('fail');
-//    });
 };
 
 i2b2.Sharephe.removeSelectedAttachment = function (obj, fileName) {
@@ -596,6 +567,8 @@ i2b2.Sharephe.Init = function (loadedDiv) {
                 "orderable": false
             }]
     });
+    
+    i2b2.Sharephe.syncFromCloud();
 };
 
 i2b2.Sharephe.Unload = function () {
