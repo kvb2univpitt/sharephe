@@ -32,6 +32,7 @@ import edu.pitt.dbmi.i2b2.sharephe.datavo.i2b2message.ResponseMessageType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.i2b2message.ResultStatusType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.i2b2message.StatusType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.SharepheWorkbooksType;
+import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.WorkbookFormType;
 import edu.pitt.dbmi.i2b2.sharephe.util.SharepheJAXBUtil;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -184,6 +185,18 @@ public class MessageFactory {
         if (value != null) {
             edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.ObjectFactory of = new edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.ObjectFactory();
             bodyType.getAny().add(of.createSharepheWorkbooks(value));
+        }
+
+        return createResponseMessageType(messageHeaderType, respHeader, bodyType);
+    }
+
+    public static ResponseMessageType buildAddWorkbookResponse(MessageHeaderType messageHeaderType, WorkbookFormType value) {
+        ResponseHeaderType respHeader = createResponseHeader("DONE", "Sharephe processing completed");
+
+        BodyType bodyType = new BodyType();
+        if (value != null) {
+            edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.ObjectFactory of = new edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.ObjectFactory();
+            bodyType.getAny().add(of.createWorkbookForm(value));
         }
 
         return createResponseMessageType(messageHeaderType, respHeader, bodyType);

@@ -20,6 +20,7 @@ package edu.pitt.dbmi.i2b2.sharephe.ws;
 
 import edu.harvard.i2b2.common.exception.I2B2Exception;
 import edu.pitt.dbmi.i2b2.sharephe.db.PmDBAccess;
+import edu.pitt.dbmi.i2b2.sharephe.delegate.AddWorkbookRequestHandler;
 import edu.pitt.dbmi.i2b2.sharephe.delegate.GetSharepheWorkbooksRequestHandler;
 import edu.pitt.dbmi.i2b2.sharephe.service.SharepheWorkbookService;
 import org.apache.axiom.om.OMElement;
@@ -44,6 +45,21 @@ public class SharepheService extends AbstractWebService {
     public SharepheService(PmDBAccess pmDBAccess, SharepheWorkbookService sharepheWorkbookService) {
         this.pmDBAccess = pmDBAccess;
         this.sharepheWorkbookService = sharepheWorkbookService;
+    }
+
+    public OMElement addWorkbook(OMElement req) throws I2B2Exception {
+        if (req == null) {
+            return getNullRequestResponse();
+        }
+
+        WorkbookFormDataMessage responseDataMsg = new WorkbookFormDataMessage(req.toString());
+
+        long waitTime = 0;
+        if ((responseDataMsg.getRequestMessageType() != null) && (responseDataMsg.getRequestMessageType().getRequestHeader() != null)) {
+            waitTime = responseDataMsg.getRequestMessageType().getRequestHeader().getResultWaittimeMs();
+        }
+
+        return execute(new AddWorkbookRequestHandler(responseDataMsg, sharepheWorkbookService, pmDBAccess), waitTime);
     }
 
     public OMElement getWorkbooks(OMElement req) throws I2B2Exception {
