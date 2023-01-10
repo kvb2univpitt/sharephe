@@ -72,6 +72,7 @@
             <xs:element name="institution" type="xs:string" />
             <xs:element name="title" type="xs:string" />
             <xs:element name="type" type="xs:string" />
+            <xs:element name="saved_attachements" type="xs:string" />
             <xs:element name="query_XML" type="xs:string" />
             <xs:element name="attachments" type="sharephe:attachmentsType" />
         </xs:sequence>
