@@ -42,6 +42,8 @@ i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults = function () {
 
     return this.model;
 };
+i2b2.SHAREPHE.cfg.parsers.ExtractAddWorkbookResults = function () {
+};
 
 i2b2.SHAREPHE.cfg.msgs = {};
 i2b2.SHAREPHE.cfg.msgs.GetSharepheWorkbooks = '<?xml version="1.0" encoding="UTF-8"?>\n' +
@@ -71,3 +73,46 @@ i2b2.SHAREPHE.cfg.msgs.GetSharepheWorkbooks = '<?xml version="1.0" encoding="UTF
         '    </message_body>\n' +
         '</ns3:request>\n';
 i2b2.SHAREPHE.ajax._addFunctionCall("GetSharepheWorkbooks", "{{{URL}}}getWorkbooks", i2b2.SHAREPHE.cfg.msgs.GetSharepheWorkbooks, null, i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults);
+
+i2b2.SHAREPHE.cfg.msgs.PerformAddWorkbook = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<ns3:request xmlns:ns3="http://www.i2b2.org/xsd/hive/msg/1.1/"\n' +
+        '             xmlns:ns4="http://www.i2b2.org/xsd/cell/sharephe/1.1/">\n' +
+        '    <message_header>\n' +
+        '        {{{proxy_info}}}' +
+        '        <sending_application>\n' +
+        '            <application_name>i2b2 Sharephe</application_name>\n' +
+        '            <application_version>{{{version}}}</application_version>\n' +
+        '        </sending_application>\n' +
+        '        <sending_facility>\n' +
+        '            <facility_name>i2b2 Hive</facility_name>\n' +
+        '        </sending_facility>\n' +
+        '        <security>\n' +
+        '            <domain>{{{sec_domain}}}</domain>\n' +
+        '            <username>{{{sec_user}}}</username>\n' +
+        '            {{{sec_pass_node}}}\n' +
+        '        </security>\n' +
+        '        <project_id>{{{sec_project}}}</project_id>\n' +
+        '    </message_header>\n' +
+        '    <request_header>\n' +
+        '        <result_waittime_ms>{{{result_wait_time}}}000</result_waittime_ms>\n' +
+        '    </request_header>\n' +
+        '    <message_body>\n' +
+        '        <ns4:workbook_form>\n' +
+        '            <phenotype_id>{{{phenotype_id}}}</phenotype_id>\n' +
+        '            {{{authors}}}\n' +
+        '            <institution>{{{institution}}}</institution>\n' +
+        '            <institution>{{{institution}}}</institution>\n' +
+        '            <title>{{{title}}}</title>\n' +
+        '            <type>{{{type}}}</type>\n' +
+        '            <saved_attachements>{{{saved_attachements}}}</saved_attachements>\n' +
+        '            {{{attachments}}}\n' +
+        '            <query_xml>{{{query_xml}}}</query_xml>\n' +
+        '        </ns4:workbook_form>\n' +
+        '    </message_body>\n' +
+        '</ns3:request>';
+i2b2.SHAREPHE.ajax._addFunctionCall(
+        "PerformAddWorkbook",
+        "{{{URL}}}addWorkbook",
+        i2b2.SHAREPHE.cfg.msgs.PerformAddWorkbook,
+        ['authors', 'saved_attachements', 'attachments'],
+        i2b2.SHAREPHE.cfg.parsers.ExtractAddWorkbookResults);

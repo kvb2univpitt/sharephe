@@ -521,33 +521,98 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         }
         jQuery('#Sharephe-SavedAttachements').val(JSON.stringify(saveFiles));
 
-
         jQuery('#Sharephe-PhenotypeId').removeAttr('disabled');
 
-        var formData = new FormData(this);
+        let options = {
+            version: i2b2.ClientVersion,
+            phenotype_id: jQuery('#Sharephe-PhenotypeId').val(),
+            authors: i2b2.Sharephe.authorsToXml(jQuery('#Sharephe-Authors').val()),
+            title: jQuery('#Sharephe-Title').val(),
+            type: jQuery('#Sharephe-Type').val(),
+            institution: jQuery('#Sharephe-Institution').val()
+        };
+        if (queryXmlData.length > 0) {
+            options.query_xml = jQuery('#Sharephe-QueryXml').val();
+        }
+        if (saveFiles.length > 0) {
+            options.saved_attachements = jQuery('#Sharephe-SavedAttachements').val();
+        }
 
         i2b2.Sharephe.modal.progress.show('Saving Phenotype');
-        jQuery.ajax({
-            type: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            url: i2b2.Sharephe.api.endpoint + '/workbook/upload'
-        }).success(function (data) {
-            let workbook = data.workbook;
-            i2b2.Sharephe.workbooks[workbook.phenotypeId] = data;
-            i2b2.Sharephe.workbook.form.populateReadOnly(data);
-
-            i2b2.Sharephe.reloadTable();
-
+        let scopedCallback = new i2b2_scopedCallback();
+        scopedCallback.callback = function (addWorkbookResults) {
             i2b2.Sharephe.modal.progress.hide();
             i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
-        }).error(function () {
-            i2b2.Sharephe.modal.progress.hide();
-            i2b2.Sharephe.modal.message.show('Save Phenotype Failed', 'Unable to save phenotype workbook at this time.');
-        });
+        };
+
+        let attachements = document.getElementById("Sharephe-AttachedFiles").files;
+        if (attachements.length > 0) {
+            let readers = [];
+            for (let i = 0; i < attachements.length; i++) {
+                readers.push(i2b2.Sharephe.readFileAsBase64(attachements[i]));
+            }
+
+            Promise.all(readers).then((attachements) => {
+                options.attachments = i2b2.Sharephe.attachmentsToXml(attachements);
+
+                i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
+            });
+        } else {
+            i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
+        }
+
+//        let scopedCallback = new i2b2_scopedCallback();
+//        scopedCallback.callback = function (addWorkbookResults) {};
+//        i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
+
+//        console.info("================================================================================");
+//        console.info(options);
+//        console.info(formData);
+//        console.info("================================================================================");
+
+//        let formData = new FormData(this);
+//        console.info("================================================================================");
+//        console.info(formData);
+//        console.info("================================================================================");
+
+//        i2b2.Sharephe.modal.progress.show('Saving Phenotype');
+//        jQuery.ajax({
+//            type: 'POST',
+//            data: formData,
+//            cache: false,
+//            contentType: false,
+//            processData: false,
+//            url: i2b2.Sharephe.api.endpoint + '/workbook/upload'
+//        }).success(function (data) {
+//            let workbook = data.workbook;
+//            i2b2.Sharephe.workbooks[workbook.phenotypeId] = data;
+//            i2b2.Sharephe.workbook.form.populateReadOnly(data);
+//
+//            i2b2.Sharephe.reloadTable();
+//
+//            i2b2.Sharephe.modal.progress.hide();
+//            i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
+//        }).error(function () {
+//            i2b2.Sharephe.modal.progress.hide();
+//            i2b2.Sharephe.modal.message.show('Save Phenotype Failed', 'Unable to save phenotype workbook at this time.');
+//        });
     });
+
+    i2b2.Sharephe.readFileAsBase64 = function (file) {
+        return new Promise(function (resolve, reject) {
+            let reader = new FileReader();
+            reader.onload = function () {
+                resolve({
+                    name: file.name,
+                    content: reader.result.replace('data:', '').replace(/^.+,/, '')
+                });
+            };
+            reader.onerror = function () {
+                reject(reader);
+            };
+            reader.readAsDataURL(file);
+        });
+    };
 
     i2b2.Sharephe.tempAttachments = new DataTransfer();
     i2b2.Sharephe.workbooks = [];
@@ -567,8 +632,44 @@ i2b2.Sharephe.Init = function (loadedDiv) {
                 "orderable": false
             }]
     });
-    
+
     i2b2.Sharephe.syncFromCloud();
+};
+
+i2b2.Sharephe.attachmentToXml = function (file) {
+    let xml = [];
+
+    xml.push('                <attachment>');
+    xml.push('                    <file_name>' + file.name + '</file_name>');
+    xml.push('                    <binary_data>' + file.content + '</binary_data>');
+    xml.push('                </attachment>');
+
+    return xml.join('\n');
+};
+
+i2b2.Sharephe.attachmentsToXml = function (attachements) {
+    let xml = [];
+
+    xml.push('<attachments>');
+    for (let i = 0; i < attachements.length; i++) {
+        xml.push(i2b2.Sharephe.attachmentToXml(attachements[i]));
+    }
+    xml.push('            </attachments>');
+
+    return xml.join('\n');
+};
+
+i2b2.Sharephe.authorsToXml = function (authors) {
+    let authorNames = authors.split(',');
+
+    let xml = [];
+    xml.push('<authors>');
+    for (let i = 0; i < authorNames.length; i++) {
+        xml.push('                <author>' + authorNames[i] + '</author>');
+    }
+    xml.push('            </authors>');
+
+    return xml.join('\n');
 };
 
 i2b2.Sharephe.Unload = function () {
