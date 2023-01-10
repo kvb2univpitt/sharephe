@@ -101,7 +101,6 @@ i2b2.SHAREPHE.cfg.msgs.PerformAddWorkbook = '<?xml version="1.0" encoding="UTF-8
         '            <phenotype_id>{{{phenotype_id}}}</phenotype_id>\n' +
         '            {{{authors}}}\n' +
         '            <institution>{{{institution}}}</institution>\n' +
-        '            <institution>{{{institution}}}</institution>\n' +
         '            <title>{{{title}}}</title>\n' +
         '            <type>{{{type}}}</type>\n' +
         '            <saved_attachements>{{{saved_attachements}}}</saved_attachements>\n' +
