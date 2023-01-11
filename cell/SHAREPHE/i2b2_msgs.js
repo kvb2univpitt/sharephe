@@ -105,7 +105,7 @@ i2b2.SHAREPHE.cfg.msgs.PerformAddWorkbook = '<?xml version="1.0" encoding="UTF-8
         '            <type>{{{type}}}</type>\n' +
         '            <saved_attachements>{{{saved_attachements}}}</saved_attachements>\n' +
         '            {{{attachments}}}\n' +
-        '            <query_xml>{{{query_xml}}}</query_xml>\n' +
+        '            <query_XML>{{{query_XML}}}</query_XML>\n' +
         '        </ns4:workbook_form>\n' +
         '    </message_body>\n' +
         '</ns3:request>';

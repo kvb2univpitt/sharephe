@@ -532,7 +532,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
             institution: jQuery('#Sharephe-Institution').val()
         };
         if (queryXmlData.length > 0) {
-            options.query_xml = jQuery('#Sharephe-QueryXml').val();
+            options.query_XML = jQuery('#Sharephe-QueryXml').val();
         }
         if (saveFiles.length > 0) {
             options.saved_attachements = jQuery('#Sharephe-SavedAttachements').val();
