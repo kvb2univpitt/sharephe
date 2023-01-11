@@ -90,7 +90,7 @@ public class SharepheWorkbookService {
         workbook.setAuthors(authors);
         workbook.setInstitution(institution);
         workbook.setPhenotypeId(phenotypeId);
-        workbook.setQueryXML(queryXML);
+        workbook.setQueryXML((queryXML == null) ? queryXML : SharepheUtils.unescapeXml(queryXML));
         workbook.setS3Address(s3Address);
         workbook.setTitle(title);
         workbook.setType(type);
@@ -115,7 +115,7 @@ public class SharepheWorkbookService {
         WorkbookType workbookType = new WorkbookType();
         workbookType.setInstitution(workbook.getInstitution());
         workbookType.setPhenotypeId(workbook.getPhenotypeId());
-        workbookType.setQueryXML(SharepheUtils.unescapeXml(workbook.getQueryXML()));
+        workbookType.setQueryXML(workbook.getQueryXML());
         workbookType.setS3Address(workbook.getS3Address());
         workbookType.setTitle(workbook.getTitle());
         workbookType.setType(workbook.getType());
