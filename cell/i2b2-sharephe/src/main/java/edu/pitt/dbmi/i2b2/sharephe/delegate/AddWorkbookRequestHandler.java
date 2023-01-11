@@ -27,6 +27,7 @@ import edu.pitt.dbmi.i2b2.sharephe.db.PmDBAccess;
 import edu.pitt.dbmi.i2b2.sharephe.service.SharepheWorkbookService;
 import edu.pitt.dbmi.i2b2.sharephe.ws.MessageFactory;
 import edu.pitt.dbmi.i2b2.sharephe.ws.WorkbookFormDataMessage;
+import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -65,10 +66,15 @@ public class AddWorkbookRequestHandler extends RequestHandler {
             throw new I2B2Exception("WorkbookFormType not configured");
         }
 
-        ResponseMessageType responseMessageType = MessageFactory
-                .buildAddWorkbookResponse(messageHeader, workbookFormType);
+        try {
+            ResponseMessageType responseMessageType = MessageFactory
+                    .buildAddWorkbookResponse(messageHeader, sharepheWorkbookService.save(workbookFormType));
 
-        return MessageFactory.convertToXMLString(responseMessageType);
+            return MessageFactory.convertToXMLString(responseMessageType);
+        } catch (IOException exception) {
+            LOGGER.error("Error saving workbook.", exception);
+            throw new I2B2Exception("Unable to save workbook.");
+        }
     }
 
 }

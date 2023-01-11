@@ -21,8 +21,10 @@ package edu.pitt.dbmi.i2b2.sharephe.service;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.AuthorsType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.FilesType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.SharepheWorkbookType;
+import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.WorkbookFormType;
 import edu.pitt.dbmi.i2b2.sharephe.datavo.vdo.WorkbookType;
 import edu.pitt.dbmi.i2b2.sharephe.util.SharepheUtils;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -57,6 +59,10 @@ public class SharepheWorkbookService {
         this.amazonS3Service = amazonS3Service;
     }
 
+    public SharepheWorkbookType save(WorkbookFormType workbookFormType) throws IOException {
+        return toSharepheWorkbookType(saveWorkbook(workbookFormType));
+    }
+
     public List<SharepheWorkbookType> fetchSharepheWorkBooks() {
         List<SharepheWorkbookType> sharepheWorkBooks = new LinkedList<>();
 
@@ -66,6 +72,30 @@ public class SharepheWorkbookService {
         });
 
         return sharepheWorkBooks;
+    }
+
+    private Workbook saveWorkbook(WorkbookFormType workbookFormType) throws IOException {
+        amazonS3Service.syncAttachmentFiles(workbookFormType);
+        amazonS3Service.uploadAttachementFiles(workbookFormType);
+
+        String phenotypeId = workbookFormType.getPhenotypeId();
+        String title = workbookFormType.getTitle();
+        String type = workbookFormType.getType();
+        String authors = workbookFormType.getAuthors().getAuthor().stream().map(String::trim).collect(Collectors.joining(","));
+        String institution = workbookFormType.getInstitution();
+        String queryXML = workbookFormType.getQueryXML();
+        String s3Address = "computable-phenotype:" + amazonS3Service.getFiles(phenotypeId).toString();
+
+        Workbook workbook = new Workbook();
+        workbook.setAuthors(authors);
+        workbook.setInstitution(institution);
+        workbook.setPhenotypeId(phenotypeId);
+        workbook.setQueryXML(queryXML);
+        workbook.setS3Address(s3Address);
+        workbook.setTitle(title);
+        workbook.setType(type);
+
+        return amazonDynamoDBService.saveWorkbook(workbook);
     }
 
     private SharepheWorkbookType toSharepheWorkbookType(Workbook workbook) {

@@ -41,6 +41,12 @@ public class AmazonDynamoDBService {
         this.dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
     }
 
+    public Workbook saveWorkbook(Workbook workbook) {
+        dynamoDBMapper.save(workbook);
+
+        return workbook;
+    }
+
     public List<Workbook> getWorkBooks() {
         return dynamoDBMapper.scan(Workbook.class, new DynamoDBScanExpression());
     }
