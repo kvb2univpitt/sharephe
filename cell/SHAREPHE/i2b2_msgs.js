@@ -5,18 +5,18 @@ i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults = function () {
     this.model = [];
 
     if (this.error) {
-        console.error("[ExtractProducts] Could not parse() data!");
+        console.error("[ExtractWorkbookResults] Could not parse() data!");
     } else {
-        var sharepheWorkbooks = this.refXML.getElementsByTagName('sharephe_workbook');
-        for (var i = 0; i < sharepheWorkbooks.length; i++) {
-            var sharepheWorkbook = sharepheWorkbooks[i];
+        let sharepheWorkbooks = this.refXML.getElementsByTagName('sharephe_workbook');
+        for (let i = 0; i < sharepheWorkbooks.length; i++) {
+            let sharepheWorkbook = sharepheWorkbooks[i];
 
-            var obj = new Object;
+            let obj = new Object;
             obj.workbook = {};
             obj.files = [];
             obj.fileURL = i2b2.h.getXNodeVal(sharepheWorkbook, 'file_URL');
 
-            var workbook = sharepheWorkbook.getElementsByTagName('workbook')[0];
+            let workbook = sharepheWorkbook.getElementsByTagName('workbook')[0];
             obj.workbook.phenotypeId = i2b2.h.getXNodeVal(workbook, 'phenotype_id');
             obj.workbook.institution = i2b2.h.getXNodeVal(workbook, 'institution');
             obj.workbook.s3_address = i2b2.h.getXNodeVal(workbook, 's3_address');
@@ -25,14 +25,14 @@ i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults = function () {
             obj.workbook.authors = [];
             obj.workbook.queryXML = i2b2.h.getXNodeVal(workbook, 'query_XML');
 
-            var authors = i2b2.h.XPath(workbook, "descendant-or-self::author/node()");
-            for (var j = 0; j < authors.length; j++) {
+            let authors = i2b2.h.XPath(workbook, "descendant-or-self::author/node()");
+            for (let j = 0; j < authors.length; j++) {
                 obj.workbook.authors.push(authors[j].nodeValue);
             }
 
             // get files
-            var files = i2b2.h.XPath(sharepheWorkbook, "descendant-or-self::file/node()");
-            for (var j = 0; j < files.length; j++) {
+            let files = i2b2.h.XPath(sharepheWorkbook, "descendant-or-self::file/node()");
+            for (let j = 0; j < files.length; j++) {
                 obj.files.push(files[j].nodeValue);
             }
 
@@ -43,6 +43,46 @@ i2b2.SHAREPHE.cfg.parsers.ExtractWorkbookResults = function () {
     return this.model;
 };
 i2b2.SHAREPHE.cfg.parsers.ExtractAddWorkbookResults = function () {
+    this.model = [];
+    
+    if (this.error) {
+        console.error("[ExtractAddWorkbookResults] Could not parse() data!");
+    } else {
+//        let fileUrl = this.refXML.getElementsByTagName('file_URL')[0].firstChild.nodeValue;
+        let sharepheWorkbooks = this.refXML.getElementsByTagName('ns5:sharephe_workbook');
+        for (let i = 0; i < sharepheWorkbooks.length; i++) {
+            let sharepheWorkbook = sharepheWorkbooks[i];
+
+            let obj = new Object;
+            obj.workbook = {};
+            obj.files = [];
+            obj.fileURL = i2b2.h.getXNodeVal(sharepheWorkbook, 'file_URL');
+
+            let workbook = sharepheWorkbook.getElementsByTagName('workbook')[0];
+            obj.workbook.phenotypeId = i2b2.h.getXNodeVal(workbook, 'phenotype_id');
+            obj.workbook.institution = i2b2.h.getXNodeVal(workbook, 'institution');
+            obj.workbook.s3_address = i2b2.h.getXNodeVal(workbook, 's3_address');
+            obj.workbook.title = i2b2.h.getXNodeVal(workbook, 'title');
+            obj.workbook.type = i2b2.h.getXNodeVal(workbook, 'type');
+            obj.workbook.authors = [];
+            obj.workbook.queryXML = i2b2.h.getXNodeVal(workbook, 'query_XML');
+
+            let authors = i2b2.h.XPath(workbook, "descendant-or-self::author/node()");
+            for (let j = 0; j < authors.length; j++) {
+                obj.workbook.authors.push(authors[j].nodeValue);
+            }
+
+            // get files
+            let files = i2b2.h.XPath(sharepheWorkbook, "descendant-or-self::file/node()");
+            for (let j = 0; j < files.length; j++) {
+                obj.files.push(files[j].nodeValue);
+            }
+            
+            this.model.push(obj);
+        }
+    }
+
+    return this.model;
 };
 
 i2b2.SHAREPHE.cfg.msgs = {};

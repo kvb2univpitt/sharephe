@@ -1,6 +1,3 @@
-i2b2.Sharephe.api = {
-    endpoint: 'http://' + location.host + '/sharephe/api'
-};
 i2b2.Sharephe.modal = {
     progress: {
         show: function (title) {
@@ -418,28 +415,31 @@ i2b2.Sharephe.clearDDFields = function () {
 };
 
 i2b2.Sharephe.reloadTable = function () {
-    jQuery.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: i2b2.Sharephe.api.endpoint + '/workbook'
-    }).done(function (data) {
-        let datatable = i2b2.Sharephe.workbookTable;
-        datatable.clear();
-        for (const element of data) {
-            let workbook = element.workbook;
-            i2b2.Sharephe.workbooks[workbook.phenotypeId] = element;
+    let scopedCallback = new i2b2_scopedCallback();
+    scopedCallback.callback = function (results) {
+        if (!results.error) {
+            let datatable = i2b2.Sharephe.workbookTable;
+            datatable.clear();
 
-            datatable.row.add([
-                workbook.phenotypeId,
-                workbook.type,
-                workbook.title,
-                workbook.authors,
-                workbook.institution,
-                element.files.join(', ')
-            ]);
+            let sharepheWorkbooks = results.parse();
+            for (let i = 0; i < sharepheWorkbooks.length; i++) {
+                let sharepheWorkbook = sharepheWorkbooks[i];
+                let workbook = sharepheWorkbook.workbook;
+                datatable.row.add([
+                    workbook.phenotypeId,
+                    workbook.type,
+                    workbook.title,
+                    workbook.authors.join(','),
+                    workbook.institution,
+                    sharepheWorkbook.files.join(', ')
+                ]);
+
+                i2b2.Sharephe.workbooks[workbook.phenotypeId] = sharepheWorkbook;
+            }
+            datatable.draw();
         }
-        datatable.draw();
-    });
+    };
+    i2b2.SHAREPHE.ajax.GetSharepheWorkbooks("Sharephe Plugin", {version: i2b2.ClientVersion}, scopedCallback);
 };
 
 i2b2.Sharephe.Init = function (loadedDiv) {
@@ -540,9 +540,25 @@ i2b2.Sharephe.Init = function (loadedDiv) {
 
         i2b2.Sharephe.modal.progress.show('Saving Phenotype');
         let scopedCallback = new i2b2_scopedCallback();
-        scopedCallback.callback = function (addWorkbookResults) {
-            i2b2.Sharephe.modal.progress.hide();
-            i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
+        scopedCallback.callback = function (results) {
+            if (results.error) {
+                let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
+                i2b2.Sharephe.modal.progress.hide();
+                i2b2.Sharephe.modal.message.show('Save Workbook Failed', 'Unable to save the workbook.');
+                console.log(errorMsg);
+            } else {
+                let data = results.parse();
+                if (data.length > 0) {
+                    let workbook = data[0].workbook;
+                    i2b2.Sharephe.workbooks[workbook.phenotypeId] = workbook;
+                    i2b2.Sharephe.workbook.form.populateReadOnly(data[0]);
+                }
+
+                i2b2.Sharephe.reloadTable();
+
+                i2b2.Sharephe.modal.progress.hide();
+                i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
+            }
         };
 
         let attachements = document.getElementById("Sharephe-AttachedFiles").files;
@@ -554,48 +570,11 @@ i2b2.Sharephe.Init = function (loadedDiv) {
 
             Promise.all(readers).then((attachements) => {
                 options.attachments = i2b2.Sharephe.attachmentsToXml(attachements);
-
                 i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
             });
         } else {
             i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
         }
-
-//        let scopedCallback = new i2b2_scopedCallback();
-//        scopedCallback.callback = function (addWorkbookResults) {};
-//        i2b2.SHAREPHE.ajax.PerformAddWorkbook("Sharephe Plugin", options, scopedCallback);
-
-//        console.info("================================================================================");
-//        console.info(options);
-//        console.info(formData);
-//        console.info("================================================================================");
-
-//        let formData = new FormData(this);
-//        console.info("================================================================================");
-//        console.info(formData);
-//        console.info("================================================================================");
-
-//        i2b2.Sharephe.modal.progress.show('Saving Phenotype');
-//        jQuery.ajax({
-//            type: 'POST',
-//            data: formData,
-//            cache: false,
-//            contentType: false,
-//            processData: false,
-//            url: i2b2.Sharephe.api.endpoint + '/workbook/upload'
-//        }).success(function (data) {
-//            let workbook = data.workbook;
-//            i2b2.Sharephe.workbooks[workbook.phenotypeId] = data;
-//            i2b2.Sharephe.workbook.form.populateReadOnly(data);
-//
-//            i2b2.Sharephe.reloadTable();
-//
-//            i2b2.Sharephe.modal.progress.hide();
-//            i2b2.Sharephe.modal.message.show('Phenotype Saved', 'Your phenotype is saved to cloud sucessfully!');
-//        }).error(function () {
-//            i2b2.Sharephe.modal.progress.hide();
-//            i2b2.Sharephe.modal.message.show('Save Phenotype Failed', 'Unable to save phenotype workbook at this time.');
-//        });
     });
 
     i2b2.Sharephe.readFileAsBase64 = function (file) {
