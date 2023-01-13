@@ -8,7 +8,7 @@ i2b2.Sharephe.modal = {
                     fixedcenter: true,
                     close: false,
                     draggable: false,
-                    zindex: 4,
+                    zindex: 100,
                     modal: true,
                     visible: false
                 });
@@ -34,7 +34,7 @@ i2b2.Sharephe.modal = {
                     fixedcenter: true,
                     close: true,
                     draggable: true,
-                    zindex: 4,
+                    zindex: 100,
                     modal: true,
                     visible: false
                 });
