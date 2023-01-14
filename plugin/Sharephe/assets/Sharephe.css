@@ -220,7 +220,7 @@ div#Sharephe-mainDiv table.table-concepts tr:hover td {
 }
 
 #Sharephe-ProgressModal.yui-panel .bd {
-    padding: 4px;
+    padding: 10px;
     border: 0;
     background-color: #FFF;
 }
@@ -231,6 +231,7 @@ div#Sharephe-mainDiv table.table-concepts tr:hover td {
 }
 
 #Sharephe-MessageModal.yui-panel .bd {
+    font-size: 15px;
     padding: 4px;
     border: 0;
     background-color: #FFF;
