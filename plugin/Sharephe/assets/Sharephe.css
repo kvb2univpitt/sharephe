@@ -213,3 +213,31 @@ div#Sharephe-mainDiv table.table-concepts {
 div#Sharephe-mainDiv table.table-concepts tr:hover td {
     background-color: #dcdcdc;
 }
+
+#Sharephe-ProgressModal.yui-panel .hd {
+    border: 0;
+    background-color: #FFF;
+}
+
+#Sharephe-ProgressModal.yui-panel .bd {
+    padding: 4px;
+    border: 0;
+    background-color: #FFF;
+}
+
+#Sharephe-MessageModal.yui-panel .hd {
+    border: 0;
+    background-color: #FFF;
+}
+
+#Sharephe-MessageModal.yui-panel .bd {
+    padding: 4px;
+    border: 0;
+    background-color: #FFF;
+}
+
+#Sharephe-MessageModal.yui-panel .ft {
+    border: 0;
+    background-color: #FFF;
+    padding-bottom: 10px;
+}
