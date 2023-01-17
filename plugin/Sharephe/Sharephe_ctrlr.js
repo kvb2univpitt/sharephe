@@ -32,7 +32,7 @@ i2b2.Sharephe.modal = {
                 let panel = new YAHOO.widget.Panel('Sharephe-MessageModal', {
                     width: "400px",
                     fixedcenter: true,
-                    close: true,
+                    close: false,
                     draggable: true,
                     zindex: 100,
                     modal: true,
