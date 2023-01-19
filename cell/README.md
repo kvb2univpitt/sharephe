@@ -83,7 +83,8 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 1. Stop Wildfly.
 2. Copy the JAR file **Sharephe.jar** from the directory ```sharephe/cell/i2b2-sharephe/target``` to the folder ```WEB-INF/lib``` inside the WAR file **i2b2.war**.
 3. Copy the AAR file **Sharephe.aar** from the directory ```sharephe/cell/i2b2-sharephe/target``` to the folder ```WEB-INF/services``` inside the i2b2 WAR file **i2b2.war**.
-4. Restart Wildfly.
+4. Copy the AWS SKD libraries from the directory ```sharephe/cell/lib``` to the folder ```WEB-INF/lib``` inside the WAR file **i2b2.war**.
+5. Restart Wildfly.
 
 #### Adding to the Cell
 
