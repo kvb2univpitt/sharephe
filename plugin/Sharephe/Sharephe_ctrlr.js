@@ -324,14 +324,14 @@ i2b2.Sharephe.masterView = function (q_id) {
     }
 
     qL = a + qL + b;
-    var inQueryName = queryXML.getElementsByTagName('query_name')[0].innerHTML;
-    var params = {
+    let inQueryName = queryXML.getElementsByTagName('query_name')[0].innerHTML;
+    let params = {
         result_wait_time: i2b2.CRC.view.QT.params.queryTimeout,
         psm_query_definition: qL
     };
-    var name = "chk_PATIENT_COUNT_XML";
-    var i = 9;
-    var result_output = '<result_output priority_index= "' + i + '" name="' + name.substring(4).toLowerCase() + '"/>\n';
+    let name = "chk_PATIENT_COUNT_XML";
+    let i = 9;
+    let result_output = '<result_output priority_index= "' + i + '" name="' + name.substring(4).toLowerCase() + '"/>\n';
 
     params.psm_result_output = '<result_output_list>' + result_output + '</result_output_list>\n';
     $('runBoxText').innerHTML = "Cancel Query";
@@ -1060,7 +1060,7 @@ i2b2.Sharephe.fetchConcepts = function (term, conceptsElement, termLabelElement,
     options.ont_level_records = -1;
     options.concept_key_value = `${term.key}`;
 
-    var scopedCallback = new i2b2_scopedCallback();
+    let scopedCallback = new i2b2_scopedCallback();
     scopedCallback.callback = function (results) {
         term.concepts = i2b2.Sharephe.extractConcepts(results);
 
