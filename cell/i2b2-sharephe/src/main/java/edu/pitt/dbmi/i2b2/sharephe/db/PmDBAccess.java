@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2022 University of Pittsburgh.
  *
@@ -135,7 +136,7 @@ public class PmDBAccess {
 
     private List<ParamType> getParamTypes() throws I2B2Exception {
         try {
-            String schema = getSchema();
+            String schema = getSchema(hiveJdbcTemplate.getDataSource());
             String sql = "SELECT * FROM " + schema + ".hive_cell_params WHERE status_cd <> 'D' AND cell_id = 'ONT'";
 
             return hiveJdbcTemplate.query(sql, new HiveCellParam());
@@ -183,8 +184,7 @@ public class PmDBAccess {
         return getPropertyValue(PM_ENDPOINT_REFERENCE).trim();
     }
 
-    private String getSchema() throws SQLException {
-        DataSource dataSource = pmJdbcTemplate.getDataSource();
+    private String getSchema(DataSource dataSource) throws SQLException {
         if (dataSource != null) {
             try (Connection conn = dataSource.getConnection()) {
                 return conn.getSchema();
