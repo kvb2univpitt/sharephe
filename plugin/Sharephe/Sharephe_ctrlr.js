@@ -58,10 +58,16 @@ i2b2.Sharephe.syncFromCloud = function () {
     let scopedCallback = new i2b2_scopedCallback();
     scopedCallback.callback = function (results) {
         if (results.error) {
-            let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
-            i2b2.Sharephe.modal.progress.hide();
-            i2b2.Sharephe.modal.message.show('Sync From Cloud Failed', 'Unable to retrieve list from server.');
-            console.log(errorMsg);
+            if (results.refXML) {
+                let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
+                i2b2.Sharephe.modal.progress.hide();
+                i2b2.Sharephe.modal.message.show('Sync From Cloud Failed', errorMsg);
+                console.log(errorMsg);
+            } else {
+                i2b2.Sharephe.modal.progress.hide();
+                i2b2.Sharephe.modal.message.show('Sync From Cloud Failed', 'Unable to retrieve list from server.');
+                console.log(results.errorMsg);
+            }
         } else {
             let datatable = i2b2.Sharephe.workbookTable;
             datatable.clear();
@@ -542,10 +548,16 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         let scopedCallback = new i2b2_scopedCallback();
         scopedCallback.callback = function (results) {
             if (results.error) {
-                let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
-                i2b2.Sharephe.modal.progress.hide();
-                i2b2.Sharephe.modal.message.show('Save Workbook Failed', 'Unable to save the workbook.');
-                console.log(errorMsg);
+                if (results.refXML) {
+                    let errorMsg = results.refXML.getElementsByTagName('status')[0].firstChild.nodeValue;
+                    i2b2.Sharephe.modal.progress.hide();
+                    i2b2.Sharephe.modal.message.show('Save Phenotype Failed', errorMsg);
+                    console.log(errorMsg);
+                } else {
+                    i2b2.Sharephe.modal.progress.hide();
+                    i2b2.Sharephe.modal.message.show('Save Phenotype Failed', 'Unable to save the workbook.');
+                    console.log(results.errorMsg);
+                }
             } else {
                 let data = results.parse();
                 if (data.length > 0) {
