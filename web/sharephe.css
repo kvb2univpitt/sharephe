@@ -1,0 +1,32 @@
+table#Sharephe-WorkbookTable {
+    border: 1px solid dimgray;
+    border-collapse: collapse !important;
+}
+
+table#Sharephe-WorkbookTable th {
+    border: 1px solid dimgray;
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+    padding: 0.5rem;
+    vertical-align: top;
+    background-color: #216288 !important;
+    color: lightgrey;
+}
+
+table#Sharephe-WorkbookTable td {
+    border: 1px solid dimgray;
+    padding: 0.5rem;
+    vertical-align: top;
+}
+
+table#Sharephe-WorkbookTable tr:hover td {
+    background-color: #DCDCDC;
+}
+
+#Sharephe-WorkbookTable_paginate {
+    padding-top: 20px;
+}
+
+#Sharephe-WorkbookTable_filter {
+    padding-bottom: 10px;
+}
