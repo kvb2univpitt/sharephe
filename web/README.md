@@ -1,6 +1,6 @@
 # ![Sharephe Logo](../img/Sharephe_icon_32x32.png) Sharephe Tools
 
-A web application for non-i2b2 users to view (read-only) shared phenotypes.
+A web application for non-i2b2 users to view and download (read-only) shared phenotypes.
 
 <figure>
     <img src = "images/sharephe-web.svg" alt="Sharephe Web App Flow" width="100%" height="100%" />
