@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<!--
+        Editorial by HTML5 UP
+        html5up.net | @ajlkn
+        Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Sharephe</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    </head>
+    <body class=" is-preload">
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+            <div id="main">
+                <div class="inner">
+
+                    <!-- Header -->
+                    <header id="header">
+                        <a href="" class="logo">Sharephe - i2b2 plugin</a>
+                        <ul class="icons">
+                            <li><a href="https://github.com/dbmi-pitt/computable-phenotype" class="icon fa-github"><span
+                                        class="label">Github</span></a></li>
+                        </ul>
+                    </header>
+
+                    <!-- Banner -->
+                    <section id="banner">
+                        <div class="content">
+                            <header>
+                                <h2>A Computable Phenotype Library Plugin using i2b2 Ontologies</h2>
+                            </header>
+                        </div>
+                        <span class="image object">
+                            <img src="{{ url_for('static', filename='images/pic10.png') }}" alt="" />
+                        </span>
+                    </section>
+
+                    <!-- Section -->
+                    <section>
+                        <div class="features">
+                            <article>
+                                <span class="icon fa-server"></span>
+                                <div class="content">
+                                    <h3>Executable Phenotypes</h3>
+                                    <p>Sharephe follows i2b2 design pattern, leverages i2b2's robust query language,
+                                        using ACT i2b2 query ontology that has coverage for many standard data domains
+                                        and terminologies to facts.</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span class="icon fa-cloud-download"></span>
+                                <div class="content">
+                                    <h3>Cross-Site Collaboration</h3>
+                                    <p>Sharephe consists of a server cell called SharepheCloud, handles all
+                                        communications and movements of data between plugin and Amazon AWS cloud server.
+                                    </p>
+                                </div>
+                            </article>
+                            <article>
+                                <span class="icon fa-file-text-o"></span>
+                                <div class="content">
+                                    <h3>Human Readable Data Form</h3>
+                                    <p>Sharephe consists of Sharephe Ontology cell, augments i2b2's core ontology cell.
+                                        It contains methods to efficiently traverse the ontology to collect codes in the
+                                        queries and translate into human readable form and to extra data modalities.
+                                    </p>
+                                </div>
+                            </article>
+                            <article>
+                                <span class="icon fa-database"></span>
+                                <div class="content">
+                                    <h3>Cross-Model Supportive</h3>
+                                    <p>Sharephe converts i2b2 query into several common data models like OHDSI/OMOP and
+                                        PCORI CDM in addition to standard HL7 Clinical Quality Language (CQL).</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span class="icon fa-chrome"></span>
+                                <div class="content">
+                                    <h3>Website for Non-i2b2 Users</h3>
+                                    <p>Create web app to interact to support user browsing computable phenotypes outside
+                                        of the i2b2 application and download of computable phenotypes for other common
+                                        data models(OMOP, PCORI CDM, etc).</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span class="icon fa-bar-chart"></span>
+                                <div class="content">
+                                    <h3>Data Visualizations</h3>
+                                    <p>Create supportive plugins for creating control sets, allowing NLP criteria and
+                                        simple data characterization visualizations.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="inner">
+
+                    <!-- Search -->
+                    <section id="search" class="alt">
+                        <form method="post" action="#">
+                            <input type="text" name="query" id="query" placeholder="Search" />
+                        </form>
+                    </section>
+
+                    <!-- Menu -->
+                    <nav id="menu">
+                        <!--<header class="major">
+                                                        <h2>Menu</h2>
+                                                </header>-->
+                        <ul>
+                            <li><a href="">Homepage</a></li>
+                            <li>
+                                <span class="opener">Phenotype</span>
+                                <ul>
+                                    <li><a href="PublicPhenotype.html">Public Phenotypes</a></li>
+                                    <li><a href="PrivatePhenotype.html">Private Phenotypes</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Installation Guide</a></li>
+                            <li><a href="#">Release Notes</a></li>
+                            <li><a href="Contactus.html">Contact Us</a></li>
+                        </ul>
+                    </nav>
+
+
+
+                    <!-- Footer -->
+                    <footer id="footer">
+                        <p class="copyright">&copy; All rights reserved by Department Biomedical Informatics, University
+                            of Pittsburgh</p>
+                    </footer>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    </body>
+</html>
