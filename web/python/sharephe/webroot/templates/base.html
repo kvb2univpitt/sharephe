@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}Base Template{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    </head>
+    <body class="is-preload">
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+            <div id="main">
+                <div class="inner">
+
+                    <!-- Header -->
+                    <header id="header">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb m-0 p-0">
+                                {% block breadcrumb %}
+                                {% endblock %}
+                            </ol>
+                        </nav>
+                        <ul class="icons">
+                            <li>
+                                <a href="https://github.com/kvb2univpitt/sharephe" class="icon brands fa-github">
+                                    <span class="label">Github</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </header>
+
+                    <!-- Section -->
+                    {% block section %}{% endblock %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="inner">
+
+                    <!-- Search -->
+                    <section id="search" class="alt">
+                        <form method="post" action="#">
+                            <input type="text" name="query" id="query" placeholder="Search" />
+                        </form>
+                    </section>
+
+                    <!-- Menu -->
+                    <nav id="menu">
+                        <header class="major">
+                            <h2>Menu</h2>
+                        </header>
+                        <ul>
+                            <li><a href="/">Sharephe</a></li>
+                            <li><a href="phenotype">Phenotype</a></li>
+                            <li><a href="">Installation Guide</a></li>
+                            <li><a href="">Release Notes</a></li>
+                            <li><a href="Contactus.html">Contact Us</a></li>
+                        </ul>
+                    </nav>
+
+                    <!-- Footer -->
+                    <footer id="footer">
+                        <p class="copyright">&copy; All rights reserved by Department Biomedical Informatics, University
+                            of Pittsburgh</p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </body>
+</html>

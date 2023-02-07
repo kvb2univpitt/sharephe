@@ -6,3 +6,8 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def index():
     return render_template('index.html')
+
+
+@views.route('/phenotype')
+def base():
+    return render_template('phenotype.html')
