@@ -1479,7 +1479,7 @@ table {
       border-top: 0; }
 
 /* Button */
-input[type="submit"],
+/*input[type="submit"],
 input[type="reset"],
 input[type="button"],
 button,
@@ -1578,7 +1578,7 @@ button,
   .button.disabled,
   .button:disabled {
     pointer-events: none;
-    opacity: 0.25; }
+    opacity: 0.25; }*/
 
 /* Mini Posts */
 .mini-posts article {

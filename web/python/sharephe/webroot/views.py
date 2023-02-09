@@ -9,5 +9,5 @@ def index():
 
 
 @views.route('/phenotype')
-def base():
+def phenotype():
     return render_template('phenotype.html')

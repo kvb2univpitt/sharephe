@@ -6,12 +6,14 @@
 -->
 <html>
     <head>
+        {% block head %}
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
         <title>{% block title %}Base Template{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        {% endblock %}
     </head>
     <body class="is-preload">
 
@@ -39,8 +41,8 @@
                         </ul>
                     </header>
 
-                    <!-- Section -->
-                    {% block section %}{% endblock %}
+                    <!-- Main -->
+                    {% block main %}{% endblock %}
                 </div>
             </div>
 
@@ -77,10 +79,12 @@
                 </div>
             </div>
         </div>
+        {% block script %}
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/util.js') }}"></script>
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
