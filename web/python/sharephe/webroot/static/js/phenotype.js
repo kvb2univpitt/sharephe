@@ -28,6 +28,10 @@ let syncFromCloudAction = (successHandler, errorHandler) => {
 };
 
 $(document).ready(function () {
+    let sharepheWorkbooks = [];
+    let sharepheQueryXmls = [];
+    let selectedPheotypeId;
+
     let datatable = $('#Sharephe-WorkbookTable').DataTable();
 
     let syncFromCloudHandler = {
@@ -43,6 +47,8 @@ $(document).ready(function () {
                         workbook.institution,
                         workbook.files
                     ]);
+
+                    sharepheWorkbooks[workbook.phenotypeId] = workbook;
                 });
 
                 datatable.draw();
@@ -63,10 +69,28 @@ $(document).ready(function () {
     };
 
     $("#syncFromCloudBtn").click(function () {
-//        sharepheModal.progress.show('Sync From Cloud');
+        sharepheModal.progress.show('Sync From Cloud');
 
         syncFromCloudAction(
                 syncFromCloudHandler.successHandler,
                 syncFromCloudHandler.errorHandler);
     });
+
+    $(document).on('click', '#Sharephe-WorkbookTable tr', function () {
+        let phenotypeId = this.cells[0].innerHTML;
+        let workbook = sharepheWorkbooks[phenotypeId];
+
+        // save the selected phenotype ID
+        selectedPheotypeId = phenotypeId;
+        sharepheQueryXmls = [];
+
+        $('#Sharephe-PhenoName').text(workbook.title);
+
+        $('#workbook-tab').removeClass('disabled');
+        $('#detail-tab').removeClass('disabled');
+
+        $('#workbook-tab').click();
+    });
+
+    $("#syncFromCloudBtn").click();
 });

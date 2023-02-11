@@ -1,3 +1,9 @@
+################################################################################
+# File: workbook.py
+# Author: Kevin V. Bui
+# Date: February 11, 2023
+################################################################################
+
 from flask_restful import Resource
 from .dynamodb import DynamoDBService
 

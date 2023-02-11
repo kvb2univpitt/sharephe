@@ -1,38 +1,21 @@
 <!DOCTYPE html>
+<!--
+    Author: Kevin V. Bui
+    Date: February 11, 2023
+-->
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}Base Template{% endblock %}</title>
+        {{ moment.include_moment() }}
         {% block links %}
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
         <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
         <link href="{{ url_for('static', filename='bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
         <link href="{{ url_for('static', filename='css/html5up_editorial.css') }}" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         {% endblock %}
-        <style>
-            .nav-scroller {
-                position: relative;
-                z-index: 2;
-                height: 2.75rem;
-                overflow-y: hidden;
-            }
-            .nav-scroller .nav {
-                display: flex;
-                flex-wrap: nowrap;
-                padding-bottom: 1rem;
-                margin-top: -1px;
-                overflow-x: auto;
-                text-align: center;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
-            .nav-pills .nav-link.active,
-            .nav-pills .show > .nav-link {
-                color: var(--bs-nav-pills-link-active-color);
-                background-color: #e18a07;
-            }
-        </style>
     </head>
     <body>
         <main>
@@ -52,8 +35,8 @@
             </div>
             <div class="container pt-4">
                 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                    <div class="col-md-5 d-flex align-items-center">
-                        <span class="mb-3 mb-md-0 text-muted">&copy; University of Pittsburgh Department of Biomedical Informatics</span>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <span class="mb-3 mb-md-0 text-muted">Copyright &copy; {{ moment().format('YYYY') }} University of Pittsburgh Department of Biomedical Informatics</span>
                     </div>
                     <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
                         <li class="ms-3"><a class="text-muted" href="https://github.com/kvb2univpitt/sharephe" target="_blank"><i class="bi bi-github"></i></a></li>
@@ -61,6 +44,8 @@
                 </footer>
             </div>
         </main>
+        {% block foot_html %}
+        {% endblock %}
         {% block script %}
         <script src="{{ url_for('static', filename='jquery/jquery-3.6.3.min.js') }}"></script>
         <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>

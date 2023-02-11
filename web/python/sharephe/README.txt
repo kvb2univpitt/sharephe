@@ -11,14 +11,12 @@ pip install template-render
 pip install flask-blueprint
 pip install requests
 pip install Flask-RESTful
+pip install flask-wtf
+pip install flask-moment
 pip install boto3
 
 Apache WSGI (
 ----------------------------------------------
-export AWS_DEFAULT_REGION=us-east-1
-export AWS_CONFIG_FILE=/home/kvb2/.aws/config
-export AWS_SHARED_CREDENTIALS_FILE=/home/kvb2/.aws/credentials
-
 ./usr/share/httpd/.aws/credentials
 
 Run Development Server

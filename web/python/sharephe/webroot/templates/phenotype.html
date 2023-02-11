@@ -10,10 +10,10 @@
 
 {% block nav %}
 <li class="nav-item"><a href="/" class="nav-link" aria-current="page">Home</a></li>
-<li class="nav-item"><a href="#" class="nav-link active">Phenotype</a></li>
-<li class="nav-item"><a href="#" class="nav-link">Installation Guide</a></li>
-<li class="nav-item"><a href="#" class="nav-link">Release Notes</a></li>
-<li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
+<li class="nav-item"><a href="" class="nav-link active">Phenotype</a></li>
+<li class="nav-item"><a href="" class="nav-link">Installation Guide</a></li>
+<li class="nav-item"><a href="" class="nav-link">Release Notes</a></li>
+<li class="nav-item"><a href="" class="nav-link">Contact Us</a></li>
 {% endblock %}
 
 {% block content %}
@@ -28,22 +28,22 @@
             <button class="nav-link active" id="phenotype-tab" data-bs-toggle="tab" data-bs-target="#phenotype-tab-pane" type="button" role="tab" aria-controls="phenotype-tab-pane" aria-selected="true">Phenotype</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="workbook-tab" data-bs-toggle="tab" data-bs-target="#workbook-tab-pane" type="button" role="tab" aria-controls="workbook-tab-pane" aria-selected="false">Workbook</button>
+            <button class="nav-link disabled" id="workbook-tab" data-bs-toggle="tab" data-bs-target="#workbook-tab-pane" type="button" role="tab" aria-controls="workbook-tab-pane" aria-selected="false">Workbook</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-pane" type="button" role="tab" aria-controls="detail-tab-pane" aria-selected="false">Detail</button>
+            <button class="nav-link disabled" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-pane" type="button" role="tab" aria-controls="detail-tab-pane" aria-selected="false">Detail</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="phenotype-tab-pane" role="tabpanel" aria-labelledby="phenotype-tab" tabindex="0">
-            <div class="content pt-4">
+            <div class="Sharephe-MainContentPad">
                 <button id="syncFromCloudBtn" class="btn btn-primary mb-4">
                     <i class="bi bi-cloud-download-fill"></i> Sync From Cloud
                 </button>
-                <div class="card shadow mb-4" id="Sharephe-WorkbookList">
+                <div class="card mt-2 mb-4" id="Sharephe-WorkbookList">
                     <div class="card-body">
                         <div class="table-responsive py-4">
-                            <table id="Sharephe-WorkbookTable" class="table table-sm" width="100%" cellspacing="0">
+                            <table id="Sharephe-WorkbookTable" class="table table-sm" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Workbook ID</th>
@@ -62,13 +62,48 @@
             </div>
         </div>
         <div class="tab-pane fade" id="workbook-tab-pane" role="tabpanel" aria-labelledby="workbook-tab" tabindex="0">
-            Workbook
+            <div class="Sharephe-MainContentPad">
+                <div id="Sharephe-PhenoName"></div>
+            </div>
         </div>
         <div class="tab-pane fade" id="detail-tab-pane" role="tabpanel" aria-labelledby="detail-tab" tabindex="0">
             Detail
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block foot_html %}
+<div class="modal fade" id="Sharephe-ProgressModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="Sharephe-ProgressModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Sharephe-ProgressModalTitle">Progress</h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Sharephe-MessageModal" tabindex="-1" aria-labelledby="Sharephe-MessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Sharephe-MessageModalLabel">Message Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="Sharephe-MessageModalMessage">Message</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}

@@ -1,3 +1,9 @@
+.Sharephe-MainContentPad {
+    padding: 1.5rem 0 4.0rem 0;
+}
+
+/*** phenotype tab ***/
+
 table#Sharephe-WorkbookTable {
     border: 1px solid dimgray;
     border-collapse: collapse !important;
@@ -29,4 +35,19 @@ table#Sharephe-WorkbookTable tr:hover td {
 
 #Sharephe-WorkbookTable_filter {
     padding-bottom: 10px;
+}
+
+/*** workbook tab ***/
+
+#Sharephe-PhenoName {
+    padding: 7px 10px;
+    background: #e5e5e5;
+    margin-bottom: 5px;
+    text-align: center;
+    border: 1px solid #63758C;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 700;
+    min-height: 16px;
+    color: #314455;
 }

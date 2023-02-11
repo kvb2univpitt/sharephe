@@ -1,3 +1,9 @@
+################################################################################
+# File: dynamodb.py
+# Author: Kevin V. Bui
+# Date: February 11, 2023
+################################################################################
+
 import logging
 import boto3
 from botocore.exceptions import ClientError
