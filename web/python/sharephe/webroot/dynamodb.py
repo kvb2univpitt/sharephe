@@ -5,7 +5,9 @@ from botocore.exceptions import ClientError
 __TABLE_NAME__ = 'Sharephe-Testing'
 
 logger = logging.getLogger(__name__)
-client = boto3.resource('dynamodb')
+
+session = boto3.Session(profile_name='sharephe', region_name='us-east-1')
+client = session.resource('dynamodb')
 
 
 class DynamoDBService:

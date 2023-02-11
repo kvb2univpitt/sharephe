@@ -1,23 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}Sharephe: Phenotype{% endblock %}
+{% block title %}Phenotype{% endblock %}
 
-{% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/phenotype.css') }}" />
+{% block links %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/phenotype.css') }}" />
 {% endblock %}
 
-{% block breadcrumb %}
-<li class="breadcrumb-item"><a href="/">Sharephe</a></li>
-<li class="breadcrumb-item active" aria-current="page">Phenotype</li>
+{% block nav %}
+<li class="nav-item"><a href="/" class="nav-link" aria-current="page">Home</a></li>
+<li class="nav-item"><a href="#" class="nav-link active">Phenotype</a></li>
+<li class="nav-item"><a href="#" class="nav-link">Installation Guide</a></li>
+<li class="nav-item"><a href="#" class="nav-link">Release Notes</a></li>
+<li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
 {% endblock %}
 
-{% block main %}
-<section class="mt-4">
-    <header>
-        <h2>Computable Phenotypes</h2>
-    </header>
+{% block content %}
+<section>
+    <div class="content">
+        <header>
+            <h2>Computable Phenotypes</h2>
+        </header>		
+    </div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="phenotype-tab" data-bs-toggle="tab" data-bs-target="#phenotype-tab-pane" type="button" role="tab" aria-controls="phenotype-tab-pane" aria-selected="true">Phenotype</button>
@@ -35,10 +40,10 @@
                 <button id="syncFromCloudBtn" class="btn btn-primary mb-4">
                     <i class="bi bi-cloud-download-fill"></i> Sync From Cloud
                 </button>
-                <div class="card mt-2 mb-4" id="Sharephe-WorkbookList">
+                <div class="card shadow mb-4" id="Sharephe-WorkbookList">
                     <div class="card-body">
                         <div class="table-responsive py-4">
-                            <table id="Sharephe-WorkbookTable" class="table table-sm" style="width:100%">
+                            <table id="Sharephe-WorkbookTable" class="table table-sm" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Workbook ID</th>
@@ -68,7 +73,6 @@
 
 {% block script %}
 {{ super() }}
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='datatables/datatables.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/phenotype.js') }}"></script>
 {% endblock %}
