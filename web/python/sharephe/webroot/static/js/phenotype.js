@@ -46,11 +46,20 @@ let queryXmlUtils = {
 
 let workbook = {
     form: {
+        clearDDFields: function () {
+            // remove all the dropped queries
+            let table = document.getElementById("Sharephe-QueryDropArea");
+            while (table.rows.length > 0) {
+                table.deleteRow(-1);
+            }
+        },
         clear: function () {
             $("#Sharephe-UploadForm  :input").val('');
             $("table#Sharephe-SelectedFileTable tbody").empty();
 
             document.getElementById("Sharephe-AttachedFileList").innerHTML = '';
+
+            this.clearDDFields();
         },
         addToFileAttachementList: function (files, fileURL) {
             let anchorTags = [];
