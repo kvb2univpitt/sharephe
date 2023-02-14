@@ -6,6 +6,7 @@ python3 -m pip install --upgrade pip
 
 Dependencies
 ----------------------------------------------
+pip install wheel
 pip install flask
 pip install template-render
 pip install flask-blueprint
@@ -17,7 +18,7 @@ pip install boto3
 
 Apache WSGI (
 ----------------------------------------------
-./usr/share/httpd/.aws/credentials
+/usr/share/httpd/.aws/credentials
 
 Run Development Server
 ----------------------------------------------

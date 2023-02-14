@@ -40,14 +40,46 @@ table#Sharephe-WorkbookTable tr:hover td {
 /*** workbook tab ***/
 
 #Sharephe-PhenoName {
-    padding: 7px 10px;
-    background: #e5e5e5;
-    margin-bottom: 5px;
-    text-align: center;
-    border: 1px solid #63758C;
-    overflow: hidden;
     font-size: 16px;
     font-weight: 700;
-    min-height: 16px;
     color: #314455;
+}
+
+table#Sharephe-Upload {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+table#Sharephe-Upload th {
+    border: 0;
+    text-align: left;
+    width: 180px;
+}
+
+table#Sharephe-Upload td {
+    padding: 5px 0 5px 0;
+}
+
+#Sharephe-UploadFormArea {
+    font-size: 13px;
+    background-color: #e5e5e5;
+    color: #777;
+}
+
+.Sharephe-Border {
+    border: 1px solid #216288;
+}
+
+table#Sharephe-QueryDropArea {
+    width: 100% !important;
+}
+
+div.droptrgt {
+    padding: 7px 10px;
+    text-align:center;
+    border: 1px solid #63758C;
+    width: 100%;
+    color: #336699;
+    overflow: hidden;
+    background-color: #FFF;
 }

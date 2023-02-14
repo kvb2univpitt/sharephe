@@ -5,6 +5,7 @@
 ################################################################################
 
 from flask import Blueprint, render_template
+from .phenotype_form import PhenotypeForm
 
 views = Blueprint('views', __name__)
 
@@ -16,4 +17,5 @@ def index():
 
 @views.route('/phenotype')
 def phenotype():
-    return render_template('phenotype.html')
+    form = PhenotypeForm()
+    return render_template('phenotype.html', form=form)
