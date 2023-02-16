@@ -144,6 +144,10 @@ $(document).ready(function () {
 
                 datatable.draw();
 
+                workbook.form.clear();
+                $('#workbook-tab').addClass('disabled');
+                $('#detail-tab').addClass('disabled');
+
                 sharepheModal.progress.hide();
             }, 500);
         },
