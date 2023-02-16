@@ -1,22 +1,25 @@
 Install Virtual Environment
 ----------------------------------------------
+mkdir venv
 python3 -m venv venv
 source venv/bin/activate
 python3 -m pip install --upgrade pip
 
 Dependencies
 ----------------------------------------------
+pip install --upgrade pip
 pip install wheel
 pip install flask
 pip install template-render
 pip install flask-blueprint
-pip install requests
 pip install Flask-RESTful
 pip install flask-wtf
 pip install flask-moment
 pip install boto3
 
-Apache WSGI (
+pip install requests
+
+Apache WSGI
 ----------------------------------------------
 /usr/share/httpd/.aws/credentials
 
