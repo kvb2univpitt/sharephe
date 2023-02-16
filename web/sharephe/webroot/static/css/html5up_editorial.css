@@ -161,17 +161,6 @@ h6 {
     font-size: 0.7em;
 }
 
-#header {
-    display: block;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
-    border-bottom: solid 5px #e18a07;
-    padding: 6em 0 1em 0;
-    position: relative;
-}
-
 /* Features */
 .features {
     display: -moz-flex;

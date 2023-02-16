@@ -4,6 +4,9 @@
     height: 2.75rem;
     overflow-y: hidden;
 }
+.bi {
+    vertical-align: -.125em;
+}
 .nav-scroller .nav {
     display: flex;
     flex-wrap: nowrap;
@@ -22,4 +25,8 @@
     --bs-nav-tabs-border-width: 2px;
     --bs-nav-tabs-border-color: #e18a07;
     --bs-nav-tabs-link-active-border-color: #e18a07 #e18a07 #fff;
+}
+
+#header {
+    border-bottom: solid 5px #e18a07;
 }
