@@ -10,7 +10,7 @@ let workbookForm = {
     },
     clear: function () {
         queryXmls = [];
-        
+
         $("#Sharephe-UploadForm  :input").val('');
         $("table#Sharephe-SelectedFileTable tbody").empty();
 
@@ -46,11 +46,13 @@ let workbookForm = {
         if (queryXmls.length > 0) {
             let lastIndex = queryXmls.length - 1;
             for (let i = 0; i < lastIndex; i++) {
-                this.createNewPSDDField(queryXmlUtils.getName(queryXmls[i]));
-                this.createNewBtn(i);
+                let name = queryXmlUtils.getName(queryXmls[i]);
+                this.createNewPSDDField(name);
+                this.createNewBtn(i, name, queryXmls[i]);
             }
-            this.createNewPSDDField(queryXmlUtils.getName(queryXmls[lastIndex]));
-            this.createNewBtn(lastIndex);
+            let name = queryXmlUtils.getName(queryXmls[lastIndex]);
+            this.createNewPSDDField(name);
+            this.createNewBtn(lastIndex, name, queryXmls[lastIndex]);
         }
     },
     populate: function (workbook) {
@@ -65,14 +67,26 @@ let workbookForm = {
         this.addToFileAttachementList(workbook.files, workbook.fileUrl);
         this.addToQueryXmlList(workbook);
     },
-    createNewBtn: function (id) {
+    createNewBtn: function (id, name, queryXML) {
         let queryRunBtnElement = document.createElement("button");
         queryRunBtnElement.id = 'detail-query-' + id;
         queryRunBtnElement.className = 'btn btn-secondary btn-sm';
         queryRunBtnElement.type = 'button';
-        queryRunBtnElement.innerHTML = '<i class="bi bi-info-circle"></i> View Details';
+        queryRunBtnElement.innerHTML = '<i class="bi bi-info-circle"></i> View Query';
         queryRunBtnElement.addEventListener("click", function () {
-            alert(id);
+            let query;
+            if (queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition').length === 0
+                    && queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns4:query_definition').length === 0) {
+                query = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns5:query_definition')[0].innerHTML;
+            } else if (queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition').length === 0) {
+                query = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns4:query_definition')[0].innerHTML;
+            } else {
+                query = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition')[0].innerHTML;
+            }
+            query = query.replace(/\n/g, '');
+            query = '<query_definition>' + query + '</query_definition>';
+            query = new XmlBeautify().beautify(query, {indent: '    ', useSelfClosingElement: true});
+            sharepheModal.queryView.show(name, query);
         }, false);
 
         let table = document.getElementById("Sharephe-QueryDropArea");

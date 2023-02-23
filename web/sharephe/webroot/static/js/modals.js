@@ -14,5 +14,12 @@ let sharepheModal = {
             $('#Sharephe-MessageModalMessage').text(message);
             $('#Sharephe-MessageModal').modal('show');
         }
+    },
+    queryView: {
+        show: (title, message) => {
+            $('#Sharephe-QueryViewModalLabel').text(title);
+            $('#Sharephe-QueryViewModalMessage').text(message);
+            $('#Sharephe-QueryViewModal').modal('show');
+        }
     }
 };
