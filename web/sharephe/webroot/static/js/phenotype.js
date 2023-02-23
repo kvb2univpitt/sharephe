@@ -1,157 +1,93 @@
-let sharepheModal = {
-    progress: {
-        show: (title) => {
-            $('#Sharephe-ProgressModalTitle').text(title);
-            $('#Sharephe-ProgressModal').modal('show');
-        },
-        hide: () => {
-            $('#Sharephe-ProgressModal').modal('hide');
+let workbookForm = {
+    clearDDFields: function () {
+        // remove all the dropped queries
+        let table = document.getElementById("Sharephe-QueryDropArea");
+        while (table.rows.length > 0) {
+            table.deleteRow(-1);
         }
     },
-    message: {
-        show: (title, message) => {
-            $('#Sharephe-MessageModalLabel').text(title);
-            $('#Sharephe-MessageModalMessage').text(message);
-            $('#Sharephe-MessageModal').modal('show');
-        }
-    }
-};
+    clear: function () {
+        $("#Sharephe-UploadForm  :input").val('');
+        $("table#Sharephe-SelectedFileTable tbody").empty();
 
-let queryXmlUtils = {
-    parse: function (strQueryXml) {
-        let queryXmlList = [];
+        document.getElementById("Sharephe-AttachedFileList").innerHTML = '';
 
-        if (strQueryXml) {
-            let queryXmlData = strQueryXml.split('>,');
-            if (queryXmlData.length > 1) {
-                for (let i = 0; i < queryXmlData.length; i++) {
-                    let qXml = queryXmlData[i];
-                    if (qXml.endsWith('>')) {
-                        queryXmlList.push(jQuery.parseXML(qXml));
-                    } else {
-                        queryXmlList.push(jQuery.parseXML(qXml + '>'));
-                    }
-                }
-            } else {
-                queryXmlList.push(jQuery.parseXML(strQueryXml));
-            }
-        }
-
-        return queryXmlList;
+        this.clearDDFields();
     },
-    getName: function (queryXml) {
-        return i2b2.h.getXNodeVal(queryXml, 'query_name');
-    }
-};
-
-let workbook = {
-    form: {
-        clearDDFields: function () {
-            // remove all the dropped queries
-            let table = document.getElementById("Sharephe-QueryDropArea");
-            while (table.rows.length > 0) {
-                table.deleteRow(-1);
-            }
-        },
-        clear: function () {
-            $("#Sharephe-UploadForm  :input").val('');
-            $("table#Sharephe-SelectedFileTable tbody").empty();
-
-            document.getElementById("Sharephe-AttachedFileList").innerHTML = '';
-
-            this.clearDDFields();
-        },
-        addToFileAttachementList: function (files, fileURL) {
-            let anchorTags = [];
-            for (let i = 0; i < files.length; i++) {
-                let ahref = fileURL + '/' + files[i];
-                anchorTags.push('<a class="sharephe-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>');
-            }
-
-            document.getElementById("Sharephe-AttachedFileList").innerHTML = anchorTags.join('<br />');
-        },
-        createNewPSDDField: function (text) {
-            let queryDropElement = document.createElement("div");
-            queryDropElement.className = "droptrgt SDX-QM";
-            queryDropElement.innerHTML = text;
-
-            let table = document.getElementById("Sharephe-QueryDropArea");
-            let row = table.insertRow(-1);
-
-            let dropQueryCell = row.insertCell(0);
-            dropQueryCell.appendChild(queryDropElement);
-        },
-        addToQueryXmlList: function (workbook) {
-            let queryXML = queryXmlUtils.parse(workbook.queryXML);
-            if (queryXML.length > 0) {
-                let lastIndex = queryXML.length - 1;
-                for (let i = 0; i < lastIndex; i++) {
-                    this.createNewPSDDField(queryXmlUtils.getName(queryXML[i]));
-                }
-                this.createNewPSDDField(queryXmlUtils.getName(queryXML[lastIndex]));
-            }
-        },
-        populate: function (sharepheWorkbook) {
-            this.clear();
-
-            let workbook = sharepheWorkbook.workbook;
-            $('#workbookId').val(workbook.phenotypeId);
-            $('#workbookType').val(workbook.type);
-            $('#workbookTitle').val(workbook.title);
-            $('#workbookAuthors').val(workbook.authors.join(', '));
-            $('#institution').val(workbook.institution);
-
-            this.addToFileAttachementList(sharepheWorkbook.files, sharepheWorkbook.fileUrl);
-            this.addToQueryXmlList(workbook);
+    addToFileAttachementList: function (files, fileURL) {
+        let anchorTags = [];
+        for (let i = 0; i < files.length; i++) {
+            let ahref = fileURL + '/' + files[i];
+            anchorTags.push('<a class="sharephe-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>');
         }
+
+        document.getElementById("Sharephe-AttachedFileList").innerHTML = anchorTags.join('<br />');
+    },
+    createNewPSDDField: function (text) {
+        let queryDropElement = document.createElement("div");
+        queryDropElement.className = "droptrgt SDX-QM";
+        queryDropElement.innerHTML = text;
+
+        let table = document.getElementById("Sharephe-QueryDropArea");
+        let row = table.insertRow(-1);
+
+        let dropQueryCell = row.insertCell(0);
+        dropQueryCell.appendChild(queryDropElement);
+    },
+    addToQueryXmlList: function (workbook) {
+        let queryXML = queryXmlUtils.parse(workbook.queryXML);
+        if (queryXML.length > 0) {
+            let lastIndex = queryXML.length - 1;
+            for (let i = 0; i < lastIndex; i++) {
+                this.createNewPSDDField(queryXmlUtils.getName(queryXML[i]));
+            }
+            this.createNewPSDDField(queryXmlUtils.getName(queryXML[lastIndex]));
+        }
+    },
+    populate: function (workbook) {
+        this.clear();
+
+        $('#workbookId').val(workbook.phenotypeId);
+        $('#workbookType').val(workbook.type);
+        $('#workbookTitle').val(workbook.title);
+        $('#workbookAuthors').val(workbook.authors.join(', '));
+        $('#institution').val(workbook.institution);
+
+        this.addToFileAttachementList(workbook.files, workbook.fileUrl);
+        this.addToQueryXmlList(workbook);
     }
 };
 
-let syncFromCloudAction = (successHandler, errorHandler) => {
+let syncFromCloud = (datatable) => {
+    sharepheModal.progress.show('Sync From Cloud');
     $.ajax({
         type: 'GET',
         dataType: 'json',
         url: 'api/workbook',
-        success: successHandler,
-        error: errorHandler
-    });
-};
-
-$(document).ready(function () {
-    let sharepheWorkbooks = [];
-    let sharepheQueryXmls = [];
-    let selectedPheotypeId;
-
-    let datatable = $('#Sharephe-WorkbookTable').DataTable();
-
-    let syncFromCloudHandler = {
-        successHandler: (data) => {
+        success: (data) => {
             setTimeout(function () {
                 datatable.clear();
-                data.forEach(function (sharepheWorkbook) {
-                    let workbook = sharepheWorkbook.workbook;
+                data.forEach(function (workbook) {
                     datatable.row.add([
                         workbook.phenotypeId,
                         workbook.type,
                         workbook.title,
                         workbook.authors.join(', '),
                         workbook.institution,
-                        sharepheWorkbook.files.join(', ')
+                        workbook.files.join(', ')
                     ]);
-
-                    sharepheWorkbooks[workbook.phenotypeId] = sharepheWorkbook;
                 });
 
                 datatable.draw();
 
-                workbook.form.clear();
+                workbookForm.clear();
                 $('#workbook-tab').addClass('disabled');
                 $('#detail-tab').addClass('disabled');
 
                 sharepheModal.progress.hide();
             }, 500);
         },
-        errorHandler: () => {
+        error: () => {
             setTimeout(function () {
                 datatable.clear();
 
@@ -161,33 +97,31 @@ $(document).ready(function () {
                         'Unable to retrieve phenotypes from cloud.');
             }, 500);
         }
-    };
-
-    $("#syncFromCloudBtn").click(function () {
-        sharepheModal.progress.show('Sync From Cloud');
-
-        syncFromCloudAction(
-                syncFromCloudHandler.successHandler,
-                syncFromCloudHandler.errorHandler);
     });
+};
 
-    $(document).on('click', '#Sharephe-WorkbookTable tr', function () {
-        let phenotypeId = this.cells[0].innerHTML;
-        let sharepheWorkbook = sharepheWorkbooks[phenotypeId];
+let fetchWorkbook = (phenotypeId) => {
+    sharepheModal.progress.show('Fetching phenotype: ' + phenotypeId);
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: 'api/workbook/' + phenotypeId,
+        success: (workbook) => {
+            setTimeout(function () {
+                if (workbook) {
+                    $('#Sharephe-PhenoName').text(workbook.title);
 
-        // save the selected phenotype ID
-        selectedPheotypeId = phenotypeId;
-        sharepheQueryXmls = [];
+                    $('#workbook-tab').removeClass('disabled');
+                    $('#detail-tab').removeClass('disabled');
 
-        $('#Sharephe-PhenoName').text(sharepheWorkbook.workbook.title);
+                    workbookForm.populate(workbook);
 
-        $('#workbook-tab').removeClass('disabled');
-        $('#detail-tab').removeClass('disabled');
-
-        workbook.form.populate(sharepheWorkbook);
-
-        $('#workbook-tab').click();
+                    $('#workbook-tab').click();
+                }
+                sharepheModal.progress.hide();
+            }, 500);
+        },
+        error: () => {
+        }
     });
-
-    $("#syncFromCloudBtn").click();
-});
+};

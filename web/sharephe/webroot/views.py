@@ -18,4 +18,5 @@ def index():
 @views.route('/phenotype')
 def phenotype():
     form = PhenotypeForm()
+
     return render_template('phenotype.html', form=form)

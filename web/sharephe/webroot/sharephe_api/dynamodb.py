@@ -7,6 +7,7 @@
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from boto3.dynamodb.conditions import Key
 
 __TABLE_NAME__ = 'Sharephe-Testing'
 
@@ -38,3 +39,19 @@ class DynamoDBService:
             raise
 
         return workbooks
+
+    def getWorkbookById(phenotypeId):
+        table = client.Table(__TABLE_NAME__)
+        try:
+            response = table.query(KeyConditionExpression=Key(
+                'PhenotypeID').eq(phenotypeId))
+        except ClientError as err:
+            logger.error("Couldn't fetch workbook for phenotypes: %s: %s",
+                         err.response['Error']['Code'], err.response['Error']['Message'])
+            raise
+        else:
+            data = response.get('Items', [])
+            if data:
+                return data[0]
+            else:
+                return None

@@ -41,18 +41,31 @@ class Workbooks(Resource):
     def get(self):
         resources = []
         for data in dynamoDBService.getWorkbooks():
-            workbook = {
+            resources.append({
                 'phenotypeId': data['PhenotypeID'],
                 'authors': parseAuthors(data['Authors']),
                 'institution': data['Institution'],
                 'title': data['Title'],
                 'type': data['Type'],
-                'queryXML': data['QueryXML']
-            }
-            resources.append({
-                'workbook': workbook,
-                'files': parseFiles(data['s3Address']),
-                'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID'])
+                'files': parseFiles(data['s3Address'])
             })
 
         return resources
+
+
+class WorkbookById(Resource):
+    def get(self, phenotypeId):
+        data = dynamoDBService.getWorkbookById(phenotypeId)
+        if data is None:
+            return {}
+        else:
+            return {
+                'phenotypeId': data['PhenotypeID'],
+                'authors': parseAuthors(data['Authors']),
+                'institution': data['Institution'],
+                'title': data['Title'],
+                'type': data['Type'],
+                'files': parseFiles(data['s3Address']),
+                'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID']),
+                'queryXML': data['QueryXML']
+            }
