@@ -26,7 +26,7 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="phenotype-tab" data-bs-toggle="tab" data-bs-target="#phenotype-tab-pane"
-                    type="button" role="tab" aria-controls="phenotype-tab-pane" aria-selected="true">Phenotype</button>
+                    type="button" role="tab" aria-controls="phenotype-tab-pane" aria-selected="true">Phenotypes</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link disabled" id="workbook-tab" data-bs-toggle="tab" data-bs-target="#workbook-tab-pane"
@@ -34,7 +34,7 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link disabled" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-pane"
-                    type="button" role="tab" aria-controls="detail-tab-pane" aria-selected="false">Detail</button>
+                    type="button" role="tab" aria-controls="detail-tab-pane" aria-selected="false">Details</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -76,24 +76,24 @@
                             <table id="Sharephe-Upload" class="table">
                                 <tbody>
                                     <tr>
-                                        <th scope="row">{{form.workbookId.label}}:</th>
-                                        <td>{{form.workbookId(class="form-control", disabled="disabled", readonly="readonly")}}</td>
+                                        <th scope="row">{{form.workbook_id.label}}:</th>
+                                        <td>{{form.workbook_id(class="form-control", disabled="disabled", readonly="readonly")}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{form.workbookType.label}}:</th>
-                                        <td>{{form.workbookType(class="form-select", disabled="disabled")}}</td>
+                                        <th scope="row">{{form.workbook_type.label}}:</th>
+                                        <td>{{form.workbook_type(class="form-select", disabled="disabled")}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{form.workbookTitle.label}}:</th>
-                                        <td>{{form.workbookTitle(class="form-control", disabled="disabled", readonly="readonly")}}</td>
+                                        <th scope="row">{{form.workbook_title.label}}:</th>
+                                        <td>{{form.workbook_title(class="form-control", disabled="disabled", readonly="readonly")}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{form.workbookAuthors.label}}:</th>
-                                        <td>{{form.workbookAuthors(class="form-control", disabled="disabled", readonly="readonly")}}</td>
+                                        <th scope="row">{{form.workbook_authors.label}}:</th>
+                                        <td>{{form.workbook_authors(class="form-control", disabled="disabled", readonly="readonly")}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{form.institution.label}}:</th>
-                                        <td>{{form.institution(class="form-control", disabled="disabled", readonly="readonly")}}</td>
+                                        <th scope="row">{{form.workbook_institution.label}}:</th>
+                                        <td>{{form.workbook_institution(class="form-control", disabled="disabled", readonly="readonly")}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" style="vertical-align: text-top">Supporting Attachments:</th>

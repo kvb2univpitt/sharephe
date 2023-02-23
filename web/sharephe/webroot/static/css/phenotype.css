@@ -83,3 +83,8 @@ div.droptrgt {
     overflow: hidden;
     background-color: #FFF;
 }
+
+.Sharephe-QueryButtonCell {
+    width: 140px;
+    text-align: right;
+}

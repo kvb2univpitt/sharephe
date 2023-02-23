@@ -9,8 +9,8 @@ class PhenotypeForm(FlaskForm):
         ('Others', 'Others')
     ]
 
-    workbookId = StringField('Workbook ID')
-    workbookType = SelectField('Workbook Type', choices=types)
-    workbookTitle = StringField('Workbook Title')
-    workbookAuthors = StringField('Main Authors')
-    institution = StringField('Insitution')
+    workbook_id = StringField('Workbook ID')
+    workbook_type = SelectField('Workbook Type', choices=types)
+    workbook_title = StringField('Workbook Title')
+    workbook_authors = StringField('Main Authors')
+    workbook_institution = StringField('Insitution')

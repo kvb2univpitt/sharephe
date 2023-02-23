@@ -22,8 +22,8 @@ def create_app():
 
     # initialize API URLs
     api = Api(app)
-    from .sharephe_api import routes
-    routes.initialize_routes(api)
+    from .sharephe_api import initialize_routes
+    initialize_routes(api)
 
     # initialize views
     from .views import views

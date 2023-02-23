@@ -18,7 +18,7 @@ client = session.resource('dynamodb')
 
 
 class DynamoDBService:
-    def getWorkbooks():
+    def get_workbooks():
         table = client.Table(__TABLE_NAME__)
         workbooks = []
         scan_kwargs = {}
@@ -40,11 +40,11 @@ class DynamoDBService:
 
         return workbooks
 
-    def getWorkbookById(phenotypeId):
+    def get_workbook_by_id(phenotype_id):
         table = client.Table(__TABLE_NAME__)
         try:
             response = table.query(KeyConditionExpression=Key(
-                'PhenotypeID').eq(phenotypeId))
+                'PhenotypeID').eq(phenotype_id))
         except ClientError as err:
             logger.error("Couldn't fetch workbook for phenotypes: %s: %s",
                          err.response['Error']['Code'], err.response['Error']['Message'])

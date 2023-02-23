@@ -9,13 +9,13 @@ from .dynamodb import DynamoDBService
 
 __S3_LOCATION__ = 'https://sharephe.s3.amazonaws.com/upload'
 
-dynamoDBService = DynamoDBService
+dynamodb_service = DynamoDBService
 
 
-def parseFiles(s3Address):
+def parse_files(s3_address):
     files = []
 
-    fileNames = s3Address.replace(
+    fileNames = s3_address.replace(
         'computable-phenotype:[', '').replace(']', '').split(',')
     for fileName in fileNames:
         fileName = fileName.strip()
@@ -25,10 +25,10 @@ def parseFiles(s3Address):
     return files
 
 
-def parseAuthors(authorsStr):
+def parse_authors(authors_str):
     authors = []
 
-    auths = authorsStr.split(',')
+    auths = authors_str.split(',')
     for author in auths:
         author = author.strip()
         if (author):
@@ -40,32 +40,33 @@ def parseAuthors(authorsStr):
 class Workbooks(Resource):
     def get(self):
         resources = []
-        for data in dynamoDBService.getWorkbooks():
+
+        for data in dynamodb_service.get_workbooks():
             resources.append({
                 'phenotypeId': data['PhenotypeID'],
-                'authors': parseAuthors(data['Authors']),
+                'authors': parse_authors(data['Authors']),
                 'institution': data['Institution'],
                 'title': data['Title'],
                 'type': data['Type'],
-                'files': parseFiles(data['s3Address'])
+                'files': parse_files(data['s3Address'])
             })
 
         return resources
 
 
 class WorkbookById(Resource):
-    def get(self, phenotypeId):
-        data = dynamoDBService.getWorkbookById(phenotypeId)
+    def get(self, phenotype_id):
+        data = dynamodb_service.get_workbook_by_id(phenotype_id)
         if data is None:
             return {}
         else:
             return {
                 'phenotypeId': data['PhenotypeID'],
-                'authors': parseAuthors(data['Authors']),
+                'authors': parse_authors(data['Authors']),
                 'institution': data['Institution'],
                 'title': data['Title'],
                 'type': data['Type'],
-                'files': parseFiles(data['s3Address']),
+                'files': parse_files(data['s3Address']),
                 'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID']),
                 'queryXML': data['QueryXML']
             }
