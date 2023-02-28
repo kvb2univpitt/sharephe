@@ -60,13 +60,25 @@ class WorkbookById(Resource):
         if data is None:
             return {}
         else:
-            return {
-                'phenotypeId': data['PhenotypeID'],
-                'authors': parse_authors(data['Authors']),
-                'institution': data['Institution'],
-                'title': data['Title'],
-                'type': data['Type'],
-                'files': parse_files(data['s3Address']),
-                'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID']),
-                'queryXML': data['QueryXML']
-            }
+            if 'QueryXML' in data:
+                return {
+                    'phenotypeId': data['PhenotypeID'],
+                    'authors': parse_authors(data['Authors']),
+                    'institution': data['Institution'],
+                    'title': data['Title'],
+                    'type': data['Type'],
+                    'files': parse_files(data['s3Address']),
+                    'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID']),
+                    'queryXML': data['QueryXML']
+                }
+            else:
+                return {
+                    'phenotypeId': data['PhenotypeID'],
+                    'authors': parse_authors(data['Authors']),
+                    'institution': data['Institution'],
+                    'title': data['Title'],
+                    'type': data['Type'],
+                    'files': parse_files(data['s3Address']),
+                    'fileUrl': "{}/{}".format(__S3_LOCATION__, data['PhenotypeID']),
+                    'queryXML': None
+                }

@@ -42,17 +42,19 @@ let workbookForm = {
         queryBtnCell.className = "Sharephe-QueryButtonCell";
     },
     addToQueryXmlList: function (workbook) {
-        queryXmls = queryXmlUtils.parse(workbook.queryXML);
-        if (queryXmls.length > 0) {
-            let lastIndex = queryXmls.length - 1;
-            for (let i = 0; i < lastIndex; i++) {
-                let name = queryXmlUtils.getName(queryXmls[i]);
+        if (workbook.queryXML) {
+            queryXmls = queryXmlUtils.parse(workbook.queryXML);
+            if (queryXmls.length > 0) {
+                let lastIndex = queryXmls.length - 1;
+                for (let i = 0; i < lastIndex; i++) {
+                    let name = queryXmlUtils.getName(queryXmls[i]);
+                    this.createNewPSDDField(name);
+                    this.createNewBtn(i, name, queryXmls[i]);
+                }
+                let name = queryXmlUtils.getName(queryXmls[lastIndex]);
                 this.createNewPSDDField(name);
-                this.createNewBtn(i, name, queryXmls[i]);
+                this.createNewBtn(lastIndex, name, queryXmls[lastIndex]);
             }
-            let name = queryXmlUtils.getName(queryXmls[lastIndex]);
-            this.createNewPSDDField(name);
-            this.createNewBtn(lastIndex, name, queryXmls[lastIndex]);
         }
     },
     populate: function (workbook) {
