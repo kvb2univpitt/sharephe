@@ -1,5 +1,13 @@
 let queryXmls = [];
 
+let beautifyQueryXml = (queryXml) => {
+    queryXml = queryXml.replace(/\n/g, '');
+    queryXml = '<query_definition>' + queryXml + '</query_definition>';
+    queryXml = new XmlBeautify().beautify(queryXml, {indent: '    ', useSelfClosingElement: true});
+
+    return queryXml;
+};
+
 let workbookForm = {
     clearDDFields: function () {
         // remove all the dropped queries
@@ -42,19 +50,17 @@ let workbookForm = {
         queryBtnCell.className = "Sharephe-QueryButtonCell";
     },
     addToQueryXmlList: function (workbook) {
-        if (workbook.queryXML) {
-            queryXmls = queryXmlUtils.parse(workbook.queryXML);
-            if (queryXmls.length > 0) {
-                let lastIndex = queryXmls.length - 1;
-                for (let i = 0; i < lastIndex; i++) {
-                    let name = queryXmlUtils.getName(queryXmls[i]);
-                    this.createNewPSDDField(name);
-                    this.createNewBtn(i, name, queryXmls[i]);
-                }
-                let name = queryXmlUtils.getName(queryXmls[lastIndex]);
+        queryXmls = queryXmlUtils.parse(workbook.queryXML);
+        if (queryXmls.length > 0) {
+            let lastIndex = queryXmls.length - 1;
+            for (let i = 0; i < lastIndex; i++) {
+                let name = queryXmlUtils.getName(queryXmls[i]);
                 this.createNewPSDDField(name);
-                this.createNewBtn(lastIndex, name, queryXmls[lastIndex]);
+                this.createNewBtn(i, name, queryXmls[i]);
             }
+            let name = queryXmlUtils.getName(queryXmls[lastIndex]);
+            this.createNewPSDDField(name);
+            this.createNewBtn(lastIndex, name, queryXmls[lastIndex]);
         }
     },
     populate: function (workbook) {
@@ -85,10 +91,7 @@ let workbookForm = {
             } else {
                 query = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition')[0].innerHTML;
             }
-            query = query.replace(/\n/g, '');
-            query = '<query_definition>' + query + '</query_definition>';
-            query = new XmlBeautify().beautify(query, {indent: '    ', useSelfClosingElement: true});
-            sharepheModal.queryView.show(name, query);
+            sharepheModal.queryView.show(name, beautifyQueryXml(query));
         }, false);
 
         let table = document.getElementById("Sharephe-QueryDropArea");
@@ -96,6 +99,200 @@ let workbookForm = {
         let row = table.rows[rowIndex];
         row.cells[1].appendChild(queryRunBtnElement);
     }
+};
+
+let showDetails = () => {
+    let mainElement = document.getElementById("Sharephe-Details");
+    mainElement.innerHTML = '';
+
+    for (let ithQuery = 0; ithQuery < queryXmls.length; ithQuery++) {
+        let queryDetail = queryXmlUtils.extractQueryDetails(queryXmls[ithQuery]);
+
+        /**
+         * <div id="query-${ithQuery}" class="query"></div>
+         */
+        let queryElement = document.createElement("div");
+        queryElement.id = `query-${ithQuery}`;
+        queryElement.className = 'query pb-4';
+        mainElement.appendChild(queryElement);
+
+        /**
+         * <div id="query-${ithQuery}" class="query">
+         *     <div class="query-name bold">Query Name: ${queryDetail.name}</div>
+         * </div>
+         */
+        let queryNameElement = document.createElement('div');
+        queryNameElement.className = 'query-name fw-bolder';
+        queryNameElement.innerHTML = `Query Name: ${queryDetail.name}`;
+        queryElement.appendChild(queryNameElement);
+
+        /**
+         * <div id="query-${ithQuery}" class="query">
+         *     <div class="query-name bold">Query Name: ${queryDetail.name}</div>
+         *     <div class="groups"></div>
+         * </div>
+         */
+        let groupsElement = document.createElement('div');
+        groupsElement.className = 'groups';
+        queryElement.appendChild(groupsElement);
+
+        let groups = queryDetail.groups;
+        for (let i = 0; i < groups.length; i++) {
+            let group = groups[i];
+
+            /**
+             * <div class="groups">
+             *     <div class="group" id="group-${i}"></div>
+             * </div>
+             */
+            let groupElement = document.createElement('div');
+            groupElement.className = 'group';
+            groupElement.id = `group-${i}`;
+            groupsElement.appendChild(groupElement);
+
+            /**
+             * <div id="group-${i}" class="group"></div>
+             */
+            let invertElement = document.createElement('div');
+            invertElement.className = 'invert';
+            if (group.invert === 0) {
+                /**
+                 * <div id="group-${i}" class="group">
+                 *     <div class="invert">Include</div>
+                 * </div>
+                 */
+                invertElement.innerHTML = 'Include';
+            } else {
+                /**
+                 * <div id="group-${i}" class="group">
+                 *     <div class="invert" style="color: red;">Exclude</div>
+                 * </div>
+                 */
+                invertElement.style = 'color: red;';
+                invertElement.innerHTML = 'Exclude';
+            }
+            groupElement.appendChild(invertElement);
+
+            /**
+             * <div id="group-${i}" class="group">
+             *     <div class="invert">Include</div>
+             *     <div class="occurrence" style="color: green;">Occurs > ${group.occurrence - 1}</div>
+             * </div>
+             */
+            let occurrenceElement = document.createElement('div');
+            occurrenceElement.className = 'occurrence';
+            occurrenceElement.style = 'color: green;';
+            occurrenceElement.innerHTML = `Occurs > ${group.occurrence - 1}`;
+            groupElement.appendChild(occurrenceElement);
+
+            /**
+             * <div id="group-${i}" class="group">
+             *     <div class="occurrence" style="color: green;">Occurs > ${group.occurrence - 1}</div>
+             *     <div class="terms indent"></div>
+             * </div>
+             */
+            let termsElement = document.createElement('div');
+            termsElement.className = 'terms indent';
+            groupElement.appendChild(termsElement);
+
+            let terms = group.terms;
+            for (let j = 0; j < terms.length; j++) {
+                let term = terms[j];
+
+                /**
+                 * <div class="terms indent">
+                 *     <div id="term-${j}" class="term"></div>
+                 * </div>
+                 */
+                let termElement = document.createElement('div');
+                termElement.id = `term-${j}`;
+                termElement.className = 'term';
+                termsElement.appendChild(termElement);
+
+                /**
+                 * <div class="terms indent">
+                 *     <div id="term-${j}" class="term">
+                 *         <div class="term-label">${createTermLabel(term)}</div>
+                 *     </div>
+                 * </div>
+                 */
+                let termLabelElement = document.createElement('div');
+                termLabelElement.className = 'term-label';
+                termLabelElement.innerHTML = createTermLabel(term);
+                termElement.appendChild(termLabelElement);
+
+                /**
+                 * <div class="terms indent">
+                 *     <div id="term-${j}" class="term">
+                 *         <div class="term-label">${createTermLabel(term)}</div>
+                 *         <div class="concepts indent">
+                 *             <img src="assets/images/spin.gif" width="20" height="20" />
+                 *         </div>
+                 *     </div>
+                 * </div>
+                 */
+                let conceptsElement = document.createElement('div');
+                conceptsElement.className = 'concepts ms-4';
+                conceptsElement.innerHTML = '<img src="' + spinGifUrl + '" width="20" height="20" />';
+                termElement.appendChild(conceptsElement);
+
+                fetchConcepts(term, conceptsElement, termLabelElement, ithQuery, i, j);
+            }
+        }
+    }
+};
+
+fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm) => {
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: 'api/term',
+        data: {
+            hlevel: 2,
+            parent: 'Joe Schmoe'
+        },
+        success: (data) => {
+            console.info('--------------------------------------------------------------------------------');
+            console.info(JSON.stringify(data, null, 4));
+            console.info('--------------------------------------------------------------------------------');
+        },
+        error: () => {
+            console.error("You made a mistake");
+        }
+    });
+};
+
+createTermLabel = function (term) {
+    let label = `${term.name}`;
+
+    let constraints = term.constraints;
+    for (let i = 0; i < constraints.length; i++) {
+        let constraint = constraints[i];
+
+        if (constraint.by === 'value') {
+            if (constraint.unit) {
+                let operator;
+                if (constraint.operator === 'LT') {
+                    operator = '<';
+                } else if (constraint.operator === 'GT') {
+                    operator = '>';
+                } else {
+                    operator = '=';
+                }
+
+                label += `<span class="indent" style="color: blue;">value: ${operator} ${constraint.value} ${constraint.unit}</span>`;
+            } else {
+                label += `<span class="indent" style="color: blue;">value: ${constraint.value}</span>`;
+            }
+        } else if (constraint.by === 'date') {
+            let dateFrom = (new Date(constraint.from)).toLocaleDateString();
+            let dateTo = (new Date(constraint.to)).toLocaleDateString();
+
+            label += `<span class="indent" style="color: blue;">date: ${dateFrom} - ${dateTo}</span>`;
+        }
+    }
+
+    return label;
 };
 
 let syncFromCloud = (datatable) => {
@@ -149,13 +346,16 @@ let fetchWorkbook = (phenotypeId) => {
         success: (workbook) => {
             setTimeout(function () {
                 if (workbook) {
-                    $('#Sharephe-PhenoName').text(workbook.title);
-
-                    $('#workbook-tab').removeClass('disabled');
-                    $('#detail-tab').removeClass('disabled');
+                    $('.Sharephe-PhenoName').text(workbook.title);
 
                     workbookForm.populate(workbook);
 
+                    $('#workbook-tab').removeClass('disabled');
+                    if (workbook.queryXML) {
+                        $('#detail-tab').removeClass('disabled');
+                    } else {
+                        $('#detail-tab').addClass('disabled');
+                    }
                     $('#workbook-tab').click();
                 }
                 sharepheModal.progress.hide();
@@ -164,4 +364,12 @@ let fetchWorkbook = (phenotypeId) => {
         error: () => {
         }
     });
+};
+
+let handleTabEventListener = (event) => {
+    switch (event.target.id) {
+        case 'detail-tab':
+            showDetails();
+            break;
+    }
 };
