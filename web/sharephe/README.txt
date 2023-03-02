@@ -19,6 +19,9 @@ pip install boto3
 
 pip install requests
 
+pip install psycopg2-binary
+pip install -U Flask-SQLAlchemy
+
 Apache WSGI
 ----------------------------------------------
 /usr/share/httpd/.aws/credentials

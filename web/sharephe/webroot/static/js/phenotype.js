@@ -248,18 +248,112 @@ fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, it
         dataType: 'json',
         url: 'api/term',
         data: {
-            hlevel: 2,
-            parent: 'Joe Schmoe'
+            hlevel: term.hlevel,
+            parent: term.key
         },
-        success: (data) => {
-            console.info('--------------------------------------------------------------------------------');
-            console.info(JSON.stringify(data, null, 4));
-            console.info('--------------------------------------------------------------------------------');
+        success: (concepts) => {
+            let uniuqeConcepts = filterUniqueConcepts(sortConcepts(concepts));
+            if (uniuqeConcepts.length > 5) {
+                let table = document.createElement('table');
+                table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+                table.className = 'table-concepts';
+                table.style.display = "none";
+                uniuqeConcepts.forEach(function (concept) {
+                    let tr = table.insertRow();
+                    tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                    let span = document.createElement('span');
+                    span.className = 'ms-4';
+                    span.appendChild(document.createTextNode(concept.name));
+                    tr.insertCell().appendChild(span);
+                });
+                conceptsElement.removeChild(conceptsElement.firstChild);
+                conceptsElement.appendChild(table);
+
+                table = document.createElement('table');
+                table.id = `list-secondary-${ithQuery}-${ithGroup}-${ithTerm}`;
+                table.className = 'table-concepts';
+                for (let i = 0; i < 5; i++) {
+                    let concept = uniuqeConcepts[i];
+
+                    let tr = table.insertRow();
+                    tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                    let span = document.createElement('span');
+                    span.className = 'ms-4';
+                    span.appendChild(document.createTextNode(concept.name));
+                    tr.insertCell().appendChild(span);
+                }
+                conceptsElement.appendChild(table);
+
+
+                let showHideButton = document.createElement('button');
+                showHideButton.id = `${ithQuery}-${ithGroup}-${ithTerm}`;
+                showHideButton.className = 'btn btn-primary btn-sm ms-4';
+                showHideButton.innerHTML = '<i class="bi bi-arrow-down"></i> Show More';
+                showHideButton.addEventListener("click", function () {
+                    showMoreLess(showHideButton);
+                });
+                termLabelElement.appendChild(showHideButton);
+            } else {
+                let table = document.createElement('table');
+                table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+                table.className = 'table-concepts';
+                uniuqeConcepts.forEach(function (concept) {
+                    let tr = table.insertRow();
+                    tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                    let span = document.createElement('span');
+                    span.className = 'ms-4';
+                    span.appendChild(document.createTextNode(concept.name));
+                    tr.insertCell().appendChild(span);
+                });
+                conceptsElement.removeChild(conceptsElement.firstChild);
+                conceptsElement.appendChild(table);
+            }
         },
         error: () => {
             console.error("You made a mistake");
         }
     });
+};
+
+showMoreLess = (btn) => {
+    jQuery('#list-secondary-' + btn.id).slideToggle();
+    jQuery('#list-' + btn.id).slideToggle();
+
+    btn.innerHTML = (btn.textContent.includes('Show More')) ? '<i class="bi bi-arrow-up"></i> Show Less' : '<i class="bi bi-arrow-down"></i> Show More';
+};
+
+sortConcepts = function (concepts) {
+    // sort concepts by basecode
+    concepts.sort(function (c1, c2) {
+        if (c1.basecode > c2.basecode) {
+            return 1;
+        } else if (c1.basecode < c2.basecode) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
+    return concepts;
+};
+
+filterUniqueConcepts = function (concepts) {
+    let uniuqeConcepts = [];
+
+    let uniqueNames = new Set();
+    for (let i = 0; i < concepts.length; i++) {
+        let concept = concepts[i];
+
+        if (!uniqueNames.has(concept.name)) {
+            uniqueNames.add(concept.name);
+            uniuqeConcepts.push(concept);
+        }
+    }
+
+    return uniuqeConcepts;
 };
 
 createTermLabel = function (term) {
