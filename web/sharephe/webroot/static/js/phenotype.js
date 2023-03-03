@@ -206,7 +206,7 @@ let showDetails = () => {
                  */
                 let termElement = document.createElement('div');
                 termElement.id = `term-${j}`;
-                termElement.className = 'term';
+                termElement.className = 'term ms-4';
                 termsElement.appendChild(termElement);
 
                 /**
@@ -217,7 +217,7 @@ let showDetails = () => {
                  * </div>
                  */
                 let termLabelElement = document.createElement('div');
-                termLabelElement.className = 'term-label';
+                termLabelElement.className = 'term-label fw-bold';
                 termLabelElement.innerHTML = createTermLabel(term);
                 termElement.appendChild(termLabelElement);
 

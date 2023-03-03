@@ -105,10 +105,10 @@ div.droptrgt {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-div#Sharephe-mainDiv table.table-concepts {
+table.table-concepts {
     border-collapse: collapse;
     border-spacing: 0;
 }
-div#Sharephe-mainDiv table.table-concepts tr:hover td {
+table.table-concepts tr:hover td {
     background-color: #dcdcdc;
 }

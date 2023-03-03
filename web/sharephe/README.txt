@@ -15,12 +15,14 @@ pip install flask-blueprint
 pip install Flask-RESTful
 pip install flask-wtf
 pip install flask-moment
-pip install boto3
-
 pip install requests
+
+pip install boto3
 
 pip install psycopg2-binary
 pip install -U Flask-SQLAlchemy
+
+pip install autopep8
 
 Apache WSGI
 ----------------------------------------------
