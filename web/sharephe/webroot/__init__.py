@@ -12,6 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 db_username = ''
 db_password = ''
 database = ''
+database_url = f"postgresql://{db_username}:{db_password}@localhost:5432/{database}"
 
 moment = Moment()
 db = SQLAlchemy()
@@ -24,7 +25,7 @@ def create_app():
     app.config['SECRET_KEY'] = '589676422b28a46fd1be0041ce829d0b76d84ed545578fffa4849036c3127a89'
 
     # SQLAlchemy requirement
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{db_username}:{db_password}@localhost:5432/{database}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # initialize date-time
