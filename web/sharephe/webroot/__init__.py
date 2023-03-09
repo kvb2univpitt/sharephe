@@ -8,11 +8,15 @@ from flask import Flask
 from flask_restful import Api
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from .db_config import db_conn
 
-db_username = ''
-db_password = ''
-database = ''
-database_url = f"postgresql://{db_username}:{db_password}@localhost:5432/{database}"
+
+type = db_conn['type']
+database = db_conn['database']
+host = db_conn['host']
+username = db_conn['username']
+password = db_conn['password']
+database_url = f"{type}://{username}:{password}@{host}/{database}"
 
 moment = Moment()
 db = SQLAlchemy()

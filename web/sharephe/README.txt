@@ -3,7 +3,6 @@ Install Virtual Environment
 mkdir venv
 python3 -m venv venv
 source venv/bin/activate
-python3 -m pip install --upgrade pip
 
 Dependencies
 ----------------------------------------------
@@ -17,12 +16,13 @@ pip install flask-wtf
 pip install flask-moment
 pip install requests
 pip install boto3
-pip install psycopg2-binary
+
 pip install -U Flask-SQLAlchemy
+pip install psycopg2-binary --upgrade  // postgresql
+pip install cx_Oracle --upgrade  // oracle
 
 pip install autopep8
 
-pip install cx_Oracle --upgrade
 
 Apache WSGI
 ----------------------------------------------

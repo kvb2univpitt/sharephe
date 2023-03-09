@@ -1,20 +1,31 @@
+################################################################################
+# File: database.py
+# Author: Kevin V. Bui
+# Date: February 11, 2023
+################################################################################
+
 from sqlalchemy import text, exc
 import logging
+from webroot.db_config import db_conn, Vendor
 
 logger = logging.getLogger(__name__)
 
 
 def get_path(parent):
-    end = parent.index('\\', 3)
-
-    return parent[end:]
+    if parent.startswith('\\'):
+        end = parent.index('\\', 3)
+        return parent[end:]
+    else:
+        return parent
 
 
 def get_concepts(db, hlevel, parent):
     path = get_path(parent)
-    path = path.replace('\\', '\\\\')
-    table = 'sharephe_metadata'
 
+    if (db_conn['vendor'] == Vendor.POSTGRES):
+        path = path.replace('\\', '\\\\')
+
+    table = db_conn['metadata_table']
     sql = f"SELECT c_fullname,c_name,c_basecode FROM {table} WHERE c_fullname like '{path}%' AND c_hlevel > {hlevel} AND c_visualattributes NOT LIKE '_H%' AND c_synonym_cd = 'N' ORDER BY c_hlevel,upper(c_name)"
     try:
         result = db.session.execute(text(sql))
