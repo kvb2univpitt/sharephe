@@ -43,9 +43,9 @@ def get_concepts(db, hlevel, parent):
             c_basecode = row[2]
             if (c_name and c_basecode and c_name):
                 resources.append({
-                    'name': c_name.strip(),
-                    'key': c_name.strip(),
-                    'basecode': c_basecode.strip()
+                    'name': c_name.replace('"', '').strip(),
+                    'key': c_name.replace('"', '').strip(),
+                    'basecode': c_basecode.replace('"', '').strip()
                 })
 
     return resources

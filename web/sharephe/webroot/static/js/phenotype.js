@@ -1,6 +1,7 @@
 let queryXmls = [];
+let detailData = [];
 
-let beautifyQueryXml = (queryXml) => {
+const beautifyQueryXml = (queryXml) => {
     queryXml = queryXml.replace(/\n/g, '');
     queryXml = '<query_definition>' + queryXml + '</query_definition>';
     queryXml = new XmlBeautify().beautify(queryXml, {indent: '    ', useSelfClosingElement: true});
@@ -8,7 +9,7 @@ let beautifyQueryXml = (queryXml) => {
     return queryXml;
 };
 
-let workbookForm = {
+const workbookForm = {
     clearDDFields: function () {
         // remove all the dropped queries
         let table = document.getElementById("Sharephe-QueryDropArea");
@@ -18,6 +19,7 @@ let workbookForm = {
     },
     clear: function () {
         queryXmls = [];
+        detailData = [];
 
         $("#Sharephe-UploadForm  :input").val('');
         $("table#Sharephe-SelectedFileTable tbody").empty();
@@ -101,12 +103,10 @@ let workbookForm = {
     }
 };
 
-let showDetails = () => {
-    let mainElement = document.getElementById("Sharephe-Details");
-    mainElement.innerHTML = '';
-
+const extractAndShowQueryDetails = (mainElement) => {
     for (let ithQuery = 0; ithQuery < queryXmls.length; ithQuery++) {
         let queryDetail = queryXmlUtils.extractQueryDetails(queryXmls[ithQuery]);
+        detailData.push(queryDetail);
 
         /**
          * <div id="query-${ithQuery}" class="query"></div>
@@ -242,7 +242,15 @@ let showDetails = () => {
     }
 };
 
-fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm) => {
+const showQueryDetails = () => {
+    detailData = [];
+
+    let mainElement = document.getElementById("Sharephe-Details");
+    mainElement.innerHTML = '';
+    extractAndShowQueryDetails(mainElement);
+};
+
+const fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm) => {
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -311,6 +319,8 @@ fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, it
                 conceptsElement.removeChild(conceptsElement.firstChild);
                 conceptsElement.appendChild(table);
             }
+
+            term.concepts = uniuqeConcepts;
         },
         error: () => {
             console.error("You made a mistake");
@@ -318,14 +328,14 @@ fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGroup, it
     });
 };
 
-showMoreLess = (btn) => {
+const showMoreLess = (btn) => {
     jQuery('#list-secondary-' + btn.id).slideToggle();
     jQuery('#list-' + btn.id).slideToggle();
 
     btn.innerHTML = (btn.textContent.includes('Show More')) ? '<i class="bi bi-arrow-up"></i> Show Less' : '<i class="bi bi-arrow-down"></i> Show More';
 };
 
-sortConcepts = function (concepts) {
+const sortConcepts = function (concepts) {
     // sort concepts by basecode
     concepts.sort(function (c1, c2) {
         if (c1.basecode > c2.basecode) {
@@ -340,7 +350,7 @@ sortConcepts = function (concepts) {
     return concepts;
 };
 
-filterUniqueConcepts = function (concepts) {
+const filterUniqueConcepts = function (concepts) {
     let uniuqeConcepts = [];
 
     let uniqueNames = new Set();
@@ -356,7 +366,7 @@ filterUniqueConcepts = function (concepts) {
     return uniuqeConcepts;
 };
 
-createTermLabel = function (term) {
+const createTermLabel = function (term) {
     let label = `${term.name}`;
 
     let constraints = term.constraints;
@@ -389,7 +399,7 @@ createTermLabel = function (term) {
     return label;
 };
 
-let syncFromCloud = (datatable) => {
+const syncFromCloud = (datatable) => {
     sharepheModal.progress.show('Sync From Cloud');
     $.ajax({
         type: 'GET',
@@ -431,7 +441,7 @@ let syncFromCloud = (datatable) => {
     });
 };
 
-let fetchWorkbook = (phenotypeId) => {
+const fetchWorkbook = (phenotypeId) => {
     sharepheModal.progress.show('Fetching phenotype: ' + phenotypeId);
     $.ajax({
         type: 'GET',
@@ -460,10 +470,67 @@ let fetchWorkbook = (phenotypeId) => {
     });
 };
 
-let handleTabEventListener = (event) => {
+const handleTabEventListener = (event) => {
     switch (event.target.id) {
         case 'detail-tab':
-            showDetails();
+            showQueryDetails();
             break;
+    }
+};
+
+const copyDetailsToClipboard = () => {
+    let select = document.getElementById("Sharephe-DataFormat");
+    let fileType = select.options[select.selectedIndex].value;
+    if (fileType === 'csv') {
+        navigator.clipboard.writeText(detailDataExport.asTabular(detailData));
+    } else {
+        navigator.clipboard.writeText(detailDataExport.asJSON(detailData));
+    }
+};
+
+const detailDataExport = {
+    asJSON: function (data) {
+        return JSON.stringify(data, null, 4);
+    },
+    asTabular: function (data) {
+        let rowData = [];
+        rowData.push('Query Name,Invert,Occurrence,Term Name,Concept Name,Concept Basecode,Key');
+        for (let i = 0; i < data.length; i++) {
+            let detail = data[i];
+            let name = detail.name;
+            let groups = detail.groups;
+
+            for (let j = 0; j < groups.length; j++) {
+                let group = groups[j];
+                let invert = group.invert;
+                let occurrence = group.occurrence;
+                let terms = group.terms;
+
+                if (terms.length > 0) {
+                    for (let k = 0; k < terms.length; k++) {
+                        let term = terms[k];
+                        let termName = term.name;
+                        let concepts = term.concepts;
+
+                        if (concepts.length > 0) {
+                            for (let l = 0; l < concepts.length; l++) {
+                                let concept = concepts[l];
+                                let conceptName = concept.name;
+                                let conceptBasecode = concept.basecode;
+                                let conceptKey = concept.key;
+
+                                rowData.push(`"${name}",${invert},${occurrence},"${termName}","${conceptName}","${conceptBasecode}","${conceptKey}"`);
+                            }
+                        } else {
+                            rowData.push(`"${name}",${invert},${occurrence},"${termName}",,,`);
+                        }
+                    }
+                } else {
+                    rowData.push(`"${name}",${invert},${occurrence},,,,`);
+                }
+            }
+        }
+
+        return rowData.join('\r\n');
     }
 };
