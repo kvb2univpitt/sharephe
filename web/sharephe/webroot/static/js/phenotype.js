@@ -488,6 +488,27 @@ const copyDetailsToClipboard = () => {
     }
 };
 
+const exportDetailsToFile = () => {
+    let select = document.getElementById("Sharephe-DataFormat");
+    let fileType = select.options[select.selectedIndex].value;
+    if (fileType === 'csv') {
+        const strData = detailDataExport.asTabular(detailData);
+        let blob = new Blob([strData], {type: 'text/csv;charset=utf-8;'});
+
+        const downloadLink = document.createElement("a");
+        downloadLink.download = 'data.csv';
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    } else {
+        const downloadLink = document.createElement("a");
+        downloadLink.download = 'data.json';
+        downloadLink.href = 'data:plain/text,' + detailDataExport.asJSON(detailData);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+};
+
 const detailDataExport = {
     asJSON: function (data) {
         return JSON.stringify(data, null, 4);
