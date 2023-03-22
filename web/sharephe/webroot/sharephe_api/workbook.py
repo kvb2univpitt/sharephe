@@ -13,6 +13,12 @@ dynamodb_service = DynamoDBService
 
 
 def parse_files(s3_address):
+    '''
+    Extract files from a string containing the file names separated by commas.
+
+    :param s3_address: a string containing the file names separated by commas 
+    '''
+
     files = []
 
     fileNames = s3_address.replace(
@@ -26,6 +32,12 @@ def parse_files(s3_address):
 
 
 def parse_authors(authors_str):
+    '''
+    Extract authors from a string containing the author's names separated by commas.
+
+    :param authors_str: a string containing the author's names separated by commas
+    '''
+
     authors = []
 
     auths = authors_str.split(',')
@@ -38,7 +50,15 @@ def parse_authors(authors_str):
 
 
 class Workbooks(Resource):
+    '''
+    REST API for fetching a list of Sharephe's workbook.
+    '''
+
     def get(self):
+        '''
+        Get a list of workbooks.
+        '''
+
         resources = []
 
         for data in dynamodb_service.get_workbooks():
@@ -55,7 +75,17 @@ class Workbooks(Resource):
 
 
 class WorkbookById(Resource):
+    '''
+    REST API for fetching Sharephe's workbook by ID.
+    '''
+
     def get(self, phenotype_id):
+        '''
+        Get workbook by ID
+
+        :param phenotype_id: workbook ID
+        '''
+
         data = dynamodb_service.get_workbook_by_id(phenotype_id)
         if data is None:
             return {}

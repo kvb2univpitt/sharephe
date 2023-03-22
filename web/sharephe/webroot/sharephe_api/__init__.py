@@ -10,6 +10,10 @@ from .term import Term
 
 
 def initialize_routes(api):
+    '''
+    Register REST API endpoints.
+    '''
+
     api.add_resource(Workbooks, '/api/workbook')
     api.add_resource(WorkbookById, '/api/workbook/<string:phenotype_id>')
     api.add_resource(Term, '/api/term')

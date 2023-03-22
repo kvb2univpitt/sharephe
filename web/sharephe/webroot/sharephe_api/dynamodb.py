@@ -18,7 +18,15 @@ client = session.resource('dynamodb')
 
 
 class DynamoDBService:
+    '''
+    AWS DynamoDB services for Sharephe's workbook.
+    '''
+
     def get_workbooks():
+        '''
+        Get Sharephe's workbook.
+        '''
+
         table = client.Table(__TABLE_NAME__)
         workbooks = []
         scan_kwargs = {}
@@ -41,6 +49,12 @@ class DynamoDBService:
         return workbooks
 
     def get_workbook_by_id(phenotype_id):
+        '''
+        Get Sharephe's workbook by ID.
+
+        :param phenotype_id: workbook's ID
+        '''
+
         table = client.Table(__TABLE_NAME__)
         try:
             response = table.query(KeyConditionExpression=Key(

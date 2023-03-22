@@ -12,6 +12,13 @@ logger = logging.getLogger(__name__)
 
 
 def get_path(parent):
+    '''
+    Extract metadata path (column 'c_fullname' of the metadata table).
+
+    For an example, if the input is '\\i2b2_DEMO\i2b2\Demographics\Age\18-34 years old\',
+    the path return is '\i2b2\Demographics\Age\18-34 years old\'
+    '''
+
     if parent.startswith('\\'):
         end = parent.index('\\', 3)
         return parent[end:]
@@ -20,8 +27,17 @@ def get_path(parent):
 
 
 def get_concepts(db, hlevel, parent):
+    '''
+    Get metadata concepts.
+
+    :param db: database connection
+    :param hlevel: number of depth (children) to fetch.  The value -1 means unlimited depth.
+    :param parent: the path (c_fullname) of the parent.
+    '''
+
     path = get_path(parent)
 
+    # add extra backslash for postgres database
     if (db_conn['vendor'] == Vendor.POSTGRES):
         path = path.replace('\\', '\\\\')
 

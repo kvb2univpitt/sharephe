@@ -12,11 +12,19 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def index():
+    '''
+    Sharephe's landing (home) page.
+    '''
+
     return render_template('index.html')
 
 
 @views.route('/phenotype')
 def phenotype():
+    '''
+    A page for view phenotypes (workooks).
+    '''
+
     form = PhenotypeForm()
 
     return render_template('phenotype.html', form=form)

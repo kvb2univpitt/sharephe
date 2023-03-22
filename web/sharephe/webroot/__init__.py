@@ -23,6 +23,10 @@ db = SQLAlchemy()
 
 
 def create_app():
+    '''
+    Create main application.
+    '''
+
     app = Flask(__name__)
 
     # web form requirement

@@ -3,6 +3,10 @@ from wtforms import StringField, SelectField
 
 
 class PhenotypeForm(FlaskForm):
+    '''
+    A web form used for displaying Sharephe's read-only workbook.
+    '''
+
     types = [
         ('Clinical Trial', 'Clinical Trial'),
         ('Computable Phenotypes', 'Computable Phenotypes'),
