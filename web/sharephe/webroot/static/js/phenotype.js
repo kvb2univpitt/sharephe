@@ -322,8 +322,8 @@ const fetchConcepts = (term, conceptsElement, termLabelElement, ithQuery, ithGro
 
             term.concepts = uniuqeConcepts;
         },
-        error: () => {
-            console.error("You made a mistake");
+        error: (err) => {
+            console.error("Fetching concepts failed!");
         }
     });
 };
@@ -465,7 +465,11 @@ const fetchWorkbook = (phenotypeId) => {
                 sharepheModal.progress.hide();
             }, 500);
         },
-        error: () => {
+        error: (err) => {
+            setTimeout(function () {
+                sharepheModal.progress.hide();
+                sharepheModal.message.show('Fetch Workbook Failed', err.statusText);
+            }, 500);
         }
     });
 };
