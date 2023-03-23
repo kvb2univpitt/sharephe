@@ -7,7 +7,7 @@ An i2b2 cell providing the following functionalities:
 
 ## Building the Cell
 
-Below are instructions on how to compile the source code to build the cell.  A pre-built cell is located in the distribution folder [sharephe/cell/dist](dist/) if you do not want to compile the code yourself.
+Below are instructions on how to compile the source code to build the cell.  If you prefer not to compile the source code, a pre-built cell is provided in the distribution folder [sharephe/cell/dist](dist/).
 
 ### Prerequisites
 
