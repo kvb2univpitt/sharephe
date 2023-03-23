@@ -80,9 +80,13 @@ let queryXmlUtils = {
 
                     let constraint = {};
                     constraint.by = 'date';
-                    constraint.from = dateFrom.trim();
-                    constraint.to = dateTo.trim();
                     term.constraints.push(constraint);
+                    if (dateFrom) {
+                        constraint.from = dateFrom.trim();
+                    }
+                    if (dateTo) {
+                        constraint.to = dateTo.trim();
+                    }
                 }
             }
         }

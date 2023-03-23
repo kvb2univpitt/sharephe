@@ -39,7 +39,7 @@ table#Sharephe-WorkbookTable tr:hover td {
 
 /*** workbook tab ***/
 
-.Sharephe-PhenoName {
+.Sharephe-PhenoTitle {
     font-size: 16px;
     font-weight: 700;
     color: #314455;

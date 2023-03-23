@@ -384,15 +384,22 @@ const createTermLabel = function (term) {
                     operator = '=';
                 }
 
-                label += `<span class="indent" style="color: blue;">value: ${operator} ${constraint.value} ${constraint.unit}</span>`;
+                label += ` <span class="indent" style="color: blue;">value: ${operator} ${constraint.value} ${constraint.unit}</span>`;
             } else {
-                label += `<span class="indent" style="color: blue;">value: ${constraint.value}</span>`;
+                label += ` <span class="indent" style="color: blue;">value: ${constraint.value}</span>`;
             }
         } else if (constraint.by === 'date') {
-            let dateFrom = (new Date(constraint.from)).toLocaleDateString();
-            let dateTo = (new Date(constraint.to)).toLocaleDateString();
+            if (constraint.from) {
+                let dateFrom = (new Date(constraint.from)).toLocaleDateString();
 
-            label += `<span class="indent" style="color: blue;">date: ${dateFrom} - ${dateTo}</span>`;
+                if (constraint.to) {
+                    let dateTo = (new Date(constraint.to)).toLocaleDateString();
+                    
+                    label += ` <span class="indent" style="color: blue;">date: ${dateFrom} - ${dateTo}</span>`;
+                } else {
+                    label += ` <span class="indent" style="color: blue;">date: ${dateFrom}</span>`;
+                }
+            }
         }
     }
 
@@ -468,7 +475,14 @@ const fetchWorkbook = (phenotypeId) => {
         error: (err) => {
             setTimeout(function () {
                 sharepheModal.progress.hide();
-                sharepheModal.message.show('Fetch Workbook Failed', err.statusText);
+
+                let msg = err.statusText;
+                if (err.status === 404) {
+                    msg = 'Workbook not found.';
+                } else if (err.status === 500) {
+                    msg = 'Server error.  Unable to retrieve workbook at this time.';
+                }
+                sharepheModal.message.show('Fetching Workbook Failed', msg);
             }, 500);
         }
     });
