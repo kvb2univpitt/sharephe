@@ -469,7 +469,7 @@ const fetchWorkbook = (phenotypeId) => {
                     }
                     $('#workbook-tab').click();
                 } else {
-                     sharepheModal.message.show('Fetching Workbook', 'No workbook found.');
+                    sharepheModal.message.show('Fetching Workbook', 'No workbook found.');
                 }
                 sharepheModal.progress.hide();
             }, 500);
@@ -506,6 +506,10 @@ const copyDetailsToClipboard = () => {
     } else {
         navigator.clipboard.writeText(detailDataExport.asJSON(detailData));
     }
+};
+
+const copyQueryXmlToClipboard = (queryXml) => {
+    navigator.clipboard.writeText(queryXml.trim());
 };
 
 const exportDetailsToFile = () => {

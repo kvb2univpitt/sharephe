@@ -206,12 +206,17 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="Sharephe-QueryViewModalLabel">Query Title</h1>
+                <h6 class="modal-title fs-5" id="Sharephe-QueryViewModalLabel">Query Title</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body bg-secondary">
                 <div class="card">
                     <div class="card-body">
+                        <div class="float-end">
+                            <a class="nav-link active" id="copyToClipboardQuery" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard">
+                                <i class="bi bi-clipboard" aria-hidden="true"></i>
+                            </a>
+                        </div>
                         <pre><code id="Sharephe-QueryViewModalMessage" class="language-xml"></code></pre>
                     </div>
                 </div>
@@ -257,6 +262,16 @@
             copyDetailsToClipboard();
 
             const tooltip = bootstrap.Tooltip.getInstance('#copyToClipboard');
+            tooltip.setContent({'.tooltip-inner': 'Copied!'});
+            setTimeout(() => {
+                tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
+            }, 2000);
+        });
+
+        $('#copyToClipboardQuery').click(function () {
+            copyQueryXmlToClipboard(document.getElementById("Sharephe-QueryViewModalMessage").textContent);
+
+            const tooltip = bootstrap.Tooltip.getInstance('#copyToClipboardQuery');
             tooltip.setContent({'.tooltip-inner': 'Copied!'});
             setTimeout(() => {
                 tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
