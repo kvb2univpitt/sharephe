@@ -394,7 +394,7 @@ const createTermLabel = function (term) {
 
                 if (constraint.to) {
                     let dateTo = (new Date(constraint.to)).toLocaleDateString();
-                    
+
                     label += ` <span class="indent" style="color: blue;">date: ${dateFrom} - ${dateTo}</span>`;
                 } else {
                     label += ` <span class="indent" style="color: blue;">date: ${dateFrom}</span>`;
@@ -453,7 +453,7 @@ const fetchWorkbook = (phenotypeId) => {
     $.ajax({
         type: 'GET',
         dataType: 'json',
-        url: 'api/workbook/' + phenotypeId,
+        url: 'api/workbook/' + encodeURIComponent(encodeURIComponent(phenotypeId)),
         success: (workbook) => {
             setTimeout(function () {
                 if (workbook) {
@@ -468,6 +468,8 @@ const fetchWorkbook = (phenotypeId) => {
                         $('#detail-tab').addClass('disabled');
                     }
                     $('#workbook-tab').click();
+                } else {
+                     sharepheModal.message.show('Fetching Workbook', 'No workbook found.');
                 }
                 sharepheModal.progress.hide();
             }, 500);

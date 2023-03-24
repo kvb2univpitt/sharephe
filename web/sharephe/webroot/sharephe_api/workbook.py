@@ -6,6 +6,7 @@
 
 from flask_restful import Resource
 from .dynamodb import DynamoDBService
+from urllib.parse import unquote_plus
 
 __S3_LOCATION__ = 'https://sharephe.s3.amazonaws.com/upload'
 
@@ -86,9 +87,9 @@ class WorkbookById(Resource):
         :param phenotype_id: workbook ID
         '''
 
-        data = dynamodb_service.get_workbook_by_id(phenotype_id)
+        data = dynamodb_service.get_workbook_by_id(unquote_plus(phenotype_id))
         if data is None:
-            return {}
+            return None
         else:
             if 'QueryXML' in data:
                 return {
