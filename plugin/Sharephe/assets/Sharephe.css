@@ -1,5 +1,4 @@
 /*** main plugin wrapper ***/
-
 #Sharephe-mainDiv *,
 #Sharephe-mainDiv *::before,
 #Sharephe-mainDiv *::after {
@@ -20,28 +19,20 @@
 }
 
 .Sharephe-MainContentPad {
-    padding: 1.0rem 1.0rem 4.0rem 1.0rem;
+    padding: 1.25rem;
 }
 
-#Sharephe-PhenoName {
-    padding: 7px 10px;
-    background: #e5e5e5;
-    margin-bottom: 5px;
-    text-align: center;
-    border: 1px solid #63758C;
-    overflow: hidden;
+.shp-border {
+    border: 1px solid #216288;
+}
+
+.shp-panel-title {
     font-size: 16px;
     font-weight: 700;
-    min-height: 16px;
     color: #314455;
 }
 
-/*** Library tab ***/
-
-table#Sharephe-WorkbookTable {
-    border: 1px solid dimgray;
-    border-collapse: collapse !important;
-}
+/*** phenotype tab ***/
 
 table#Sharephe-WorkbookTable th {
     border: 1px solid dimgray;
@@ -53,192 +44,15 @@ table#Sharephe-WorkbookTable th {
     color: lightgrey;
 }
 
-table#Sharephe-WorkbookTable td {
-    border: 1px solid dimgray;
-    padding: 0.5rem;
-    vertical-align: top;
-}
-
-table#Sharephe-WorkbookTable tr:hover td {
-    background-color: #DCDCDC;
-}
-
-#Sharephe-WorkbookTable_paginate {
-    padding-top: 20px;
-}
-
 #Sharephe-WorkbookTable_filter {
-    padding-bottom: 10px;
-}
-
-/*** workbook ***/
-
-table#Sharephe-Upload {
-    border-collapse: collapse !important;
-    width: 100% !important;
-}
-
-table#Sharephe-Upload th {
-    border: 0;
-    text-align: left;
-    width: 120px;
-}
-
-table#Sharephe-Upload td {
-    padding: 5px 0 5px 0;
-}
-
-#Sharephe-UploadFormArea {
-    font-size: 13px;
-    background-color: #e5e5e5;
-    color: #777;
-}
-
-.Sharephe-Border {
-    border: 1px solid #216288;
-}
-
-table#Sharephe-QueryDropArea {
-    width: 100% !important;
-}
-
-.Sharephe-QueryButtonCell {
-    width: 140px;
-    text-align: right;
-}
-
-.Sharephe-BackToSharephe {
-    display: inline-block;
-    font-weight: bold;
-    font-family: arial,helvetica;
-    color: #fff;
-    text-align: center;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #E86850;
-    border: 1px solid #dc3545;
-    padding: 0.375rem 0.75rem;
-    line-height: 1.5;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    border-radius: 0.3rem;
-    margin-left: 45%;
-    margin-top: 21px;
-    position: absolute;
-    z-index: 999;
-    display: none;
-}
-
-div.Sharephe-MainContent div.droptrgt {
-    padding: 7px 10px;
-    text-align:center;
-    border: 1px solid #63758C;
-    width: 100%;
-    color: #336699;
-    overflow: hidden;
-    font-size: 12px;
-    background-color: #FFF;
-}
-
-#Sharephe-SelectedFile {
-    background-color: #e9ecef;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-}
-table#Sharephe-SelectedFileTable {
-    border: 0;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-table#Sharephe-SelectedFileTable tr:hover td {
-    background-color: #dcdcdc;
-}
-
-#Sharephe-CurrentAttachements {
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-}
-
-table#Sharephe-CurrentAttachementTable {
-    border: 0;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-table#Sharephe-CurrentAttachementTable tr:hover td {
-    background-color: #dcdcdc;
-}
-
-/*** Details tab ***/
-
-#Sharephe-FileType {
-    display: block;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-div#Sharephe-mainDiv .query {
     padding-bottom: 20px;
 }
-div#Sharephe-mainDiv .group {
-    padding-top: 5px;
+#Sharephe-WorkbookTable_info {
+    padding-top: 20px;
 }
-div#Sharephe-mainDiv .spacing-left {
-    margin-left: 1em;
-}
-div#Sharephe-mainDiv .bold {
-    font-weight: bold;
-}
-div#Sharephe-mainDiv table.table-concepts {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-div#Sharephe-mainDiv table.table-concepts tr:hover td {
-    background-color: #dcdcdc;
+#Sharephe-WorkbookTable_paginate {
+    padding-top: 15px;
 }
 
-#Sharephe-ProgressModal.yui-panel .hd {
-    border: 0;
-    background-color: #FFF;
-}
 
-#Sharephe-ProgressModal.yui-panel .bd {
-    padding: 10px;
-    border: 0;
-    background-color: #FFF;
-}
-
-#Sharephe-MessageModal.yui-panel .hd {
-    border: 0;
-    background-color: #FFF;
-}
-
-#Sharephe-MessageModal.yui-panel .bd {
-    font-size: 15px;
-    padding: 4px;
-    border: 0;
-    background-color: #FFF;
-}
-
-#Sharephe-MessageModal.yui-panel .ft {
-    border: 0;
-    background-color: #FFF;
-    padding-bottom: 10px;
-}
+/*** Details tab ***/
