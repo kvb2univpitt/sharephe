@@ -2,81 +2,18 @@ i2b2.Sharephe.user = {
     isAuthenticated: false,
     params: {
         apikey: {
-            param: null
+            param: null,
+            getValue: function () {
+                return (i2b2.Sharephe.user.params.apikey.param)
+                        ? i2b2.Sharephe.user.params.apikey.param.value
+                        : '';
+            }
         }
     },
     clear: function () {
         i2b2.Sharephe.user.isAuthenticated = false;
         i2b2.Sharephe.user.params.apikey.param = null;
     }
-};
-
-i2b2.Sharephe.settings = {};
-i2b2.Sharephe.settings.apikey = {};
-i2b2.Sharephe.settings.apikey.fetch = function () {
-    let usr = i2b2.h.getUser();
-    let recList = i2b2.PM.ajax.getAllParam("PM:Admin", {table: "user_param", id_xml: "<user_name>" + usr + "</user_name>"});
-    recList.parse(usr);
-
-    let user_params = recList.model;
-    if (user_params) {
-        for (let i = 0; i < user_params.length; i++) {
-            let param = user_params[i];
-            if (param.name === 'shp_api_key') {
-                i2b2.Sharephe.user.params.apikey.param = param;
-                break;
-            }
-        }
-    }
-};
-i2b2.Sharephe.settings.apikey.refresh = function (tvNode, onCompleteCallback) {
-    // fetch updated user parameter
-    i2b2.Sharephe.settings.apikey.fetch();
-
-    const apiParam = i2b2.Sharephe.user.params.apikey.param;
-    if (apiParam) {
-        jQuery('#Sharephe-ApiKey').val(apiParam.value);
-    }
-
-    i2b2.Sharephe.rest.apikey.verify(i2b2.Sharephe.workbook.sync);
-
-    if (onCompleteCallback) {
-        onCompleteCallback();
-    }
-
-    jQuery('#Sharephe-SetApiKey').prop('disabled', true);
-
-    alert('API key set!');
-};
-i2b2.Sharephe.settings.apikey.add = function () {
-    const inputApiKey = jQuery('#Sharephe-ApiKey').val().trim();
-    if (!inputApiKey || inputApiKey.length === 0) {
-        return;
-    }
-
-    const apiParam = i2b2.Sharephe.user.params.apikey.param;
-    if (apiParam) {
-        if (apiParam.value === inputApiKey) {
-            jQuery('#Sharephe-SetApiKey').prop('disabled', true);
-            jQuery('#Sharephe-ApiKey').val(apiParam.value);
-            alert('No change detected.');
-
-            return;
-        }
-    }
-
-    let userData = {};
-    userData.name = 'shp_api_key';
-    userData.datatype = 'T';
-    userData.value = inputApiKey;
-    if (apiParam) {
-        userData.id = apiParam.id;
-    }
-
-    let t = (userData.id) ? 'id="' + userData.id + '"' : '';
-    let userName = '<user_name>' + i2b2.h.getUser() + '</user_name>';
-    let mx = userName + '<param ' + t + ' datatype="' + userData.datatype + '" name="' + userData.name + '">' + userData.value + '</param>';
-    i2b2.PM.ajax.setParam("PM:Admin", {table: 'user_param', msg_attrib: '', msg_xml: mx}, i2b2.Sharephe.settings.apikey.refresh);
 };
 
 i2b2.Sharephe.tab = {};
@@ -96,6 +33,24 @@ i2b2.Sharephe.tab.enableDisableBasedOnAuthentication = function () {
     }
     i2b2.Sharephe.tab.disable('Sharephe-TAB2');
 };
+i2b2.Sharephe.tab.enableDisableOnQueryXml = function () {
+    let hasQuery = false;
+    const queryXmls = i2b2.Sharephe.workbook.queryXmls;
+    if (queryXmls.length > 0) {
+        for (let i = 0; i < queryXmls.length; i++) {
+            if (queryXmls[i]) {
+                hasQuery = true;
+                break;
+            }
+        }
+    }
+
+    if (hasQuery) {
+        i2b2.Sharephe.tab.enable('Sharephe-TAB2');
+    } else {
+        i2b2.Sharephe.tab.disable('Sharephe-TAB2');
+    }
+};
 
 i2b2.Sharephe.Init = function (loadedDiv) {
     // tabs event handler
@@ -111,12 +66,23 @@ i2b2.Sharephe.Init = function (loadedDiv) {
         }
     });
 
-    // event handlings
-    jQuery('#Sharephe-Settings').click(i2b2.Sharephe.event.settings.actionHandler);
-    jQuery('#Sharephe-ShowHideApiKey').click(i2b2.Sharephe.event.settings.apikey.showHideApiKeyHandler);
-    jQuery('#Sharephe-SetApiKey').click(i2b2.Sharephe.event.settings.apikey.setApiKeyHandler);
-    jQuery('#Sharephe-SyncFromCloud').click(i2b2.Sharephe.event.syncFromCloud.actionHandler);
-    jQuery('#Sharephe-ApiKey').keyup(i2b2.Sharephe.event.settings.apikey.keyupHandler);
+    // settings events
+    jQuery('#Sharephe-Settings').click(i2b2.Sharephe.event.settings.onclick);
+    jQuery('#Sharephe-ShowHideApiKey').click(i2b2.Sharephe.event.settings.apikey.onclickShowHideApiKey);
+    jQuery('#Sharephe-SetApiKey').click(i2b2.Sharephe.event.settings.apikey.onclickSetApiKey);
+    jQuery('#Sharephe-ApiKey').keyup(i2b2.Sharephe.event.settings.apikey.onkeyupInput);
+
+    // phenotypes events
+    jQuery('#Sharephe-SyncFromCloud').click(i2b2.Sharephe.event.phenotypes.onclickSyncFromCloud);
+    jQuery(document).on('click', '#Sharephe-WorkbookTable tr', i2b2.Sharephe.event.phenotypes.onclickTableRow);
+
+    // workbook events
+    jQuery('#Sharephe-WorkbookNewBtn').click(i2b2.Sharephe.event.workbook.onclickCreateNew);
+    jQuery('#Sharephe-WorkbookEditBtn').click(i2b2.Sharephe.event.workbook.onclickEdit);
+    jQuery('#Sharephe-WorkbookCancelBtn').click(i2b2.Sharephe.event.workbook.onclickCancel);
+    jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
+//    jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
+    jQuery(document).on('change', '#workbook_files', i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
 
     i2b2.Sharephe.datatable = jQuery('#Sharephe-WorkbookTable').DataTable({
         "columnDefs": [{
@@ -128,11 +94,15 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     i2b2.Sharephe.settings.apikey.fetch();
     i2b2.Sharephe.rest.apikey.verify(i2b2.Sharephe.tab.enableDisableBasedOnAuthentication);
 
+    i2b2.Sharephe.workbook.form.buildBackToPlugInButton();
+
     jQuery('#Sharephe-SyncFromCloud').click();
 };
 
 i2b2.Sharephe.Unload = function () {
     i2b2.Sharephe.user.clear();
+    i2b2.Sharephe.workbook.form.clear();
+    i2b2.Sharephe.workbook.form.isReadOnly = false;
 
     return true;
 };

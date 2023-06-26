@@ -1,11 +1,12 @@
 i2b2.Sharephe.event = {};
 
 i2b2.Sharephe.event.settings = {};
-i2b2.Sharephe.event.settings.actionHandler = function () {
+i2b2.Sharephe.event.settings.onclick = function () {
+    jQuery('#Sharephe-ApiKey').val(i2b2.Sharephe.user.params.apikey.getValue());
     i2b2.Sharephe.modal.settings.show();
 };
 i2b2.Sharephe.event.settings.apikey = {};
-i2b2.Sharephe.event.settings.apikey.showHideApiKeyHandler = function () {
+i2b2.Sharephe.event.settings.apikey.onclickShowHideApiKey = function () {
     const x = document.getElementById("Sharephe-ApiKey");
     const hide_api_key = document.getElementById("hide-api-key");
     const show_api_key = document.getElementById("show-api-key");
@@ -20,17 +21,17 @@ i2b2.Sharephe.event.settings.apikey.showHideApiKeyHandler = function () {
         show_api_key.style.display = "none";
     }
 };
-i2b2.Sharephe.event.settings.apikey.setApiKeyHandler = function () {
+i2b2.Sharephe.event.settings.apikey.onclickSetApiKey = function () {
     i2b2.Sharephe.settings.apikey.add();
 };
-i2b2.Sharephe.event.settings.apikey.keyupHandler = function () {
+i2b2.Sharephe.event.settings.apikey.onkeyupInput = function () {
     const content = jQuery('#Sharephe-ApiKey').val().trim();
     jQuery('#Sharephe-SetApiKey').prop('disabled', content.length === 0);
 };
 
-i2b2.Sharephe.event.syncFromCloud = {};
-i2b2.Sharephe.event.syncFromCloud.actionHandler = function () {
-    let successHandler = function (data) {
+i2b2.Sharephe.event.phenotypes = {};
+i2b2.Sharephe.event.phenotypes.onclickSyncFromCloud = function () {
+    const successHandler = function (data) {
         setTimeout(function () {
             // populate datatables
             i2b2.Sharephe.datatable.clear();
@@ -46,10 +47,13 @@ i2b2.Sharephe.event.syncFromCloud.actionHandler = function () {
             });
             i2b2.Sharephe.datatable.draw();
 
+            i2b2.Sharephe.workbook.form.createNew();
+            i2b2.Sharephe.tab.enableDisableBasedOnAuthentication();
+
             i2b2.Sharephe.modal.progress.hide();
         }, 500);
     };
-    let errorHandler = function () {
+    const errorHandler = function () {
         setTimeout(function () {
             i2b2.Sharephe.datatable.clear();
 
@@ -62,4 +66,74 @@ i2b2.Sharephe.event.syncFromCloud.actionHandler = function () {
 
     i2b2.Sharephe.modal.progress.show('Sync From Cloud');
     i2b2.Sharephe.rest.workbook.fetchList(successHandler, errorHandler);
+};
+i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
+    const phenotypeId = this.cells[0].innerHTML;
+
+    const fetchWorkbook = function () {
+        const encodedPhenotypeId = encodeURIComponent(encodeURIComponent(phenotypeId));
+
+        const successHandler = function (workbook) {
+            setTimeout(function () {
+                if (workbook) {
+                    i2b2.Sharephe.workbook.form.populateReadOnly(workbook);
+
+                    // show workbook tab
+                    i2b2.Sharephe.tab.enable('Sharephe-TAB1');
+                    jQuery('#Sharephe-TAB1').click();
+                } else {
+                    i2b2.Sharephe.modal.message.show('Fetching Workbook Failed', 'Workbook is neither exist nor public.');
+                }
+
+                i2b2.Sharephe.modal.progress.hide();
+            }, 500);
+        };
+        const errorHandler = function (err) {
+            setTimeout(function () {
+                i2b2.Sharephe.modal.progress.hide();
+
+                let msg = err.statusText;
+                if (err.status === 404) {
+                    msg = 'Workbook not found.';
+                } else if (err.status === 500) {
+                    msg = 'Server error.  Unable to retrieve workbook at this time.';
+                }
+                i2b2.Sharephe.modal.message.show('Fetching Workbook Failed', msg);
+            }, 500);
+        };
+
+        i2b2.Sharephe.rest.workbook.fetch(encodedPhenotypeId, successHandler, errorHandler);
+    };
+
+    i2b2.Sharephe.workbook.selectedPhenotypeId = phenotypeId;
+    i2b2.Sharephe.rest.apikey.verify(fetchWorkbook);
+};
+
+i2b2.Sharephe.event.workbook = {};
+i2b2.Sharephe.event.workbook.onclickCreateNew = function () {
+    i2b2.Sharephe.workbook.form.createNew();
+};
+i2b2.Sharephe.event.workbook.onclickEdit = function () {
+    i2b2.Sharephe.workbook.form.enableEdit();
+};
+i2b2.Sharephe.event.workbook.onclickCancel = function () {
+    i2b2.Sharephe.workbook.form.cancelEdit();
+};
+i2b2.Sharephe.event.workbook.onclickSubmmit = function () {
+    const submit = function () {
+        if (i2b2.Sharephe.user.isAuthenticated) {
+            i2b2.Sharephe.workbook.form.save();
+        } else {
+            i2b2.Sharephe.modal.message.show('Unauthorized', 'Insufficient permission to save workbook.');
+        }
+    };
+
+    i2b2.Sharephe.rest.apikey.verify(submit);
+
+
+    return false;
+};
+i2b2.Sharephe.event.workbook.onchangeAttachmentFiles = function () {
+    i2b2.Sharephe.workbook.form.updateAttachementSelections(this.files);
+    this.files = i2b2.Sharephe.workbook.tempAttachments.files;
 };

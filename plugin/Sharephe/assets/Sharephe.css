@@ -1,4 +1,15 @@
 /*** main plugin wrapper ***/
+.shp-a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.shp-settings {
+    text-decoration: none;
+    background-color: transparent;
+}
+
 #Sharephe-mainDiv *,
 #Sharephe-mainDiv *::before,
 #Sharephe-mainDiv *::after {
@@ -54,5 +65,118 @@ table#Sharephe-WorkbookTable th {
     padding-top: 15px;
 }
 
+/*** workbook ***/
+
+#Sharephe-WorkbookFormArea {
+    background-color: #f7f7f7;
+    color: #777;
+}
+
+table#Sharephe-WorkbookFormTable {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+table#Sharephe-WorkbookFormTable th {
+    border: 0;
+    text-align: left;
+    width: 120px;
+}
+table#Sharephe-WorkbookFormTable td {
+    padding: 5px 0 5px 0;
+}
+
+table#Sharephe-WorkbookFooterTable {
+    font-size: 12px;
+}
+table#Sharephe-WorkbookFooterTable th {
+    border: none;
+}
+
+#Sharephe-AttachedFileList {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+#Sharephe-SelectedFiles {
+    background-color: #e9ecef;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+#Sharephe-CurrentAttachements {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+table#Sharephe-AttachedFileListTable,
+table#Sharephe-SelectedFilesTable,
+table#Sharephe-CurrentAttachementTable {
+    border-collapse: collapse;
+    margin: 0;
+}
+
+table#Sharephe-SelectedFileTable tr:hover td {
+    background-color: #dcdcdc;
+}
+
+table#Sharephe-QueryDropArea {
+    width: 100% !important;
+}
+
+.Sharephe-QueryButtonCell {
+    width: 140px;
+    text-align: right;
+}
+
+.Sharephe-BackToSharephe {
+    display: inline-block;
+    font-weight: bold;
+    font-family: arial,helvetica;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #E86850;
+    border: 1px solid #dc3545;
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    margin-left: 45%;
+    margin-top: 21px;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
+div.Sharephe-MainContent div.droptrgt {
+    padding: 7px 10px;
+    text-align:center;
+    border: 1px solid #63758C;
+    width: 100%;
+    color: #336699;
+    overflow: hidden;
+    font-size: 12px;
+    background-color: #FFF;
+}
 
 /*** Details tab ***/
+
+table.table-concepts {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.table-concepts tr:hover td {
+    background-color: #dcdcdc;
+}

@@ -9,8 +9,8 @@
         <div id='Sharephe-mainDiv'>
             <div id="Sharephe-TABS" class="yui-navset">
                 <div class="shp-float-right">
-                    <a href="javascript:void(0);" id="Sharephe-Settings" title="Settings">
-                        <i class="bi bi-gear-fill shp-h6"></i>
+                    <a href="javascript:void(0);" class="shp-settings" id="Sharephe-Settings" title="Settings">
+                        <i class="bi bi-gear-fill shp-h6"></i> Settings
                     </a>
                 </div>
                 <ul class="yui-nav">
@@ -22,7 +22,7 @@
                     <!--TAB0-->
                     <div class="Sharephe-MainContent">
                         <div class="Sharephe-MainContentPad">
-                            <div class="shp-card shp-shadow">
+                            <div class="shp-card">
                                 <div class="shp-card-header shp-border shp-d-flex shp-justify-content-between shp-align-items-center">
                                     <h6 class="shp-m-0 shp-panel-title">Phenotypes</h6>
                                     <button id="Sharephe-SyncFromCloud" class="shp-btn shp-btn-sm shp-btn-primary">
@@ -52,6 +52,134 @@
                     <!--TAB1-->
                     <div class="Sharephe-MainContent">
                         <div class="Sharephe-MainContentPad">
+                            <div class="shp-card" id="Sharephe-WorkbookCard">
+                                <div class="shp-card-header shp-border shp-d-flex shp-justify-content-between shp-align-items-center">
+                                    <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName">Phenotype Workbook</h6>
+                                    <ul class="shp-nav shp-nav-pills" id="Sharephe-AddEditWorkbook">
+                                        <li class="nav-item">
+                                            <button type="button" class="shp-btn shp-btn-sm shp-btn-success shp-btn-rounded" id="Sharephe-WorkbookNewBtn">
+                                                <i class="bi bi-plus-lg"></i> Add New
+                                            </button>
+                                            <button type="button" class="shp-btn shp-btn-sm shp-btn-primary shp-btn-rounded" id="Sharephe-WorkbookEditBtn">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </button>
+                                            <button type="button" class="shp-btn shp-btn-sm shp-btn-warning shp-btn-rounded" id="Sharephe-WorkbookCancelBtn" style="display: none;">
+                                                <i class="bi bi-x-circle"></i> Cancel
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="shp-card-body shp-border" id="Sharephe-WorkbookFormArea">
+                                    <form id="Sharephe-WorkbookForm" enctype="multipart/form-data" method="POST">
+                                        <input id="workbook_query_xml" name="workbook_query_xml" type="hidden" value="" />
+                                        <input id="workbook_attachments" name="workbook_attachments" type="hidden" value="" />
+                                        <table id="Sharephe-WorkbookFormTable">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Public:</th>
+                                                    <td>
+                                                        <input class="sharephe-form-control" type="checkbox" id="workbook_is_public" name="workbook_is_public" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Workbook ID:</th>
+                                                    <td>
+                                                        <input class="shp-form-control" id="workbook_id" type="text" name="workbook_id" value="" required="required" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Workbook Type:</th>
+                                                    <td>
+                                                        <select class="shp-form-control" disabled="disabled" id="workbook_type" name="workbook_type" required="required">
+                                                            <option value="">Please select one.</option>
+                                                            <option value="Clinical Trial">Clinical Trial</option>
+                                                            <option value="Computable Phenotypes">Computable Phenotypes</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Workbook Title:</th>
+                                                    <td>
+                                                        <input class="shp-form-control" id="workbook_title" type="text" name="workbook_title" value="" required="required" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Main Authors:</th>
+                                                    <td>
+                                                        <input class="shp-form-control" id="workbook_authors" type="text" name="workbook_authors" value="" required="required" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Insitution</th>
+                                                    <td>
+                                                        <input class="shp-form-control" id="workbook_institution" type="text" name="workbook_institution" value="" required="required" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: text-top"><label for="workbook_files">Supporting Attachments:</label></th>
+                                                    <td>
+                                                        <div class="shp-row shp-mb-2">
+                                                            <div class="shp-col-12">
+                                                                <input id="workbook_files" name="workbook_files" type="file" multiple="multiple">
+                                                                <div id="Sharephe-AttachedFileList">
+                                                                    <table class="shp-table shp-table-sm shp-table-borderless" id="Sharephe-AttachedFileListTable">
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="shp-row">
+                                                            <div class="shp-col-12">
+                                                                <div id="Sharephe-SelectedFiles">
+                                                                    <table class="shp-table shp-table-sm shp-table-borderless" id="Sharephe-SelectedFilesTable">
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr id="Sharephe-CurrentAttachementView" style="display: none;">
+                                                    <th scope="row" style="vertical-align: text-top">Current Attachments:</th>
+                                                    <td>
+                                                        <div id="Sharephe-CurrentAttachements">
+                                                            <table class="shp-table shp-table-sm shp-table-borderless" id="Sharephe-CurrentAttachementTable">
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: top;">Queries:</th>
+                                                    <td>
+                                                        <table id="Sharephe-QueryDropArea">
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="shp-btn shp-btn-success shp-btn-block shp-mt-4" id="Sharephe-SubmitButton" type="button">
+                                            <i class="bi bi-cloud-upload"></i> Save and Publish to Cloud
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="shp-card-footer shp-border" id="Sharephe-WorkbookFooter">
+                                    <table id="Sharephe-WorkbookFooterTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>Created On:</th>
+                                                <td id="Sharephe-WorkbookCreatedOn"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Updated On:</th>
+                                                <td id="Sharephe-WorkbookUpdatedOn"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!--TAB2-->
@@ -84,7 +212,7 @@
                 <div class="bd">
                     <div class="shp-card">
                         <div class="shp-card-body">
-                            <h6 class="shp-card-title shp-h6">API Key</h6>
+                            <div class="shp-card-title shp-h6">API Key</div>
                             <form>
                                 <div class="shp-input-group shp-mb-3">
                                     <div class="shp-input-group-prepend">

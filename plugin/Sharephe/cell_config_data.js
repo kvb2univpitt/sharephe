@@ -5,6 +5,8 @@
         "Sharephe_rest_services.js",
         "Sharephe_event_handling.js",
         "Sharephe_workbook.js",
+        "Sharephe_settings.js",
+        "Sharephe_queryDetail.js",
         "datatables.min.js"
     ],
     css: [
