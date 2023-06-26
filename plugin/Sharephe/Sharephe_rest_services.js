@@ -66,3 +66,18 @@ i2b2.Sharephe.rest.apikey.verify = function (callback) {
         }
     });
 };
+
+i2b2.Sharephe.rest.queryDetail = {};
+i2b2.Sharephe.rest.queryDetail.fetchConcepts = function (term, successHandler, errorHandler) {
+    jQuery.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: i2b2.Sharephe.rest.url + '/term',
+        data: {
+            hlevel: term.hlevel,
+            parent: term.key
+        },
+        success: successHandler,
+        error: errorHandler
+    });
+};

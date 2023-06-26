@@ -55,16 +55,7 @@ i2b2.Sharephe.tab.enableDisableOnQueryXml = function () {
 i2b2.Sharephe.Init = function (loadedDiv) {
     // tabs event handler
     this.yuiTabs = new YAHOO.widget.TabView("Sharephe-TABS", {activeIndex: 0});
-    this.yuiTabs.on('activeTabChange', function (evt) {
-        switch (evt.newValue.get('id')) {
-            case "Sharephe-TAB0":
-                break;
-            case "Sharephe-TAB1":
-                break;
-            case "Sharephe-TAB2":
-                break;
-        }
-    });
+    this.yuiTabs.on('activeTabChange', i2b2.Sharephe.event.phenotypes.onclickTab);
 
     // settings events
     jQuery('#Sharephe-Settings').click(i2b2.Sharephe.event.settings.onclick);
@@ -81,8 +72,11 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     jQuery('#Sharephe-WorkbookEditBtn').click(i2b2.Sharephe.event.workbook.onclickEdit);
     jQuery('#Sharephe-WorkbookCancelBtn').click(i2b2.Sharephe.event.workbook.onclickCancel);
     jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
-//    jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
-    jQuery(document).on('change', '#workbook_files', i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
+    jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
+    
+    // query details events
+    jQuery('#Sharephe-CopyClipboard').click(i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard);
+    jQuery('#Sharephe-ExportFile').click(i2b2.Sharephe.event.queryDetail.onclickExportToFile);
 
     i2b2.Sharephe.datatable = jQuery('#Sharephe-WorkbookTable').DataTable({
         "columnDefs": [{

@@ -108,6 +108,11 @@ i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
     i2b2.Sharephe.workbook.selectedPhenotypeId = phenotypeId;
     i2b2.Sharephe.rest.apikey.verify(fetchWorkbook);
 };
+i2b2.Sharephe.event.phenotypes.onclickTab = function (evt) {
+    if (evt.newValue.get('id') === 'Sharephe-TAB2') {
+        i2b2.Sharephe.queryDetail.show();
+    }
+};
 
 i2b2.Sharephe.event.workbook = {};
 i2b2.Sharephe.event.workbook.onclickCreateNew = function () {
@@ -130,10 +135,17 @@ i2b2.Sharephe.event.workbook.onclickSubmmit = function () {
 
     i2b2.Sharephe.rest.apikey.verify(submit);
 
-
     return false;
 };
 i2b2.Sharephe.event.workbook.onchangeAttachmentFiles = function () {
     i2b2.Sharephe.workbook.form.updateAttachementSelections(this.files);
     this.files = i2b2.Sharephe.workbook.tempAttachments.files;
+};
+
+i2b2.Sharephe.event.queryDetail = {};
+i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard = function () {
+    i2b2.Sharephe.queryDetail.copyToClipboard();
+};
+i2b2.Sharephe.event.queryDetail.onclickExportToFile = function () {
+    i2b2.Sharephe.queryDetail.exportToFile();
 };

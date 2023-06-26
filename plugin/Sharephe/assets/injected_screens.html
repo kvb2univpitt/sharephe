@@ -184,7 +184,40 @@
                     </div>
                     <!--TAB2-->
                     <div class="Sharephe-MainContent">
-                        <div class="Sharephe-MainContentPad">                            
+                        <div class="Sharephe-MainContentPad">
+                            <div class="shp-card" id="Sharephe-QueryDetails">
+                                <div class="shp-card-header shp-border shp-d-flex shp-justify-content-between shp-align-items-center">
+                                    <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName">Query Details</h6>
+                                    <nav class="shp-navbar shp-navbar-expand-sm shp-m-0 shp-p-0">
+                                        <div class="shp-container-fluid">
+                                            <div class="shp-input-group shp-flex-nowrap shp-me-3">
+                                                <label class="shp-form-label shp-m-2 shp-me-2 shp-h6" for="Sharephe-DataFormat">Data Format:</label>
+                                                <select class="shp-select shp-form-control shp-form-control-sm" id="Sharephe-DataFormat">
+                                                    <option value="csv" selected="selected">CSV</option>
+                                                    <option value="json">JSON</option>
+                                                </select>
+                                            </div>
+                                            <div class="shp-navbar-collapse">
+                                                <ul class="shp-navbar-nav">
+                                                    <li class="shp-nav-item">
+                                                        <a class="shp-nav-link shp-active" id="Sharephe-CopyClipboard" aria-current="page" href="javascript:void(0);" title="Copy to clipboard">
+                                                            <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="shp-nav-item">
+                                                        <a class="shp-nav-link shp-active" id="Sharephe-ExportFile" aria-current="page" href="javascript:void(0);" title="Export to file">
+                                                            <i class="bi bi-file-arrow-down" aria-hidden="true"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="shp-card-body shp-border">
+                                    <div id="Sharephe-Details"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
