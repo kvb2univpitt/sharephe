@@ -24,8 +24,6 @@ i2b2.Sharephe.workbook.refreshList = function () {
                 ]);
             });
             i2b2.Sharephe.datatable.draw();
-
-            i2b2.Sharephe.tab.enableDisableBasedOnAuthentication();
         }, 500);
     };
     const errorHandler = function () {};
@@ -440,6 +438,7 @@ i2b2.Sharephe.workbook.form.save = function () {
         setTimeout(function () {
             i2b2.Sharephe.workbook.form.populateReadOnly(workbook);
             i2b2.Sharephe.workbook.refreshList();
+            i2b2.Sharephe.tab.enableDisableOnQueryXml();
 
             i2b2.Sharephe.modal.progress.hide();
             i2b2.Sharephe.modal.message.show(
