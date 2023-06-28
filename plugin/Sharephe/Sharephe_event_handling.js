@@ -124,7 +124,9 @@ i2b2.Sharephe.event.workbook.onclickEdit = function () {
 i2b2.Sharephe.event.workbook.onclickCancel = function () {
     i2b2.Sharephe.workbook.form.cancelEdit();
 };
-i2b2.Sharephe.event.workbook.onclickSubmmit = function () {
+i2b2.Sharephe.event.workbook.onclickSubmmit = function (event) {
+    event.preventDefault();
+
     const submit = function () {
         if (i2b2.Sharephe.user.isAuthenticated) {
             i2b2.Sharephe.workbook.form.save();

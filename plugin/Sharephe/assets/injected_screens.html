@@ -55,7 +55,7 @@
                             <div class="shp-card" id="Sharephe-WorkbookCard">
                                 <div class="shp-card-header shp-d-flex shp-flex-row shp-align-items-center shp-justify-content-between shp-border">
                                     <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName">Phenotype Workbook</h6>
-                                    <nav class="shp-navbar shp-navbar-expand-sm shp-my-0">
+                                    <nav class="shp-navbar shp-navbar-expand-sm shp-my-0 shp-py-0" id="Sharephe-AddEditWorkbook">
                                         <div class="shp-container-fluid">
                                             <div class="shp-collapse shp-navbar-collapse">
                                                 <ul class="shp-ul shp-navbar-nav">
@@ -76,7 +76,7 @@
                                     </nav>
                                 </div>
                                 <div class="shp-card-body shp-border" id="Sharephe-WorkbookFormArea">
-                                    <form id="Sharephe-WorkbookForm" enctype="multipart/form-data" method="POST">
+                                    <form id="Sharephe-WorkbookForm" enctype="multipart/form-data" method="POST" onsubmit="i2b2.Sharephe.event.workbook.onclickSubmmit(event);">
                                         <input id="workbook_query_xml" name="workbook_query_xml" type="hidden" value="" />
                                         <input id="workbook_attachments" name="workbook_attachments" type="hidden" value="" />
                                         <table id="Sharephe-WorkbookFormTable">
@@ -166,7 +166,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <button class="shp-btn shp-btn-success shp-btn-block shp-mt-4" id="Sharephe-SubmitButton" type="button">
+                                        <button class="shp-btn shp-btn-success shp-btn-block shp-mt-4" id="Sharephe-SubmitButton" type="submit">
                                             <i class="bi bi-cloud-upload"></i> Save and Publish to Cloud
                                         </button>
                                     </form>
@@ -194,10 +194,10 @@
                             <div class="shp-card" id="Sharephe-QueryDetails">
                                 <div class="shp-card-header shp-d-flex shp-flex-row shp-align-items-center shp-justify-content-between shp-border">
                                     <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName">Query Details</h6>
-                                    <nav class="shp-navbar shp-navbar-expand-sm shp-my-0">
+                                    <nav class="shp-navbar shp-navbar-expand-sm shp-my-0 shp-py-0">
                                         <div class="shp-container-fluid">
                                             <div class="shp-input-group shp-flex-nowrap shp-mr-3">
-                                                <label class="shp-m-1 shp-h6" for="Sharephe-DataFormat">Data Format:</label>
+                                                <label class="shp-m-2 shp-h6" for="Sharephe-DataFormat">Data Format:</label>
                                                 <select class="shp-select shp-form-control shp-form-control-sm" id="Sharephe-DataFormat">
                                                     <option value="csv" selected="selected">CSV</option>
                                                     <option value="json">JSON</option>
@@ -207,12 +207,12 @@
                                                 <ul class="shp-ul shp-navbar-nav">
                                                     <li>
                                                         <a class="shp-a shp-nav-link" id="Sharephe-CopyClipboard" aria-current="page" href="javascript:void(0);" title="Copy to clipboard">
-                                                            <i class="bi bi-clipboard shp-h5" aria-hidden="true"></i>
+                                                            <i class="bi bi-clipboard shp-h6" aria-hidden="true"></i>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="shp-a shp-nav-link" id="Sharephe-ExportFile" aria-current="page" href="javascript:void(0);" title="Export to file">
-                                                            <i class="bi bi-file-arrow-down shp-h5" aria-hidden="true"></i>
+                                                            <i class="bi bi-file-arrow-down shp-h6" aria-hidden="true"></i>
                                                         </a>
                                                     </li>
                                                 </ul>

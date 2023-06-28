@@ -328,7 +328,11 @@ i2b2.Sharephe.workbook.form.populate = function (workbook) {
             jQuery('#Sharephe-AddEditWorkbook').hide();
         }
 
-        jQuery('.Sharephe-PhenoName').text(workbook.title);
+        if (workbook.title) {
+            jQuery('.Sharephe-PhenoName').text(workbook.title);
+        } else {
+            jQuery('.Sharephe-PhenoName').text('New Workbook');
+        }
 
         if (workbook.timeCreated) {
             jQuery('#Sharephe-WorkbookCreatedOn').text(workbook.timeCreated);

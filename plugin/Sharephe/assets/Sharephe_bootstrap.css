@@ -61,6 +61,10 @@
     margin: 0.25rem !important;
 }
 
+.shp-m-2 {
+  margin: 0.5rem !important;
+}
+
 .shp-mt-0,
 .shp-my-0 {
     margin-top: 0 !important;
@@ -105,9 +109,24 @@
     padding: 0 !important;
 }
 
+.shp-pt-0,
+.shp-py-0 {
+  padding-top: 0 !important;
+}
+
+.shp-pb-0,
+.shp-py-0 {
+  padding-bottom: 0 !important;
+}
+
+.shp-pt-4,
+.shp-py-4 {
+  padding-top: 1.5rem !important;
+}
+
 .shp-pb-4,
 .shp-py-4 {
-    padding-bottom: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
 }
 
 .shp-h5, .shp-h6 {

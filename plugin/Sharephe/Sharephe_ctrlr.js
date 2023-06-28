@@ -71,9 +71,10 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     jQuery('#Sharephe-WorkbookNewBtn').click(i2b2.Sharephe.event.workbook.onclickCreateNew);
     jQuery('#Sharephe-WorkbookEditBtn').click(i2b2.Sharephe.event.workbook.onclickEdit);
     jQuery('#Sharephe-WorkbookCancelBtn').click(i2b2.Sharephe.event.workbook.onclickCancel);
-    jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
+//    jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
     jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
-    
+
+
     // query details events
     jQuery('#Sharephe-CopyClipboard').click(i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard);
     jQuery('#Sharephe-ExportFile').click(i2b2.Sharephe.event.queryDetail.onclickExportToFile);
