@@ -196,7 +196,7 @@ i2b2.Sharephe.queryDetail.fetchConcepts = function (term, conceptsElement, termL
                 tr.insertCell().appendChild(document.createTextNode(concept.basecode));
 
                 let span = document.createElement('span');
-                span.className = 'shp-ms-4';
+                span.className = 'shp-ml-4';
                 span.appendChild(document.createTextNode(concept.name));
                 tr.insertCell().appendChild(span);
             });
@@ -213,7 +213,7 @@ i2b2.Sharephe.queryDetail.fetchConcepts = function (term, conceptsElement, termL
                 tr.insertCell().appendChild(document.createTextNode(concept.basecode));
 
                 let span = document.createElement('span');
-                span.className = 'shp-ms-4';
+                span.className = 'shp-ml-4';
                 span.appendChild(document.createTextNode(concept.name));
                 tr.insertCell().appendChild(span);
             }
@@ -222,7 +222,7 @@ i2b2.Sharephe.queryDetail.fetchConcepts = function (term, conceptsElement, termL
 
             let showHideButton = document.createElement('button');
             showHideButton.id = `${ithQuery}-${ithGroup}-${ithTerm}`;
-            showHideButton.className = 'shp-btn shp-btn-primary shp-btn-sm shp-ms-4';
+            showHideButton.className = 'shp-btn shp-btn-primary shp-btn-sm shp-ml-4';
             showHideButton.innerHTML = '<i class="bi bi-arrow-down"></i> Show More';
             showHideButton.addEventListener("click", function () {
                 i2b2.Sharephe.queryDetail.showMoreLess(showHideButton);
@@ -237,7 +237,7 @@ i2b2.Sharephe.queryDetail.fetchConcepts = function (term, conceptsElement, termL
                 tr.insertCell().appendChild(document.createTextNode(concept.basecode));
 
                 let span = document.createElement('span');
-                span.className = 'shp-ms-4';
+                span.className = 'shp-ml-4';
                 span.appendChild(document.createTextNode(concept.name));
                 tr.insertCell().appendChild(span);
             });
@@ -365,7 +365,7 @@ i2b2.Sharephe.queryDetail.show = function () {
                  */
                 let termElement = document.createElement('div');
                 termElement.id = `term-${j}`;
-                termElement.className = 'term shp-ms-4';
+                termElement.className = 'term shp-ml-4';
                 termsElement.appendChild(termElement);
 
                 /**
@@ -391,7 +391,7 @@ i2b2.Sharephe.queryDetail.show = function () {
                  * </div>
                  */
                 let conceptsElement = document.createElement('div');
-                conceptsElement.className = 'concepts shp-ms-4';
+                conceptsElement.className = 'concepts shp-ml-4';
                 conceptsElement.innerHTML = '<div class="shp-spinner-border shp-spinner-border-sm shp-text-primary" role="status"><span class="shp-visually-hidden">Loading...</span></div>';
                 termElement.appendChild(conceptsElement);
 
