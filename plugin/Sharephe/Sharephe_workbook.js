@@ -114,7 +114,7 @@ i2b2.Sharephe.workbook.form.queryXml.createNewBtn = function () {
 i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText = function (text, index) {
     return i2b2.Sharephe.workbook.form.isReadOnly
             ? text
-            : text + '<a class="shp-text-danger shp-float-right" title="Delete Query" onclick="i2b2.Sharephe.workbook.form.deleteQueryXml(this, ' + index + ');"><i class="bi bi-trash3"></i></a>';
+            : text + '<a class="shp shp-text-danger shp-float-right" title="Delete Query" onclick="i2b2.Sharephe.workbook.form.deleteQueryXml(this, ' + index + ');"><i class="bi bi-trash3"></i></a>';
 };
 i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID) {
     if (i2b2.Sharephe.workbook.form.isReadOnly) {
@@ -229,7 +229,7 @@ i2b2.Sharephe.workbook.form.addToFileAttachementList = function (files, fileURL)
             : attachedFileListTable.createTBody();
     for (let i = 0; i < files.length; i++) {
         let ahref = fileURL + '/' + files[i];
-        let url = '<a class="shp-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>';
+        let url = '<a class="shp" href="' + ahref + '" target="_blank">' + files[i] + '</a>';
 
         let row = tBody.insertRow(-1);
         row.insertCell(0).innerHTML = url;
@@ -242,14 +242,14 @@ i2b2.Sharephe.workbook.form.addToFileAttachementTable = function (files, fileURL
             : attachedFileTable.createTBody();
     for (let i = 0; i < files.length; i++) {
         let ahref = fileURL + '/' + files[i];
-        let url = '<a class="shp-a" href="' + ahref + '" target="_blank">' + files[i] + '</a>';
+        let url = '<a class="shp" href="' + ahref + '" target="_blank">' + files[i] + '</a>';
 
         let row = tBody.insertRow(-1);
         row.insertCell(0).innerHTML = url;
 
         let lastColumn = row.insertCell(1);
         lastColumn.setAttribute('style', 'width: 10px;');
-        lastColumn.innerHTML = '<a class="shp-a shp-text-danger" title="Delete" onclick="i2b2.Sharephe.workbook.form.deleteAttachement(this);"><i class="bi bi-trash3"></i></a>';
+        lastColumn.innerHTML = '<a class="shp shp-text-danger" title="Delete" onclick="i2b2.Sharephe.workbook.form.deleteAttachement(this);"><i class="bi bi-trash3"></i></a>';
     }
 };
 i2b2.Sharephe.workbook.form.addToQueryXmlList = function (strQueryXml) {
@@ -301,7 +301,7 @@ i2b2.Sharephe.workbook.form.updateAttachementSelections = function (files) {
 
         let lastColumn = row.insertCell(1);
         lastColumn.setAttribute('style', 'width: 10px;');
-        lastColumn.innerHTML = '<a class="shp-a shp-text-danger" title="Delete" onclick="i2b2.Sharephe.workbook.form.removeSelectedAttachment(this, \'' + file.name + '\');"><i class="bi bi-trash3"></i></a>';
+        lastColumn.innerHTML = '<a class="shp shp-text-danger" title="Delete" onclick="i2b2.Sharephe.workbook.form.removeSelectedAttachment(this, \'' + file.name + '\');"><i class="bi bi-trash3"></i></a>';
 
         i2b2.Sharephe.workbook.tempAttachments.items.add(file);
     }

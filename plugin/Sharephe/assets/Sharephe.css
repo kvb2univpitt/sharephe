@@ -1,21 +1,4 @@
 /*** main plugin wrapper ***/
-.shp-a {
-    color: #007bff;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-.shp-settings {
-    text-decoration: none;
-    background-color: transparent;
-}
-
-#Sharephe-mainDiv *,
-#Sharephe-mainDiv *::before,
-#Sharephe-mainDiv *::after {
-    box-sizing: border-box;
-}
-
 #Sharephe-mainDiv {
     margin: 0;
     padding: 0;
