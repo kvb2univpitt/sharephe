@@ -162,12 +162,16 @@ i2b2.Sharephe.queryDetail.filterUniqueConcepts = function (concepts) {
     return uniuqeConcepts;
 };
 i2b2.Sharephe.queryDetail.showMoreLess = function (btn) {
-    jQuery('#list-secondary-' + btn.id).slideToggle();
-    jQuery('#list-' + btn.id).slideToggle();
-
-    btn.innerHTML = btn.textContent.includes('Show More')
-            ? '<i class="bi bi-arrow-up"></i> Show Less'
-            : '<i class="bi bi-arrow-down"></i> Show More';
+    const showMore = btn.textContent.includes('Show More');
+    if (showMore) {
+        btn.innerHTML = '<i class="bi bi-arrow-up"></i> Show Less';
+        jQuery('#list-condensed-' + btn.id).hide();
+        jQuery('#list-' + btn.id).show();
+    } else {
+        btn.innerHTML = '<i class="bi bi-arrow-down"></i> Show More';
+        jQuery('#list-condensed-' + btn.id).show();
+        jQuery('#list-' + btn.id).hide();
+    }
 };
 i2b2.Sharephe.queryDetail.sortConcepts = function (concepts) {
     // sort concepts by basecode

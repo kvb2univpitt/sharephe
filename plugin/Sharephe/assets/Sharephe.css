@@ -26,6 +26,13 @@
     color: #314455;
 }
 
+.shp-panel {
+    background-color: #fff;
+    padding: 0.5rem !important;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
 /*** phenotype tab ***/
 
 table#Sharephe-WorkbookTable th {
@@ -75,22 +82,8 @@ table#Sharephe-WorkbookFooterTable th {
     border: none;
 }
 
-#Sharephe-AttachedFileList {
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-}
-
 #Sharephe-SelectedFiles {
     background-color: #e9ecef;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-}
-
-#Sharephe-CurrentAttachements {
-    background-color: #fff;
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
