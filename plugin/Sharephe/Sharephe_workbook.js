@@ -380,10 +380,11 @@ i2b2.Sharephe.workbook.form.createNew = function () {
         fileUrl: null,
         queryXML: null
     });
-
-    jQuery('#Sharephe-WorkbookCancelBtn').hide();
+    
+    jQuery('#Sharephe-WorkbookNewBtn').hide();
     jQuery('#Sharephe-WorkbookEditBtn').hide();
-    jQuery('#Sharephe-WorkbookNewBtn').show();
+    jQuery('#Sharephe-WorkbookCancelBtn').hide();
+    jQuery('#Sharephe-AddEditWorkbook').hide();
 
     jQuery('#workbook_files').show();
     jQuery('#Sharephe-AttachedFileList').hide();
@@ -396,8 +397,9 @@ i2b2.Sharephe.workbook.form.enableEdit = function () {
     i2b2.Sharephe.workbook.form.setReadOnly(false);
     i2b2.Sharephe.workbook.form.populate(i2b2.Sharephe.workbook.currentWorkbook);
 
-    jQuery('#Sharephe-WorkbookCancelBtn').show();
+    jQuery('#Sharephe-WorkbookNewBtn').hide();
     jQuery('#Sharephe-WorkbookEditBtn').hide();
+    jQuery('#Sharephe-WorkbookCancelBtn').show();
 
     jQuery("#workbook_files").show();
     jQuery("#Sharephe-AttachedFileList").hide();
