@@ -137,14 +137,12 @@ table#Sharephe-QueryDropArea {
 }
 
 div.Sharephe-MainContent div.droptrgt {
-    padding: 7px 10px;
+    padding: 0.25rem;
     text-align:center;
     border: 1px solid #63758C;
     width: 100%;
-    color: #336699;
     overflow: hidden;
-    font-size: 12px;
-    background-color: #FFF;
+    background-color: #f8f9fa;
 }
 
 /*** Details tab ***/
@@ -155,4 +153,10 @@ table.table-concepts {
 }
 table.table-concepts tr:hover td {
     background-color: #dcdcdc;
+}
+
+.Sharephe-query-name {
+    font-weight: 700;
+    border-bottom: 1px solid #63758C;
+    background-color: #f8f9fa;
 }

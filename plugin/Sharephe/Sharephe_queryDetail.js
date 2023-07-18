@@ -281,12 +281,12 @@ i2b2.Sharephe.queryDetail.show = function () {
 
         /**
          * <div id="query-${ithQuery}" class="query">
-         *     <div class="query-name bold">Query Name: ${queryDetail.name}</div>
+         *     <div class="query-name">Query Name: ${queryDetail.name}</div>
          * </div>
          */
         let queryNameElement = document.createElement('div');
-        queryNameElement.className = 'query-name shp-fw-bolder';
-        queryNameElement.innerHTML = `Query Name: ${queryDetail.name}`;
+        queryNameElement.className = 'Sharephe-query-name';
+        queryNameElement.innerHTML = queryDetail.name;
         queryElement.appendChild(queryNameElement);
 
         /**
