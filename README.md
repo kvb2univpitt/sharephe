@@ -1,7 +1,7 @@
 # ![sharephe log](img/Sharephe_icon_32x32.png) Sharephe Plug-in
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
-[![v1.0.0](https://img.shields.io/badge/version-v0.2.0-green)](https://github.com/kvb2univpitt/sharephe/releases/tag/v0.1.0)
+[![v1.0.0](https://img.shields.io/badge/version-v0.4.0-green)](https://github.com/kvb2univpitt/sharephe/releases/tag/v0.1.0)
 
 An i2b2 webclient plug-in that improves sharing and translating computable phenotypes for clinical and translational research.
 
@@ -14,15 +14,74 @@ An i2b2 webclient plug-in that improves sharing and translating computable pheno
 - support translation among variety of data model(in progress)
 - both human readable and computer readable version of phenotypes
 
-The software consists of the following software components:
+## Installing the Plugin
 
-- [i2b2-sharephe](cell), a backend API (i2b2 cell).
-- [Sharephe](plugin), a frontend client (i2b2 plug-in).
+Assume that the i2b2 webclient is located in the following directory on the server:
 
-## Installing the Software
+```text
+/var/www/html/webclient
+```
 
-- Instructions for building and installing the [i2b2-sharephe](cell).
-- Instructions for installing the  [Sharephe](plugin).
+### Copying the Plugin to the i2b2 Web Client
+
+Copy the folder named ***Sharephe***, located in the project folder ```sharephe/plugin```, to the i2b2 webclient directory ```/var/www/html/webclient/js-i2b2/cells/plugins/standard```.
+
+For an example, the Sharephe plugin directory should be:
+
+```text
+/var/www/html/webclient/js-i2b2/cells/plugins/standard/Sharephe
+```
+
+### Registering the Plugin with the i2b2 Webclient
+
+To register the plug-in with the i2b2 webclient, add the following Sharephe plugin configuration to the array ***i2b2.hive.tempCellsList*** in the module loader configuration file **i2b2_loader.js** located in the i2b2 webclient directory ```/var/www/html/webclient/js-i2b2```:
+
+```js
+{code: "Sharephe",
+    forceLoading: true,
+    forceConfigMsg: {params: []},
+    forceDir: "cells/plugins/standard"
+}
+```
+
+For an example, the **i2b2_loader.js** file should look similar to this:
+
+```js
+i2b2.hive.tempCellsList = [
+    {code: "PM",
+        forceLoading: true 			// <----- this must be set to true for the PM cell!
+    },
+    {code: "ONT"},
+    {code: "CRC"},
+    {code: "WORK"},
+    {code: "Sharephe",
+        forceLoading: true,
+        forceConfigMsg: {params: []},
+        forceDir: "cells/plugins/standard"
+    },
+    ...
+];
+```
+
+For more information on installing the plug-in, please visit [Web Client Plug-in Developers Guide](https://community.i2b2.org/wiki/display/webclient/Web+Client+Plug-in+Developers+Guide).
+
+### Configurating the Plugin
+
+#### Setting the REST API URL
+
+Set the value for ***i2b2.Sharephe.rest.url*** in the file **Sharephe_rest_services.js** located in the directory ```/var/www/html/webclient/js-i2b2/cells/plugins/standard/Sharephe/Sharephe_rest_services.js``` to the following URL:
+
+```text
+https://dev.sharephe.dbmi.pitt.edu/api
+```
+
+For an example:
+
+```js
+i2b2.Sharephe.rest.url = 'https://dev.sharephe.dbmi.pitt.edu/api';
+```
+
+> Note that the REST API URL is subject to changed.  This documentation will be updated with the new URL if changed.
 
 ## Using the Software
 
