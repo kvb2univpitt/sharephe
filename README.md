@@ -81,9 +81,43 @@ For an example:
 i2b2.Sharephe.rest.url = 'https://dev.sharephe.dbmi.pitt.edu/api';
 ```
 
-> Note that the REST API URL is subject to changed.  This documentation will be updated with the new URL if changed.
+> Note that the URL above is for development and is subject to change.
 
-## Using the Software
+## Using the Plugin
+
+### Loading the Plugin
+
+1. Log on into the i2b2 web client.
+
+    ![Login](img/login_i2b2.png)
+
+2. Click on the ***Analysis Tools*** drop-down.
+
+    ![Select Analysis Tools](img/select_analysis_tool.png)
+
+3. Select the **Sharephe** plugin
+
+    ![Select Sharephe Plugin](img/select_sharephe_plugin.png)
+
+4. You should see a list of phenotypes fetched from the cloud.
+
+    ![Phenotype List](img/workbook_list.png)
+
+### Viewing Phenotype
+
+1. Move the mouse pointer over to a row in the phenotype table and click on it.  The row will be highlighted (light gray) when the mouse pointer is hover over it.
+
+    ![Hover Over Row](img/row_hover.png)
+
+2. You should see the phenotype workbook in the ***Workbook*** tab.
+
+    ![Open phenotype workbook](img/phenotype_workbook_opened.png)
+
+3. Click on the ***Details*** tab to see the concepts for the queries.
+
+    ![Select Workbook Tab](img/view_query_concepts.png)
+
+> Note that the ***Details*** tab is only viewable if there are queries saved in the phenotype workbook.
 
 ### Create New Workbook
 
