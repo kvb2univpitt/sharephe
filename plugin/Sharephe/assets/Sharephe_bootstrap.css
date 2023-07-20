@@ -273,6 +273,11 @@ a.shp:not([href]):not([class]):hover {
     border: 0;
 }
 
+.shp-table-hover tbody tr:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
 .shp-card {
     position: relative;
     display: -ms-flexbox;
