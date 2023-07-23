@@ -65,7 +65,7 @@ i2b2.hive.tempCellsList = [
 
 For more information on installing the plug-in, please visit [Web Client Plug-in Developers Guide](https://community.i2b2.org/wiki/display/webclient/Web+Client+Plug-in+Developers+Guide).
 
-### Configurating the Plugin
+### Configuring the Plugin
 
 #### Setting the REST API URL
 
