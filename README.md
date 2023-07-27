@@ -5,6 +5,11 @@
 
 An i2b2 webclient plug-in that improves sharing and translating computable phenotypes for clinical and translational research.
 
+<figure>
+    <img src="doc/img/sharephe_plugin.svg" alt="sharephe Diagram"/>
+    <figcaption>Sharephe plug-in flow diagram.</figcaption>
+</figure>
+
 ## What can Sharephe Plug-in do?
 
 - provide user friendly data creation and query tool
