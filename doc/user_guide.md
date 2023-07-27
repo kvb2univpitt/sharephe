@@ -29,7 +29,7 @@ The Sharephe plug-in has the following tabs for working with phenotypes:
     This tab shows the contents of the selected workbook from the list in the <b>Library</b> tab.  Here is where users can execute the queries saved to the workbook.  If an API key is set, the users can modify their existing workbook or create a new workbook.
     </dd>
     <dd>
-    This tab is disabled if no workbook is selected from the list or if no API key is set.  If an AIP key is set, users can click on this tab to create a new workbook.
+    This tab is disabled if no workbook is selected from the list or if no API key is set.  If a user AIP key is set, users can click on this tab to create a new workbook.
     </dd>
     <dt>Details</dt>
     <dd>
@@ -39,6 +39,17 @@ The Sharephe plug-in has the following tabs for working with phenotypes:
     If the workbook does not have query saved, the tab will be disabled (users cannont click on it).
     </dd>
 </dl>
+
+### User API Key
+
+User API key is not required to view phenotype workbook that are marked ***public***.  User API key is used for the following purposes:
+
+- Viewing user's created phenotype workbooks that are marked ***private***.
+- Editing user's created phenotype workbooks.
+- Create a new phenotype workbook.
+
+> **Warning**
+> DO NOT share your API key with anyone!
 
 ## Launching the Plug-in
 
@@ -58,6 +69,52 @@ The Sharephe plug-in has the following tabs for working with phenotypes:
 
     ![Phenotype List](img/workbook_list.png)
 
+## Adding User API Key
+
+### Obtaining a User API Key
+
+Users can obtain an API key from the [Sharephe's web application](https://dev.sharephe.dbmi.pitt.edu/) by logging into their account.
+
+1. Click on the ***Login*** button to log in.
+
+    ![Sharephe Web Login](img/sharephe_click_login.png)
+
+2. Select the organization to sign in with and click on the ***Continue*** button to start the signing in process.
+
+    ![Sharephe Web Select Login Organization](img/sharephe_select_organization.png)
+
+3. Once logged in, click on the user icon on the right-hand side and select ***Profile*** from the drop-down menu.
+
+    ![Sharephe Web Click Profile](img/sharephe_click_user_profile.png)
+
+4. Go down to the **API Key** section.  You should see your API key.  The API key is masked to hide from public view.  To unmasked the API key, click on the eye icon.
+
+    ![Sharephe Web Unmasked API Key](img/sharephe_show_api_key.png)
+
+    > You can choose to create a new API key by clicking on the ***Generate New API Key*** button.  It is good practice to change your API key often in case it got stolen.  Make sure to update the plug-in with the new API key.
+
+5. Click on the clipboard icon to copy the API key.
+
+    ![Sharephe Web Copy API Key](img/sharephe_copy_api_to_clipboard.png)
+
+> **Warning**
+> DO NOT share your API key with anyone!
+
+### Setting the API Key
+
+Once the API is copied from the above instruction, the users must set their API key in the plug-in.
+
+1. Click on the **Settings** link located on the right-hand side.
+
+    ![Click Settings](img/click_settings.png)
+
+2. Paste or type in the API key and click **Set API Key** button.
+
+    ![Set API Key](img/set_api_key.png)
+
+3. Click the **OK** button of the notfication modal to close.  Click the **OK** button of the Settings menu to close.
+
+    ![Click Set API OK](img/click_set_api_key_ok.png)
 
 ## Viewing a Phenotype
 
