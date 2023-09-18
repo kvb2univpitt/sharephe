@@ -41,6 +41,7 @@ To register the plug-in with the i2b2 webclient, add the following Sharephe plug
 {code: "Sharephe",
     forceLoading: true,
     forceConfigMsg: {params: []},
+    roles: [ "DATA_LDS", "DATA_DEID", "DATA_PROT" ],
     forceDir: "cells/plugins/standard"
 }
 ```
@@ -58,11 +59,14 @@ i2b2.hive.tempCellsList = [
     {code: "Sharephe",
         forceLoading: true,
         forceConfigMsg: {params: []},
+        roles: [ "DATA_LDS", "DATA_DEID", "DATA_PROT" ],
         forceDir: "cells/plugins/standard"
     },
     ...
 ];
 ```
+
+> Note that the roles are set for the plug-in so that only the regular users can access the plug-in.  Administrative users should not have access to this plug-in since it is not an admin tool.
 
 For more information on installing the plug-in, please visit [Web Client Plug-in Developers Guide](https://community.i2b2.org/wiki/display/webclient/Web+Client+Plug-in+Developers+Guide).
 
