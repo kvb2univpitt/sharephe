@@ -4,7 +4,7 @@ i2b2.Sharephe.queryDetail = {
 i2b2.Sharephe.queryDetail.extract = function (queryXml) {
     let queryDetail = {};
 
-    queryDetail.name = queryXml.getElementsByTagName('name')[0].innerHTML.trim();
+    queryDetail.name = queryXml.getElementsByTagName('query_name')[0].innerHTML.trim();
     queryDetail.groups = [];
 
     let panels = queryXml.getElementsByTagName('panel');

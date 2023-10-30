@@ -8,6 +8,10 @@ i2b2.Sharephe.workbook = {
     detailData: [],
     tempAttachments: new DataTransfer()
 };
+i2b2.Sharephe.workbook.utils = {
+    xmlSerializer: new XMLSerializer()
+};
+
 i2b2.Sharephe.workbook.refreshList = function () {
     const successHandler = function (data) {
         setTimeout(function () {
@@ -103,7 +107,7 @@ i2b2.Sharephe.workbook.form.queryXml.createNewBtn = function () {
     queryRunBtnElement.type = 'button';
     queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query ' + (index + 1);
     queryRunBtnElement.addEventListener("click", function () {
-        i2b2.Sharephe.workbook.form.queryXml.masterView(this.id);
+        i2b2.Sharephe.workbook.form.queryXml.masterView(index);
     }, false);
 
     let table = document.getElementById("Sharephe-QueryDropArea");
@@ -133,37 +137,38 @@ i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID)
     //collect all the qm_id for the queries
     //upload query XML to cloud
     i2b2.CRC.ajax.getRequestXml_fromQueryMasterId("CRC:QueryTool", {qm_key_value: sdxData.sdxInfo.sdxKeyValue}, function (result) {
-        let query = new XMLSerializer().serializeToString(result.refXML.documentElement);
-        i2b2.Sharephe.workbook.queryXmls.push(jQuery.parseXML(query));
+        let requestXml = result.refXML.documentElement.getElementsByTagName('request_xml')[0];
+        i2b2.Sharephe.workbook.queryXmls.push(jQuery.parseXML(requestXml.innerHTML));
         i2b2.Sharephe.tab.enableDisableOnQueryXml();
     });
+
     // Change appearance of the drop field
     jQuery('#Sharephe-QMDROP-' + fieldIndex).html(i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(i2b2.h.Escape(sdxData.sdxInfo.sdxDisplayName), fieldIndex));
 };
-i2b2.Sharephe.workbook.form.queryXml.masterView = function (q_id) {
+i2b2.Sharephe.workbook.form.queryXml.masterView = function (index) {
     i2b2.Sharephe.workbook.showBckBtn = true;
     jQuery('#Sharephe-bckBtn').show();
     i2b2.hive.MasterView.setViewMode('Patients');
 
-    let q_num = q_id.substring(q_id.lastIndexOf('-') + 1);
-    let queryXML = i2b2.Sharephe.workbook.queryXmls[q_num];
+    let queryXML = i2b2.Sharephe.workbook.queryXmls[index];
 
-    //use queryXML to file AJAX
-    let qL = '';
-    if (queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition').length === 0
-            && queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns4:query_definition').length === 0) {
-        qL = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns5:query_definition')[0].innerHTML;
-    } else if (queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition').length === 0) {
-        qL = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns4:query_definition')[0].innerHTML;
-    } else {
-        qL = queryXML.getElementsByTagName('request_xml')[0].getElementsByTagName('ns3:query_definition')[0].innerHTML;
+    let queryDef = '<query_definition>';
+    if (queryXML.getElementsByTagName('query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns3:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns3:query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns4:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns4:query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns5:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns5:query_definition')[0].innerHTML;
     }
-    qL = '<query_definition>' + qL + '</query_definition>';
+    queryDef += '</query_definition>';
 
-    let inQueryName = queryXML.getElementsByTagName('query_name')[0].innerHTML;
+
+    let queryName = i2b2.Sharephe.workbook.form.queryXml.getName(queryXML);
     let params = {
         result_wait_time: i2b2.CRC.view.QT.params.queryTimeout,
-        psm_query_definition: qL
+        psm_query_definition: queryDef
     };
     let name = "chk_PATIENT_COUNT_XML";
     let i = 9;
@@ -172,7 +177,7 @@ i2b2.Sharephe.workbook.form.queryXml.masterView = function (q_id) {
     params.psm_result_output = '<result_output_list>' + result_output + '</result_output_list>\n';
     $('runBoxText').innerHTML = "Cancel Query";
     i2b2.CRC.ctrlr.currentQueryStatus = new i2b2.CRC.ctrlr.QueryStatus($('infoQueryStatusText'));
-    i2b2.CRC.ctrlr.currentQueryStatus.startQuery(inQueryName, params);
+    i2b2.CRC.ctrlr.currentQueryStatus.startQuery(queryName, params);
 };
 
 i2b2.Sharephe.workbook.form.clear = function () {
@@ -254,18 +259,23 @@ i2b2.Sharephe.workbook.form.addToFileAttachementTable = function (files, fileURL
 };
 i2b2.Sharephe.workbook.form.addToQueryXmlList = function (strQueryXml) {
     let queryXmlList = i2b2.Sharephe.workbook.form.queryXml.parse(strQueryXml);
-    if (queryXmlList.length > 0) {
-        let lastIndex = queryXmlList.length - 1;
-        for (let i = 0; i < lastIndex; i++) {
-            i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField();
-            i2b2.Sharephe.workbook.form.queryXml.createNewBtn();
-            jQuery('#Sharephe-QMDROP-' + i).html(i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(i2b2.Sharephe.workbook.form.queryXml.getName(queryXmlList[i]), i));
-            i2b2.Sharephe.workbook.queryXmls.push(queryXmlList[i]);
+    for (let i = 0; i < queryXmlList.length; i++) {
+        let queryXml = queryXmlList[i];
+
+        let requestXmlList = queryXml.getElementsByTagName('request_xml');
+        if (requestXmlList.length > 0) {
+            // extract the payload from the SOAP request 
+            i2b2.Sharephe.workbook.queryXmls.push(jQuery.parseXML(requestXmlList[0].innerHTML));
+        } else {
+            i2b2.Sharephe.workbook.queryXmls.push(queryXml);
         }
+
         i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField();
         i2b2.Sharephe.workbook.form.queryXml.createNewBtn();
-        jQuery('#Sharephe-QMDROP-' + lastIndex).html(i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(i2b2.Sharephe.workbook.form.queryXml.getName(queryXmlList[lastIndex]), lastIndex));
-        i2b2.Sharephe.workbook.queryXmls.push(queryXmlList[lastIndex]);
+
+        let queryName = i2b2.Sharephe.workbook.form.queryXml.getName(queryXmlList[i]);
+        let queryText = i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(queryName, i);
+        jQuery('#Sharephe-QMDROP-' + i).html(queryText);
     }
 
     if (!i2b2.Sharephe.workbook.form.isReadOnly) {
@@ -380,7 +390,7 @@ i2b2.Sharephe.workbook.form.createNew = function () {
         fileUrl: null,
         queryXML: null
     });
-    
+
     jQuery('#Sharephe-WorkbookNewBtn').hide();
     jQuery('#Sharephe-WorkbookEditBtn').hide();
     jQuery('#Sharephe-WorkbookCancelBtn').hide();
