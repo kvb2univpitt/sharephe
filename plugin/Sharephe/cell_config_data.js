@@ -1,6 +1,20 @@
 {
-    files: ["Sharephe_ctrlr.js", "datatables.min.js"],
-    css: ["Sharephe.css", "Sharephe_bootstrap.css", "bootstrap-icons.css", "datatables.min.css"],
+    files: [
+        "Sharephe_ctrlr.js",
+        "Sharephe_modals.js",
+        "Sharephe_rest_services.js",
+        "Sharephe_event_handling.js",
+        "Sharephe_workbook.js",
+        "Sharephe_settings.js",
+        "Sharephe_queryDetail.js",
+        "datatables.min.js"
+    ],
+    css: [
+        "Sharephe.css",
+        "Sharephe_bootstrap.css",
+        "bootstrap-icons.css",
+        "datatables.min.css"
+    ],
     config: {
         short_name: "Sharephe",
         name: "Sharephe",
