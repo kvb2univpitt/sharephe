@@ -1,8 +1,6 @@
 i2b2.Sharephe.workbook = {
     selectedPhenotypeId: null,
     currentWorkbook: null,
-    highestPSDDIndex: -1,
-    btnIndex: -1,
     showBckBtn: false,
     queryXmls: [],
     detailData: [],
@@ -46,9 +44,6 @@ i2b2.Sharephe.workbook.form.queryXml.clearDDFields = function () {
     while (table.rows.length > 0) {
         table.deleteRow(-1);
     }
-
-    i2b2.Sharephe.workbook.btnIndex = -1;
-    i2b2.Sharephe.workbook.highestPSDDIndex = -1;
 };
 i2b2.Sharephe.workbook.form.queryXml.parse = function (strQueryXml) {
     let queryXmlList = [];
@@ -74,8 +69,22 @@ i2b2.Sharephe.workbook.form.queryXml.parse = function (strQueryXml) {
 i2b2.Sharephe.workbook.form.queryXml.getName = function (queryXml) {
     return i2b2.h.getXNodeVal(queryXml, 'query_name');
 };
-i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField = function () {
-    let index = ++i2b2.Sharephe.workbook.highestPSDDIndex;  // increment highest field counter
+i2b2.Sharephe.workbook.form.queryXml.createNewBtn = function (index) {
+    let queryRunBtnElement = document.createElement("button");
+    queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
+    queryRunBtnElement.className = 'viewRun SDX shp-btn shp-btn-secondary shp-btn-sm';
+    queryRunBtnElement.type = 'button';
+    queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query ' + (index + 1);
+    queryRunBtnElement.addEventListener("click", function () {
+        i2b2.Sharephe.workbook.form.queryXml.masterView(index);
+    }, false);
+
+    let table = document.getElementById("Sharephe-QueryDropArea");
+    let rowIndex = table.rows.length - 1;
+    let row = table.rows[rowIndex];
+    row.cells[1].appendChild(queryRunBtnElement);
+};
+i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField = function (index) {
     let queryDropElementId = 'Sharephe-QMDROP-' + index;
 
     let queryDropElement = document.createElement("div");
@@ -98,23 +107,7 @@ i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField = function () {
     i2b2.sdx.Master.AttachType(queryDropElementId, "QM", op_trgt);
     i2b2.sdx.Master.setHandlerCustom(queryDropElementId, "QM", "DropHandler", i2b2.Sharephe.workbook.form.queryXml.qmDropped);
 };
-i2b2.Sharephe.workbook.form.queryXml.createNewBtn = function () {
-    let index = ++i2b2.Sharephe.workbook.btnIndex;  // increment highest field counter
 
-    let queryRunBtnElement = document.createElement("button");
-    queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
-    queryRunBtnElement.className = 'viewRun SDX shp-btn shp-btn-secondary shp-btn-sm';
-    queryRunBtnElement.type = 'button';
-    queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query ' + (index + 1);
-    queryRunBtnElement.addEventListener("click", function () {
-        i2b2.Sharephe.workbook.form.queryXml.masterView(index);
-    }, false);
-
-    let table = document.getElementById("Sharephe-QueryDropArea");
-    let rowIndex = table.rows.length - 1;
-    let row = table.rows[rowIndex];
-    row.cells[1].appendChild(queryRunBtnElement);
-};
 i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText = function (text, index) {
     return i2b2.Sharephe.workbook.form.isReadOnly
             ? text
@@ -126,10 +119,10 @@ i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID)
     }
 
     // Check if something was dropped on the lowest field (=field with highest id). If yes create a new field under it
-    let fieldIndex = parseInt(droppedOnID.slice(droppedOnID.lastIndexOf('-') + 1, droppedOnID.length));
-    if (i2b2.Sharephe.workbook.highestPSDDIndex === fieldIndex && fieldIndex < 9) {
-        i2b2.Sharephe.workbook.form.queryXml.createNewBtn();
-        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField();
+    let index = parseInt(droppedOnID.slice(droppedOnID.lastIndexOf('-') + 1, droppedOnID.length));
+    if (index < 9) {
+        i2b2.Sharephe.workbook.form.queryXml.createNewBtn(index);
+        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField(index + 1);
     }
 
     // Save the info to our local data model
@@ -143,7 +136,7 @@ i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID)
     });
 
     // Change appearance of the drop field
-    jQuery('#Sharephe-QMDROP-' + fieldIndex).html(i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(i2b2.h.Escape(sdxData.sdxInfo.sdxDisplayName), fieldIndex));
+    jQuery('#Sharephe-QMDROP-' + index).html(i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(i2b2.h.Escape(sdxData.sdxInfo.sdxDisplayName), index));
 };
 i2b2.Sharephe.workbook.form.queryXml.masterView = function (index) {
     i2b2.Sharephe.workbook.showBckBtn = true;
@@ -183,8 +176,6 @@ i2b2.Sharephe.workbook.form.queryXml.masterView = function (index) {
 i2b2.Sharephe.workbook.form.clear = function () {
     i2b2.Sharephe.workbook.selectedPhenotypeId = null;
     i2b2.Sharephe.workbook.currentWorkbook = null;
-    i2b2.Sharephe.workbook.highestPSDDIndex = -1;
-    i2b2.Sharephe.workbook.btnIndex = -1;
     i2b2.Sharephe.workbook.showBckBtn = false;
     i2b2.Sharephe.workbook.queryXmls = [];
     i2b2.Sharephe.workbook.detailData = [];
@@ -270,8 +261,8 @@ i2b2.Sharephe.workbook.form.addToQueryXmlList = function (strQueryXml) {
             i2b2.Sharephe.workbook.queryXmls.push(queryXml);
         }
 
-        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField();
-        i2b2.Sharephe.workbook.form.queryXml.createNewBtn();
+        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField(i);
+        i2b2.Sharephe.workbook.form.queryXml.createNewBtn(i);
 
         let queryName = i2b2.Sharephe.workbook.form.queryXml.getName(queryXmlList[i]);
         let queryText = i2b2.Sharephe.workbook.form.queryXml.createQueryXmlText(queryName, i);
@@ -279,7 +270,7 @@ i2b2.Sharephe.workbook.form.addToQueryXmlList = function (strQueryXml) {
     }
 
     if (!i2b2.Sharephe.workbook.form.isReadOnly) {
-        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField();
+        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField(queryXmlList.length);
     }
 };
 i2b2.Sharephe.workbook.form.deleteQueryXml = function (obj, index) {
