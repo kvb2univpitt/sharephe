@@ -516,6 +516,31 @@ a.shp:not([href]):not([class]):hover {
     width: 100%;
 }
 
+.shp-btn-group {
+    position: relative;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    vertical-align: middle;
+}
+.shp-btn-group > .btn {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.shp-btn-group > .btn:hover {
+    z-index: 1;
+}
+.shp-btn-group > .btn:focus, .shp-btn-group > .btn:active, .shp-btn-group > .btn.active {
+    z-index: 1;
+}
+
+.shp-btn-sm, .shp-btn-group-sm > .shp-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
 .shp-rounded-pill {
     border-radius: 50rem !important;
 }

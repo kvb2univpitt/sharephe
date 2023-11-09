@@ -52,7 +52,14 @@ i2b2.Sharephe.tab.enableDisableOnQueryXml = function () {
     }
 };
 
+i2b2.Sharephe.utils = {};
+
 i2b2.Sharephe.Init = function (loadedDiv) {
+    hljs.highlightAll();
+
+    i2b2.Sharephe.utils.xmlBeautify = new XmlBeautify();
+    i2b2.Sharephe.utils.xmlSerializer = new window.XMLSerializer();
+
     // tabs event handler
     this.yuiTabs = new YAHOO.widget.TabView("Sharephe-TABS", {activeIndex: 0});
     this.yuiTabs.on('activeTabChange', i2b2.Sharephe.event.phenotypes.onclickTab);
@@ -77,6 +84,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
 
     // query details events
     jQuery('#Sharephe-CopyClipboard').click(i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard);
+    jQuery('#Sharephe-QueryXMLCopyClipboard').click(i2b2.Sharephe.event.queryXml.onclickCopyToClipboard);
     jQuery('#Sharephe-ExportFile').click(i2b2.Sharephe.event.queryDetail.onclickExportToFile);
 
     i2b2.Sharephe.datatable = jQuery('#Sharephe-WorkbookTable').DataTable({
