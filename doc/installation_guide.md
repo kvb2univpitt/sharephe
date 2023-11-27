@@ -42,7 +42,7 @@ To register the plug-in with the i2b2 webclient, add the following Sharephe plug
     forceLoading: true,
     forceConfigMsg: {params: []},
     roles: [ "DATA_LDS", "DATA_DEID", "DATA_PROT" ],
-    forceDir: "cells/plugins/standard"
+    forceDir: "cells/plugins/community"
 }
 ```
 
@@ -60,7 +60,7 @@ i2b2.hive.tempCellsList = [
         forceLoading: true,
         forceConfigMsg: {params: []},
         roles: [ "DATA_LDS", "DATA_DEID", "DATA_PROT" ],
-        forceDir: "cells/plugins/standard"
+        forceDir: "cells/plugins/community"
     },
     ...
 ];
