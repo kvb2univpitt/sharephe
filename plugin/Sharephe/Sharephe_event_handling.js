@@ -94,7 +94,7 @@ i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
 
                 let msg = err.statusText;
                 if (err.status === 404) {
-                    msg = 'Workbook not found.';
+                    msg = "No such phenotype workbook with ID '" + phenotypeId + "' found.";
                 } else if (err.status === 500) {
                     msg = 'Server error.  Unable to retrieve workbook at this time.';
                 }
