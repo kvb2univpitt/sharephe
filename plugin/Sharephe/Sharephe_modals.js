@@ -27,9 +27,9 @@ i2b2.Sharephe.modal.progress.hide = function () {
 
 i2b2.Sharephe.modal.message = {};
 i2b2.Sharephe.modal.message.show = function (title, message) {
+    jQuery('#Sharephe-MessageModalTitle').text(title);
+    jQuery('#Sharephe-MessageModalMessage').text(message);
     if (!i2b2.Sharephe.modal.message.panel) {
-        jQuery('#Sharephe-MessageModalTitle').text(title);
-        jQuery('#Sharephe-MessageModalMessage').text(message);
         let panel = new YAHOO.widget.Panel('Sharephe-MessageModal', {
             width: "400px",
             fixedcenter: true,
