@@ -21,5 +21,5 @@ An i2b2 webclient plug-in that improves sharing and translating computable pheno
 
 ## Manuals
 
-- [Installation Guide](doc/installation_guide.md)
+- [Quick Installation Guide](doc/QUICK_INSTALL.md)
 - [User Guide](doc/user_guide.md)
