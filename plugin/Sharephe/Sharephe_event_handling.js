@@ -151,3 +151,11 @@ i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard = function () {
 i2b2.Sharephe.event.queryDetail.onclickExportToFile = function () {
     i2b2.Sharephe.queryDetail.exportToFile();
 };
+
+i2b2.Sharephe.event.queryXml = {};
+i2b2.Sharephe.event.queryXml.onclickCopyToClipboard = function () {
+    let queryXml = document.getElementById('Sharephe-QueryModalMessage').textContent;
+    if (queryXml) {
+        navigator.clipboard.writeText(queryXml.trim());
+    }
+};

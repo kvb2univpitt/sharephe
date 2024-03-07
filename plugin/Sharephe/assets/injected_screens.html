@@ -160,7 +160,7 @@
                                                     <th scope="row" style="vertical-align: top;">Queries:</th>
                                                     <td>
                                                         <div class="shp-panel">
-                                                            <table id="Sharephe-QueryDropArea">
+                                                            <table class="shp-table shp-table-borderless shp-table-hover shp-table-sm" id="Sharephe-QueryDropArea">
                                                                 <tbody></tbody>
                                                             </table>
                                                         </div>
@@ -275,6 +275,20 @@
                     <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.settings.hide();">OK</button>
                 </div>
             </div>
-        </div>
+            <div id="Sharephe-QueryModal" style="visibility:hidden">
+                <div class="hd">Query XML</div>
+                <div class="bd">
+                    <div class="shp-float-right">
+                        <a id="Sharephe-QueryXMLCopyClipboard" aria-current="page" href="javascript:void(0);" title="Copy to clipboard">
+                            <i class="bi bi-clipboard shp-h6" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName" id="Sharephe-QueryModalTitle">Query Details</h6>
+                    <pre><code class="hljs language-xml" id="Sharephe-QueryModalMessage"></code></pre>
+                </div>
+                <div class="ft">
+                    <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.query.hide();">OK</button>
+                </div>
+            </div>
     </body>
 </html>

@@ -6,10 +6,6 @@ i2b2.Sharephe.workbook = {
     detailData: [],
     tempAttachments: new DataTransfer()
 };
-i2b2.Sharephe.workbook.utils = {
-    xmlSerializer: new XMLSerializer()
-};
-
 i2b2.Sharephe.workbook.refreshList = function () {
     const successHandler = function (data) {
         setTimeout(function () {
@@ -36,8 +32,14 @@ i2b2.Sharephe.workbook.refreshList = function () {
 i2b2.Sharephe.workbook.form = {
     isReadOnly: false
 };
-
 i2b2.Sharephe.workbook.form.queryXml = function () {};
+i2b2.Sharephe.workbook.form.queryXml.beautify = function (queryXML) {
+    let queryXmlStr = i2b2.Sharephe.utils.xmlSerializer.serializeToString(queryXML).trim();
+    queryXmlStr = queryXmlStr.replace(/[\r\n]+/g, '');
+    queryXmlStr = i2b2.Sharephe.utils.xmlBeautify.beautify(queryXmlStr, {indent: '    ', useSelfClosingElement: true});
+
+    return hljs.highlight(queryXmlStr, {language: 'xml'}).value;
+};
 i2b2.Sharephe.workbook.form.queryXml.clearDDFields = function () {
     // remove all the dropped queries
     let table = document.getElementById("Sharephe-QueryDropArea");
@@ -72,17 +74,31 @@ i2b2.Sharephe.workbook.form.queryXml.getName = function (queryXml) {
 i2b2.Sharephe.workbook.form.queryXml.createNewBtn = function (index) {
     let queryRunBtnElement = document.createElement("button");
     queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
-    queryRunBtnElement.className = 'viewRun SDX shp-btn shp-btn-secondary shp-btn-sm';
+    queryRunBtnElement.className = 'viewRun SDX shp-btn shp-btn-info shp-btn-sm shp-mr-2';
     queryRunBtnElement.type = 'button';
-    queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query ' + (index + 1);
+    queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query'
     queryRunBtnElement.addEventListener("click", function () {
         i2b2.Sharephe.workbook.form.queryXml.masterView(index);
     }, false);
 
+    let viewQueryBtnElement = document.createElement("button");
+    viewQueryBtnElement.className = 'shp-btn shp-btn-secondary shp-btn-sm';
+    viewQueryBtnElement.type = 'button';
+    viewQueryBtnElement.innerHTML = '<i class="bi bi-info-circle"></i> View Query';
+    viewQueryBtnElement.addEventListener("click", function () {
+        i2b2.Sharephe.workbook.form.queryXml.viewXmlCode(index);
+    }, false);
+
+    let buttonGroup = document.createElement("div");
+    buttonGroup.className = 'shp-btn-group shp-btn-group-sm';
+    buttonGroup.role = 'group';
+    buttonGroup.appendChild(queryRunBtnElement);
+    buttonGroup.appendChild(viewQueryBtnElement);
+
     let table = document.getElementById("Sharephe-QueryDropArea");
     let rowIndex = table.rows.length - 1;
     let row = table.rows[rowIndex];
-    row.cells[1].appendChild(queryRunBtnElement);
+    row.cells[1].appendChild(buttonGroup);
 };
 i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField = function (index) {
     let queryDropElementId = 'Sharephe-QMDROP-' + index;
@@ -171,6 +187,15 @@ i2b2.Sharephe.workbook.form.queryXml.masterView = function (index) {
     $('runBoxText').innerHTML = "Cancel Query";
     i2b2.CRC.ctrlr.currentQueryStatus = new i2b2.CRC.ctrlr.QueryStatus($('infoQueryStatusText'));
     i2b2.CRC.ctrlr.currentQueryStatus.startQuery(queryName, params);
+};
+i2b2.Sharephe.workbook.form.queryXml.viewXmlCode = function (index) {
+    let queryXML = i2b2.Sharephe.workbook.queryXmls[index];
+    if (queryXML) {
+        let queryName = i2b2.Sharephe.workbook.form.queryXml.getName(queryXML);
+        let queryXmlStr = i2b2.Sharephe.workbook.form.queryXml.beautify(queryXML);
+
+        i2b2.Sharephe.modal.query.show(queryName, queryXmlStr);
+    }
 };
 
 i2b2.Sharephe.workbook.form.clear = function () {
@@ -429,11 +454,10 @@ i2b2.Sharephe.workbook.form.save = function () {
 
     // save XML queries
     let queryXmlData = [];
-    let xmlSerializer = new window.XMLSerializer();
     jQuery.each(i2b2.Sharephe.workbook.queryXmls, function (index, element) {
         // get valid (non-null) queries
         if (element) {
-            queryXmlData.push(xmlSerializer.serializeToString(element));
+            queryXmlData.push(i2b2.Sharephe.utils.xmlSerializer.serializeToString(element));
         }
     });
     jQuery('#workbook_query_xml').val(queryXmlData.toString());
