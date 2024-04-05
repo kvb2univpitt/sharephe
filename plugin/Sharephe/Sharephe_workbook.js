@@ -177,13 +177,9 @@ i2b2.Sharephe.workbook.form.queryXml.masterView = function (index) {
     let queryName = i2b2.Sharephe.workbook.form.queryXml.getName(queryXML);
     let params = {
         result_wait_time: i2b2.CRC.view.QT.params.queryTimeout,
-        psm_query_definition: queryDef
+        psm_query_definition: queryDef,
+        psm_result_output: '<result_output_list><result_output priority_index="9" name="patient_count_xml"/></result_output_list>'
     };
-    let name = "chk_PATIENT_COUNT_XML";
-    let i = 9;
-    let result_output = '<result_output priority_index= "' + i + '" name="' + name.substring(4).toLowerCase() + '"/>\n';
-
-    params.psm_result_output = '<result_output_list>' + result_output + '</result_output_list>\n';
     $('runBoxText').innerHTML = "Cancel Query";
     i2b2.CRC.ctrlr.currentQueryStatus = new i2b2.CRC.ctrlr.QueryStatus($('infoQueryStatusText'));
     i2b2.CRC.ctrlr.currentQueryStatus.startQuery(queryName, params);
