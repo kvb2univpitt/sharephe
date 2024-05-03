@@ -75,6 +75,9 @@ i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
 
         const successHandler = function (workbook) {
             setTimeout(function () {
+                // clear session cache when viewing a different workbook
+                sessionStorage.clear();
+
                 if (workbook) {
                     i2b2.Sharephe.workbook.form.populateReadOnly(workbook);
 
