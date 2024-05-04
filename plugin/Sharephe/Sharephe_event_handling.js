@@ -71,8 +71,6 @@ i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
     const phenotypeId = this.cells[0].innerHTML;
 
     const fetchWorkbook = function () {
-        const encodedPhenotypeId = encodeURIComponent(encodeURIComponent(phenotypeId));
-
         const successHandler = function (workbook) {
             setTimeout(function () {
                 // clear session cache when viewing a different workbook
@@ -105,7 +103,7 @@ i2b2.Sharephe.event.phenotypes.onclickTableRow = function () {
             }, 500);
         };
 
-        i2b2.Sharephe.rest.workbook.fetch(encodedPhenotypeId, successHandler, errorHandler);
+        i2b2.Sharephe.rest.workbook.fetch(phenotypeId, successHandler, errorHandler);
     };
 
     i2b2.Sharephe.workbook.selectedPhenotypeId = phenotypeId;
