@@ -187,76 +187,69 @@ i2b2.Sharephe.queryDetail.sortConcepts = function (concepts) {
 
     return concepts;
 };
-i2b2.Sharephe.queryDetail.processFetchedConcepts = function (concepts, term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm) {
-    let uniuqeConcepts = i2b2.Sharephe.queryDetail.filterUniqueConcepts(i2b2.Sharephe.queryDetail.sortConcepts(concepts));
-    if (uniuqeConcepts.length > 5) {
-        let table = document.createElement('table');
-        table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
-        table.className = 'table-concepts';
-        table.style.display = "none";
-        uniuqeConcepts.forEach(function (concept) {
-            let tr = table.insertRow();
-            tr.insertCell().appendChild(document.createTextNode(concept.basecode));
-
-            let span = document.createElement('span');
-            span.className = 'shp-ml-4';
-            span.appendChild(document.createTextNode(concept.name));
-            tr.insertCell().appendChild(span);
-        });
-        conceptsElement.removeChild(conceptsElement.firstChild);
-        conceptsElement.appendChild(table);
-
-        table = document.createElement('table');
-        table.id = `list-secondary-${ithQuery}-${ithGroup}-${ithTerm}`;
-        table.className = 'table-concepts';
-        for (let i = 0; i < 5; i++) {
-            let concept = uniuqeConcepts[i];
-
-            let tr = table.insertRow();
-            tr.insertCell().appendChild(document.createTextNode(concept.basecode));
-
-            let span = document.createElement('span');
-            span.className = 'shp-ml-4';
-            span.appendChild(document.createTextNode(concept.name));
-            tr.insertCell().appendChild(span);
-        }
-        conceptsElement.appendChild(table);
-
-
-        let showHideButton = document.createElement('button');
-        showHideButton.id = `${ithQuery}-${ithGroup}-${ithTerm}`;
-        showHideButton.className = 'shp-btn shp-btn-primary shp-btn-sm shp-float-right';
-        showHideButton.innerHTML = '<i class="bi bi-arrow-down"></i> Show More';
-        showHideButton.addEventListener("click", function () {
-            i2b2.Sharephe.queryDetail.showMoreLess(showHideButton);
-        });
-        termLabelElement.appendChild(showHideButton);
-    } else {
-        let table = document.createElement('table');
-        table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
-        table.className = 'table-concepts';
-        uniuqeConcepts.forEach(function (concept) {
-            let tr = table.insertRow();
-            tr.insertCell().appendChild(document.createTextNode(concept.basecode));
-
-            let span = document.createElement('span');
-            span.className = 'shp-ml-4';
-            span.appendChild(document.createTextNode(concept.name));
-            tr.insertCell().appendChild(span);
-        });
-        conceptsElement.removeChild(conceptsElement.firstChild);
-        conceptsElement.appendChild(table);
-    }
-
-    term.concepts = uniuqeConcepts;
-};
 i2b2.Sharephe.queryDetail.fetchConcepts = function (term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm) {
     const successHandler = function (concepts) {
-        i2b2.Sharephe.queryDetail.processFetchedConcepts(concepts, term, conceptsElement, termLabelElement, ithQuery, ithGroup, ithTerm);
+        let uniuqeConcepts = i2b2.Sharephe.queryDetail.filterUniqueConcepts(i2b2.Sharephe.queryDetail.sortConcepts(concepts));
+        if (uniuqeConcepts.length > 5) {
+            let table = document.createElement('table');
+            table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            table.style.display = "none";
+            uniuqeConcepts.forEach(function (concept) {
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
 
-        // cache concepts
-        let key = `${term.hlevel}|${term.key}`;
-        sessionStorage.setItem(key, JSON.stringify(concepts));
+                let span = document.createElement('span');
+                span.className = 'shp-ml-4';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            });
+            conceptsElement.removeChild(conceptsElement.firstChild);
+            conceptsElement.appendChild(table);
+
+            table = document.createElement('table');
+            table.id = `list-secondary-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            for (let i = 0; i < 5; i++) {
+                let concept = uniuqeConcepts[i];
+
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                let span = document.createElement('span');
+                span.className = 'shp-ml-4';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            }
+            conceptsElement.appendChild(table);
+
+
+            let showHideButton = document.createElement('button');
+            showHideButton.id = `${ithQuery}-${ithGroup}-${ithTerm}`;
+            showHideButton.className = 'shp-btn shp-btn-primary shp-btn-sm shp-float-right';
+            showHideButton.innerHTML = '<i class="bi bi-arrow-down"></i> Show More';
+            showHideButton.addEventListener("click", function () {
+                i2b2.Sharephe.queryDetail.showMoreLess(showHideButton);
+            });
+            termLabelElement.appendChild(showHideButton);
+        } else {
+            let table = document.createElement('table');
+            table.id = `list-${ithQuery}-${ithGroup}-${ithTerm}`;
+            table.className = 'table-concepts';
+            uniuqeConcepts.forEach(function (concept) {
+                let tr = table.insertRow();
+                tr.insertCell().appendChild(document.createTextNode(concept.basecode));
+
+                let span = document.createElement('span');
+                span.className = 'shp-ml-4';
+                span.appendChild(document.createTextNode(concept.name));
+                tr.insertCell().appendChild(span);
+            });
+            conceptsElement.removeChild(conceptsElement.firstChild);
+            conceptsElement.appendChild(table);
+        }
+
+        term.concepts = uniuqeConcepts;
     };
     const errorHandler = function () {
         console.error("Fetching concepts failed!");
@@ -406,14 +399,7 @@ i2b2.Sharephe.queryDetail.show = function () {
                 conceptsElement.innerHTML = '<div class="shp-spinner-border shp-spinner-border-sm shp-text-primary" role="status"><span class="shp-sr-only">Loading...</span></div>';
                 termElement.appendChild(conceptsElement);
 
-                // get cached concept, if any
-                let key = `${term.hlevel}|${term.key}`;
-                if (sessionStorage.getItem(key)) {
-                    let concepts = JSON.parse(sessionStorage.getItem(key));
-                    i2b2.Sharephe.queryDetail.processFetchedConcepts(concepts, term, conceptsElement, termLabelElement, ithQuery, i, j);
-                } else {
-                    i2b2.Sharephe.queryDetail.fetchConcepts(term, conceptsElement, termLabelElement, ithQuery, i, j);
-                }
+                i2b2.Sharephe.queryDetail.fetchConcepts(term, conceptsElement, termLabelElement, ithQuery, i, j);
             }
         }
     }
