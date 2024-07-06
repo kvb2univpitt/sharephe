@@ -236,6 +236,15 @@ i2b2.Sharephe.workbook.form.setReadOnly = function (isReadOnly) {
     jQuery('#workbook_institution').prop("disabled", isReadOnly);
 
     jQuery('#workbook_files').prop("readonly", isReadOnly);
+
+    jQuery('#workbook_is_validated').prop("readonly", isReadOnly);
+    jQuery('#workbook_is_validated').prop("disabled", isReadOnly);
+
+    jQuery('#workbook_validated_by').prop("readonly", isReadOnly);
+    jQuery('#workbook_validated_by').prop("disabled", isReadOnly);
+
+    jQuery('#workbook_time_validated').prop("readonly", isReadOnly);
+    jQuery('#workbook_time_validated').prop("disabled", isReadOnly);
 };
 i2b2.Sharephe.workbook.form.addToFileAttachementList = function (files, fileURL) {
     let attachedFileListTable = document.getElementById("Sharephe-AttachedFileListTable");
@@ -352,6 +361,19 @@ i2b2.Sharephe.workbook.form.populate = function (workbook) {
             jQuery('.Sharephe-PhenoName').text('New Workbook');
         }
 
+        // workbook validation
+        jQuery('#workbook_is_validated').prop("checked", workbook.isValidated);
+        if (workbook.validatedBy) {
+            jQuery('#workbook_validated_by').val(workbook.validatedBy.join(', '));
+            jQuery('#workbook_validated_by').prop('required', true);
+        }
+        if (workbook.timeValidated) {
+            let date = new Date(workbook.timeValidated);
+            jQuery('#workbook_time_validated').val(date.toISOString().substring(0, 10));
+            jQuery('#workbook_time_validated').prop('required', true);
+        }
+        i2b2.Sharephe.event.workbook.validation.checkbox.onchange();
+
         if (workbook.timeCreated) {
             jQuery('#Sharephe-WorkbookCreatedOn').text(workbook.timeCreated);
         }
@@ -394,6 +416,9 @@ i2b2.Sharephe.workbook.form.createNew = function () {
         files: [],
         fileUrl: '',
         queryXML: [],
+        isValidated: false,
+        validatedBy: [],
+        timeValidated: null,
         isOwner: true,
         timeCreated: null,
         timeUpdated: null
@@ -439,7 +464,8 @@ i2b2.Sharephe.workbook.form.save = function () {
             .replace(/[\r\n\t\s]+/g, ' ')
             .trim()
             .split(',')
-            .map(line => line.trim());
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
     jQuery('#workbook_authors').val(JSON.stringify(authors));
 
     // save current attachement files
@@ -465,6 +491,18 @@ i2b2.Sharephe.workbook.form.save = function () {
         }
     }
     jQuery('#workbook_query_xml').val(JSON.stringify(queryXmlData));
+
+    // save validated-by
+    let workbook_validated_by = jQuery('#workbook_validated_by').val();
+    const validated_by = workbook_validated_by
+            .replace(/[\r\n\t\s]+/g, ' ')
+            .trim()
+            .split(',')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+    if (jQuery("#workbook_is_validated").is(':checked')) {
+        jQuery('#workbook_validated_by').val(JSON.stringify(validated_by));
+    }
 
     jQuery('#workbook_id').prop("disabled", false);
 
@@ -497,6 +535,7 @@ i2b2.Sharephe.workbook.form.save = function () {
     i2b2.Sharephe.rest.workbook.save(formData, successHandler, errorHandler);
     jQuery('#workbook_id').prop("disabled", true);
     jQuery('#workbook_authors').val(authors.join(', '));
+    jQuery('#workbook_validated_by').val(validated_by.join(', '));
 };
 i2b2.Sharephe.workbook.form.backToPlugInWrapper = function () {
     jQuery('#Sharephe-bckBtn').hide();

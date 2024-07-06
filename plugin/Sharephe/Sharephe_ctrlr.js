@@ -80,6 +80,9 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     jQuery('#Sharephe-WorkbookCancelBtn').click(i2b2.Sharephe.event.workbook.onclickCancel);
 //    jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
     jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
+    
+    // workbook validation
+    jQuery('#workbook_is_validated').change(i2b2.Sharephe.event.workbook.validation.checkbox.onchange);
 
 
     // query details events
