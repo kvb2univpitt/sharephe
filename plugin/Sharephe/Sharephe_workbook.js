@@ -136,10 +136,8 @@ i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID)
 
     // Check if something was dropped on the lowest field (=field with highest id). If yes create a new field under it
     let index = parseInt(droppedOnID.slice(droppedOnID.lastIndexOf('-') + 1, droppedOnID.length));
-    if (index < 9) {
-        i2b2.Sharephe.workbook.form.queryXml.createNewBtn(index);
-        i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField(index + 1);
-    }
+    i2b2.Sharephe.workbook.form.queryXml.createNewBtn(index);
+    i2b2.Sharephe.workbook.form.queryXml.createNewPSDDField(index + 1);
 
     // Save the info to our local data model
     sdxData = sdxData[0];
