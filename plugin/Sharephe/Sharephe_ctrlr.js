@@ -72,7 +72,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
 
     // phenotypes events
     jQuery('#Sharephe-SyncFromCloud').click(i2b2.Sharephe.event.phenotypes.onclickSyncFromCloud);
-    jQuery(document).on('click', '#Sharephe-WorkbookTable tr', i2b2.Sharephe.event.phenotypes.onclickTableRow);
+    jQuery(document).on('click', '#Sharephe-WorkbookTable tbody tr', i2b2.Sharephe.event.phenotypes.onclickTableRow);
 
     // workbook events
     jQuery('#Sharephe-WorkbookNewBtn').click(i2b2.Sharephe.event.workbook.onclickCreateNew);
