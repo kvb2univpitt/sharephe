@@ -49,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--end of TAB0-->
                     <!--TAB1-->
                     <div class="Sharephe-MainContent">
                         <div class="Sharephe-MainContentPad">
@@ -211,6 +212,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--end of TAB1-->
                     <!--TAB2-->
                     <div class="Sharephe-MainContent">
                         <div class="Sharephe-MainContentPad">
@@ -249,67 +251,70 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- modal dialog content markup -->
-            <div id="Sharephe-MessageModal" style="visibility:hidden">
-                <div class="hd"><span id="Sharephe-MessageModalTitle">Title</span></div>
-                <div class="bd">
-                    <p id="Sharephe-MessageModalMessage" style="padding: 10px;">Message goes here.</p>
-                </div>
-                <div class="ft">
-                    <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.message.hide();">OK</button>
-                </div>
-            </div>
-            <div id="Sharephe-ProgressModal" style="visibility:hidden">
-                <div class="hd"><span id="Sharephe-ProgressModalTitle">Title</span></div>
-                <div class="bd shp-text-center">
-                    <div class="shp-spinner-border shp-text-primary" role="status" style="width: 4rem; height: 4rem;">
-                        <span class="shp-sr-only">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <div id="Sharephe-SettingsModal" style="visibility:hidden">
-                <div class="hd">Settings</div>
-                <div class="bd">
-                    <div class="shp-card">
-                        <div class="shp-card-body">
-                            <div class="shp-card-title shp-h6">API Key</div>
-                            <form>
-                                <div class="shp-input-group shp-input-group-sm shp-mb-3">
-                                    <div class="shp-input-group-prepend">
-                                        <span class="shp-input-group-text" id="Sharephe-ShowHideApiKey">
-                                            <i class="bi bi-eye-slash shp-d-none" id="show-api-key" title="Hide value"></i>
-                                            <i class="bi bi-eye" id="hide-api-key" title="Show value"></i>
-                                        </span>
-                                    </div>
-                                    <input type="password" class="shp-form-control" id="Sharephe-ApiKey" aria-label="API key" aria-describedby="Sharephe-ShowHideApiKey" />
-                                    <div class="shp-input-group-append">
-                                        <button class="shp-btn shp-btn-info shp-input-group-text" id="Sharephe-SetApiKey" type="button" disabled="disabled">Set API Key</button>
-                                    </div>
-                                </div>
-                            </form>
+                    <!-- end of TAB2-->
+                    <!-- modal dialog content markup -->
+                    <div id="Sharephe-MessageModal" style="visibility:hidden">
+                        <div class="hd"><span id="Sharephe-MessageModalTitle">Title</span></div>
+                        <div class="bd">
+                            <p id="Sharephe-MessageModalMessage" style="padding: 10px;">Message goes here.</p>
+                        </div>
+                        <div class="ft">
+                            <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.message.hide();">OK</button>
                         </div>
                     </div>
-                </div>
-                <div class="ft">
-                    <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.settings.hide();">OK</button>
-                </div>
-            </div>
-            <div id="Sharephe-QueryModal" style="visibility:hidden">
-                <div class="hd">Query XML</div>
-                <div class="bd">
-                    <div class="shp-float-right">
-                        <a id="Sharephe-QueryXMLCopyClipboard" aria-current="page" href="javascript:void(0);" title="Copy to clipboard">
-                            <i class="bi bi-clipboard shp-h6" aria-hidden="true"></i>
-                        </a>
+                    <div id="Sharephe-ProgressModal" style="visibility:hidden">
+                        <div class="hd"><span id="Sharephe-ProgressModalTitle">Title</span></div>
+                        <div class="bd shp-text-center">
+                            <div class="shp-spinner-border shp-text-primary" role="status" style="width: 4rem; height: 4rem;">
+                                <span class="shp-sr-only">Loading...</span>
+                            </div>
+                        </div>
                     </div>
-                    <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName" id="Sharephe-QueryModalTitle">Query Details</h6>
-                    <pre><code class="hljs language-xml" id="Sharephe-QueryModalMessage"></code></pre>
-                </div>
-                <div class="ft">
-                    <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.query.hide();">OK</button>
+                    <div id="Sharephe-SettingsModal" style="visibility:hidden">
+                        <div class="hd">Settings</div>
+                        <div class="bd">
+                            <div class="shp-card">
+                                <div class="shp-card-body">
+                                    <div class="shp-card-title shp-h6">API Key</div>
+                                    <form>
+                                        <div class="shp-input-group shp-input-group-sm shp-mb-3">
+                                            <div class="shp-input-group-prepend">
+                                                <span class="shp-input-group-text" id="Sharephe-ShowHideApiKey">
+                                                    <i class="bi bi-eye-slash shp-d-none" id="show-api-key" title="Hide value"></i>
+                                                    <i class="bi bi-eye" id="hide-api-key" title="Show value"></i>
+                                                </span>
+                                            </div>
+                                            <input type="password" class="shp-form-control" id="Sharephe-ApiKey" aria-label="API key" aria-describedby="Sharephe-ShowHideApiKey" />
+                                            <div class="shp-input-group-append">
+                                                <button class="shp-btn shp-btn-info shp-input-group-text" id="Sharephe-SetApiKey" type="button" disabled="disabled">Set API Key</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ft">
+                            <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.settings.hide();">OK</button>
+                        </div>
+                    </div>
+                    <div id="Sharephe-QueryModal" style="visibility:hidden">
+                        <div class="hd">Query XML</div>
+                        <div class="bd">
+                            <div class="shp-float-right">
+                                <a id="Sharephe-QueryXMLCopyClipboard" aria-current="page" href="javascript:void(0);" title="Copy to clipboard">
+                                    <i class="bi bi-clipboard shp-h6" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <h6 class="shp-m-0 shp-panel-title Sharephe-PhenoName" id="Sharephe-QueryModalTitle">Query Details</h6>
+                            <pre><code class="hljs language-xml" id="Sharephe-QueryModalMessage"></code></pre>
+                        </div>
+                        <div class="ft">
+                            <button class="shp-btn shp-btn-sm shp-btn-success shp-float-right" onclick="i2b2.Sharephe.modal.query.hide();">OK</button>
+                        </div>
+                    </div>
+                    <!-- end of modal dialog content markup -->
                 </div>
             </div>
+        </div>
     </body>
 </html>
