@@ -385,6 +385,7 @@ i2b2.Sharephe.workbook.form.populate = function (workbook) {
     i2b2.Sharephe.tab.enableDisableOnQueryXml();
 };
 i2b2.Sharephe.workbook.form.populateReadOnly = function (workbook) {
+    i2b2.Sharephe.workbook.form.validator.resetForm();
     i2b2.Sharephe.workbook.form.setReadOnly(true);
     i2b2.Sharephe.workbook.form.populate(workbook);
 

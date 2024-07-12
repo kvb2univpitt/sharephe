@@ -133,7 +133,7 @@ i2b2.Sharephe.event.workbook.onclickSubmmit = function (event) {
         }
     };
 
-    i2b2.Sharephe.rest.apikey.verify(submit);
+   i2b2.Sharephe.rest.apikey.verify(submit);
 
     return false;
 };
@@ -163,29 +163,17 @@ i2b2.Sharephe.event.workbook.validation.checkbox = {};
 i2b2.Sharephe.event.workbook.validation.checkbox.onchange = function () {
     if (!i2b2.Sharephe.workbook.form.isReadOnly) {
         if (jQuery("#workbook_is_validated").is(':checked')) {
-            jQuery('#workbook_validated_by').prop("readonly", false);
-            jQuery('#workbook_validated_by').prop("disabled", false);
-
-            jQuery('#workbook_time_validated').prop("readonly", false);
-            jQuery('#workbook_time_validated').prop("disabled", false);
-
-            jQuery('#workbook_validated_by').prop('required', true);
-            jQuery('#workbook_time_validated').prop('required', true);
+            jQuery('#workbook_validated_by').prop('required', true).prop("readonly", false).prop("disabled", false);
+            jQuery('#workbook_time_validated').prop('required', true).prop("readonly", false).prop("disabled", false);
         } else {
-            jQuery('#workbook_validated_by').prop('required', false);
-            jQuery('#workbook_time_validated').prop('required', false);
+            jQuery('#workbook_validated_by').prop('required', false).prop("readonly", true).prop("disabled", true);
+            jQuery('#workbook_time_validated').prop('required', false).prop("readonly", true).prop("disabled", true);
 
             jQuery('#workbook_validated_by').val('');
             jQuery('#workbook_time_validated').val('');
 
-            jQuery('#workbook_validated_by').prop("readonly", true);
-            jQuery('#workbook_validated_by').prop("disabled", true);
-
-            jQuery('#workbook_time_validated').prop("readonly", true);
-            jQuery('#workbook_time_validated').prop("disabled", true);
-
-            jQuery('#workbook_validated_by').removeClass('is-valid is-invalid');
-            jQuery('#workbook_time_validated').removeClass('is-valid is-invalid');
+            jQuery('#workbook_validated_by').valid();
+            jQuery('#workbook_time_validated').valid();
         }
     }
 };

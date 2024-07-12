@@ -4,6 +4,7 @@
         "assets/XmlBeautify.js",
         "assets/highlight/languages/xml.min.js",
         "assets/highlight/highlight.min.js",
+        "assets/jquery-validation/jquery.validate.min.js",
         "Sharephe_ctrlr.js",
         "Sharephe_modals.js",
         "Sharephe_rest_services.js",

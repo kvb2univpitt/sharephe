@@ -57,6 +57,40 @@ i2b2.Sharephe.utils = {};
 i2b2.Sharephe.Init = function (loadedDiv) {
     hljs.highlightAll();
 
+    i2b2.Sharephe.workbook.form.validator = jQuery('#Sharephe-WorkbookForm').validate({
+        rules: {
+            workbook_id: "required",
+            workbook_type: "required",
+            workbook_title: "required",
+            workbook_authors: "required",
+            workbook_institution: "required"
+        },
+        messages: {
+            workbook_id: "Please provide a workbook ID.",
+            workbook_type: "Please select a workbook type.",
+            workbook_title: "Please provide a title for your workbook.",
+            workbook_authors: "Please provide the author(s) for your workbook.",
+            workbook_institution: "Please provide the name of the institution you are associated with.",
+            workbook_validated_by: "Please provide the approval name(s).",
+            workbook_time_validated: "Please provide a date for validation."
+        },
+        errorPlacement: function (error, element) {
+            error.addClass("invalid-feedback");
+
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent("label"));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            jQuery(element).addClass("is-invalid").removeClass("is-valid");
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            jQuery(element).addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
     i2b2.Sharephe.utils.xmlBeautify = new XmlBeautify();
     i2b2.Sharephe.utils.xmlSerializer = new window.XMLSerializer();
 
@@ -80,7 +114,7 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     jQuery('#Sharephe-WorkbookCancelBtn').click(i2b2.Sharephe.event.workbook.onclickCancel);
 //    jQuery('#Sharephe-SubmitButton').click(i2b2.Sharephe.event.workbook.onclickSubmmit);
     jQuery('#workbook_files').change(i2b2.Sharephe.event.workbook.onchangeAttachmentFiles);
-    
+
     // workbook validation
     jQuery('#workbook_is_validated').change(i2b2.Sharephe.event.workbook.validation.checkbox.onchange);
 
