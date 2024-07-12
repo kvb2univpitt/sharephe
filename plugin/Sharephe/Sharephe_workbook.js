@@ -214,6 +214,8 @@ i2b2.Sharephe.workbook.form.clear = function () {
     jQuery('#Sharephe-WorkbookCancelBtn').hide();
     jQuery('#Sharephe-WorkbookEditBtn').show();
     jQuery('#Sharephe-SubmitButton').hide();
+
+    jQuery('#Sharephe-WorkbookForm').removeClass('is-valid').removeClass('is-invalid');
 };
 i2b2.Sharephe.workbook.form.setReadOnly = function (isReadOnly) {
     i2b2.Sharephe.workbook.form.isReadOnly = isReadOnly;

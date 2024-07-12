@@ -59,19 +59,31 @@ i2b2.Sharephe.Init = function (loadedDiv) {
 
     i2b2.Sharephe.workbook.form.validator = jQuery('#Sharephe-WorkbookForm').validate({
         rules: {
-            workbook_id: "required",
-            workbook_type: "required",
-            workbook_title: "required",
-            workbook_authors: "required",
-            workbook_institution: "required"
+            workbook_id: {
+                required: true,
+                minlength: 10
+            },
+            workbook_type: 'required',
+            workbook_title: {
+                required: true,
+                minlength: 4
+            },
+            workbook_authors: 'required',
+            workbook_institution: 'required'
         },
         messages: {
-            workbook_id: "Please provide a workbook ID.",
+            workbook_id: {
+                required: "Please provide a workbook ID.",
+                minlength: "Phenotype ID must consist of at least 10 characters"
+            },
             workbook_type: "Please select a workbook type.",
-            workbook_title: "Please provide a title for your workbook.",
-            workbook_authors: "Please provide the author(s) for your workbook.",
+            workbook_title: {
+                required: "Please provide a title for your workbook.",
+                minlength: "Title must be at least 4 characters"
+            },
+            workbook_authors: "Please provide the the author's name(s) for your workbook.",
             workbook_institution: "Please provide the name of the institution you are associated with.",
-            workbook_validated_by: "Please provide the approval name(s).",
+            workbook_validated_by: "Please provide the name(s) of the people doing the validation.",
             workbook_time_validated: "Please provide a date for validation."
         },
         errorPlacement: function (error, element) {

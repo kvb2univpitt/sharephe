@@ -125,15 +125,17 @@ i2b2.Sharephe.event.workbook.onclickCancel = function () {
 i2b2.Sharephe.event.workbook.onclickSubmmit = function (event) {
     event.preventDefault();
 
-    const submit = function () {
-        if (i2b2.Sharephe.user.isAuthenticated) {
-            i2b2.Sharephe.workbook.form.save();
-        } else {
-            i2b2.Sharephe.modal.message.show('Unauthorized', 'Insufficient permission to save workbook.');
-        }
-    };
+    if (event.target.checkValidity()) {
+        const submit = function () {
+            if (i2b2.Sharephe.user.isAuthenticated) {
+                i2b2.Sharephe.workbook.form.save();
+            } else {
+                i2b2.Sharephe.modal.message.show('Unauthorized', 'Insufficient permission to save workbook.');
+            }
+        };
 
-   i2b2.Sharephe.rest.apikey.verify(submit);
+        i2b2.Sharephe.rest.apikey.verify(submit);
+    }
 
     return false;
 };
@@ -174,6 +176,9 @@ i2b2.Sharephe.event.workbook.validation.checkbox.onchange = function () {
 
             jQuery('#workbook_validated_by').valid();
             jQuery('#workbook_time_validated').valid();
+
+            jQuery('#workbook_validated_by').removeClass('is-valid').removeClass('is-invalid');
+            jQuery('#workbook_time_validated').removeClass('is-valid').removeClass('is-invalid');
         }
     }
 };
