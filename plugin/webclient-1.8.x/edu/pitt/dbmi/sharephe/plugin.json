@@ -1,0 +1,18 @@
+{
+    "title": "Sharephe",
+    "description": "This plugin improves sharing and translating computable phenotypes for clinical and translational research.",
+    "category": ["phenotypes"],
+    "icons": {
+        "size32x32": "Sharephe_icon_32x32.png"
+    },
+    "assetDir": "assets",
+    "plugin_version": "1.0",
+    "i2b2_version": "1.8.1",
+    "base": "index.html",
+    "sandbox": true,
+    "authorizedTunnel": {
+        "functions": [
+            "i2b2.h.getUser"
+        ]
+    }
+}

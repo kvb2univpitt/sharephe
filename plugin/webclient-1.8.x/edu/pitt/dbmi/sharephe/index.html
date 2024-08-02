@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Sharephe Plugin</title>
+        <link rel="stylesheet"  href="assets/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/bootstrap-icons/bootstrap-icons.min.css" />
+        <link rel="stylesheet" href="assets/datatables/datatables.min.css" />
+        <link rel="stylesheet" href="css/sharephe-main.css" />
+        <script src="js/i2b2-loader.js"></script>
+    </head>
+    <body>
+        <div class="py-2 px-4">
+            <!-- settings -->
+            <ul class="nav justify-content-end">
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" id="sharephe-settings" aria-current="page" href="#"><i class="bi bi-gear-fill h6"></i> Settings</a>
+                </li>
+            </ul>
+            <!-- end of settings -->
+
+            <!-- tabs -->
+            <ul class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="nav-phenotypes-tab" data-bs-toggle="tab" data-bs-target="#nav-phenotypes" type="button" role="tab"  aria-controls="nav-phenotypes" aria-selected="true">Phenotypes</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link disabled" id="nav-workbook-tab" data-bs-toggle="tab" data-bs-target="#nav-workbooks" type="button" role="tab" aria-controls="nav-workbooks" aria-selected="false">Workbook</button>
+                </li>
+                <li class="nav-item disabled" role="presentation">
+                    <button class="nav-link disabled" id="nav-query-details-tab" data-bs-toggle="tab" data-bs-target="#nav-query-details" type="button" role="tab" aria-controls="nav-query-details" aria-selected="false">Query Details</button>
+                </li>
+            </ul>
+            <!-- end of tabs -->
+
+            <!-- tab contents -->
+            <div class="tab-content" id="nav-tab-content">
+                <div class="tab-pane fade show active" id="nav-phenotypes" role="tabpanel" aria-labelledby="nav-phenotypes-tab">
+                    <div class="card" id="sharephe-workbook-list">
+                        <div class="card-header d-flex justify-content-between align-items-center sharephe-border">
+                            <h6 class="m-0 sharephe-panel-title">Phenotypes</h6>
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <button id="sync-from-cloud-btn" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-cloud-download-fill"></i> Sync From Cloud
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body sharephe-border">
+                            <div class="table-responsive py-4">
+                                <table id="sharephe-workbook-table" class="table table-bordered table-hover table-sm my-3" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Workbook ID</th>
+                                            <th>Type</th>
+                                            <th>Title</th>
+                                            <th>Authors</th>
+                                            <th>Institution</th>
+                                            <th>Files</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-workbooks" role="tabpanel" aria-labelledby="nav-workbook-tab"></div>
+                <div class="tab-pane fade" id="nav-query-details" role="tabpanel" aria-labelledby="nav-query-details-tab"></div>
+            </div>
+            <!-- end of tab contents -->
+        </div>
+        <!-- end of page padding -->
+
+        <!-- models -->
+        <div class="modal fade" id="sharephe-settings-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-settings-modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="sharephe-settings-modal-title">Settings</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="sharephe-settings-modal-message">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="m-0"><i class="bi bi-key"></i> API Key</h6>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="showhide-apiKey">
+                                            <i class="bi bi-eye-slash d-none" id="hide-apiKey"></i>
+                                            <i class="bi bi-eye" id="show-apiKey"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="apiKey" aria-label="API key" aria-describedby="showhide-apiKey" />
+                                        <button class="btn btn-success float-end" id="apiKey-set" type="button">Set API Key</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sharephe-message-modal" tabindex="-1" aria-labelledby="sharephe-message-modal-title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="sharephe-message-modal-title">Message Title</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="sharephe-message-modal-message">Message</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sharephe-progress-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-progress-modal-title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="sharephe-progress-modal-title">Progress</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sharephe-query-view-modal" tabindex="-1" aria-labelledby="sharephe-query-view-modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="sharephe-query-view-modal-title">Query Title</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="float-end">
+                            <a class="nav-link active" id="sharephe-query-copy-clipboard" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard">
+                                <i class="bi bi-clipboard" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <pre><code class="hljs language-xml" id="sharephe-query-view-modal-message"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of models -->
+        <script src="assets/jquery/jquery-3.6.3.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/datatables/datatables.min.js"></script>
+        <script src="assets/jquery-validation/jquery.validate.min.js"></script>
+        <script src="assets/xml-beautify/XmlBeautify.js"></script>
+        <script src="assets/highlight/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script src="js/sharephe-modals.js"></script>
+        <script src="js/sharephe-rest.js"></script>
+        <script src="js/sharephe-events.js"></script>
+        <script src="js/sharephe-main.js"></script>
+    </body>
+</html>
