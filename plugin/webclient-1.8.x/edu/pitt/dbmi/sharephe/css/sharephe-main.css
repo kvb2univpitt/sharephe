@@ -114,3 +114,23 @@ div.droptrgt {
     width: 140px;
     text-align: right;
 }
+
+/*** Details tab ***/
+
+table.table-concepts {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.table-concepts td {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
+}
+table.table-concepts tr:hover td {
+    background-color: #dcdcdc;
+}
+
+.sharephe-query-name {
+    font-weight: 700;
+    border-bottom: 1px solid #63758C;
+    background-color: #f8f9fa;
+}

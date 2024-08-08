@@ -75,3 +75,21 @@ i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, error
         error: errorHandler
     });
 };
+
+i2b2.sharephe.rest.queryXml = {};
+i2b2.sharephe.rest.queryXml.details = {};
+i2b2.sharephe.rest.queryXml.details.fetchConcepts = function (term, successHandler, errorHandler) {
+    const key = encodeURIComponent(encodeURIComponent(term.key));
+    jQuery.ajax({
+        type: 'GET', // For jQuery < 1.9
+        method: 'GET',
+        cache: true,
+        dataType: 'json',
+        url: `${i2b2.sharephe.rest.url}/terms/${key}?source=web`,
+        headers: {
+            'Accept': 'application/json'
+        },
+        success: successHandler,
+        error: errorHandler
+    });
+};

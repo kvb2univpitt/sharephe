@@ -111,6 +111,9 @@ i2b2.sharephe.setActionListeners = function () {
 
     // workbook form validation checkbox
     $(document).on('click', '#workbook_is_validated', i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox);
+
+    // detail tab
+    $(document).on('show.bs.tab', '#nav-query-details-tab', i2b2.sharephe.event.tab.details.onShow);
 };
 
 // *********************** i2b2 plugin configurations **************************

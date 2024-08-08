@@ -140,3 +140,11 @@ i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox = function () {
         }
     }
 };
+
+i2b2.sharephe.event.tab = {};
+i2b2.sharephe.event.tab.details = {};
+i2b2.sharephe.event.tab.details.onShow = function () {
+    let mainElement = document.getElementById("sharephe-details");
+    mainElement.innerHTML = '';
+    i2b2.sharephe.queryXml.details.extractAndDisplay(mainElement);
+};

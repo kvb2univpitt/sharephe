@@ -210,7 +210,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-query-details" role="tabpanel" aria-labelledby="nav-query-details-tab"></div>
+                <div class="tab-pane fade" id="nav-query-details" role="tabpanel" aria-labelledby="nav-query-details-tab">
+                    <div class="card" id="sharephe-query-details">
+                        <div class="card-header d-flex justify-content-between align-items-center sharephe-border">
+                            <h6 class="m-0 sharephe-panel-title">Query Details</h6>
+                            <nav class="navbar navbar-expand-sm m-0 p-0">
+                                <div class="container-fluid">
+                                    <div class="input-group flex-nowrap me-3">
+                                        <label class="form-label mt-2 me-2" for="sharephe-data-format">Data Format:</label>
+                                        <select class="form-select form-select-sm" id="sharephe-data-format">
+                                            <option value="csv" selected="selected">CSV</option>
+                                            <option value="json">JSON</option>
+                                        </select>
+                                    </div>
+                                    <div class="collapse navbar-collapse">
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="sharephe-copy-details" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy to clipboard">
+                                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="sharephe-export-details" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to file">
+                                                    <i class="bi bi-file-arrow-down" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="card-body sharephe-border">
+                            <div id="sharephe-details"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- end of tab contents -->
         </div>
