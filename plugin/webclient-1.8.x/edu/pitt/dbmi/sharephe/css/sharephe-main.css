@@ -40,3 +40,77 @@ table#sharephe-workbook-table th {
     background-color: #216288 !important;
     color: lightgrey;
 }
+
+/*** workbook tab ***/
+
+#sharephe-workbook-form-area {
+    background-color: #f7f7f7;
+    color: #777;
+}
+
+table#sharephe-workbook-form-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+table#sharephe-workbook-form-table th {
+    border: 0;
+    text-align: left;
+    width: 180px;
+}
+
+table#sharephe-workbook-form-table td {
+    padding: 5px 0 5px 0;
+}
+
+#sharephe-attachment-list {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+#sharephe-selected-files {
+    background-color: #e9ecef;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+table#sharephe-selected-file-table {
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+
+#sharephe-current-attachements {
+    background-color: #fff;
+    padding: 0.5rem !important;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+table#sharephe-current-attachement-table {
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+
+table#sharephe-xml-query-table {
+    width: 100% !important;
+    vertical-align: middle;
+}
+
+div.droptrgt {
+    text-align:center;
+    border: 1px solid #63758C;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.sharephe-xml-query-btn {
+    width: 140px;
+    text-align: right;
+}

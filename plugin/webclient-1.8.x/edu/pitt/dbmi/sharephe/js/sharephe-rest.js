@@ -23,16 +23,17 @@ i2b2.sharephe.rest.apikey.verify = function (onCompleteCallback) {
             'Authorization': 'Basic ' + btoa(apikey + ':')
         },
         success: function (data) {
-            if (data && data.isValid) {
-                i2b2.sharephe.user.isAuthenticated = true;
-            } else {
-                i2b2.sharephe.user.isAuthenticated = false;
-            }
+            i2b2.sharephe.user.isAuthenticated = (data && data.isValid);
         },
         error: function () {
             i2b2.sharephe.user.isAuthenticated = false;
         },
         complete: function () {
+            if (!i2b2.sharephe.user.isAuthenticated) {
+                i2b2.sharephe.workbook.form.createNew();
+                i2b2.sharephe.workbook.form.setInputFieldsReadOnly(true);
+                $('#sharephe-workbook-submit-btn').hide();
+            }
             if (onCompleteCallback) {
                 onCompleteCallback();
             }
@@ -43,8 +44,7 @@ i2b2.sharephe.rest.apikey.verify = function (onCompleteCallback) {
 // workbook REST API
 i2b2.sharephe.rest.workbook = {};
 i2b2.sharephe.rest.workbook.fetchList = function (successHandler, errorHandler) {
-    let api_key = '';
-    const apikey = (api_key) ? api_key : '';
+    const apikey = i2b2.sharephe.user.apiKey.value;
     $.ajax({
         type: 'GET', // For jQuery < 1.9
         method: 'GET',
@@ -52,7 +52,24 @@ i2b2.sharephe.rest.workbook.fetchList = function (successHandler, errorHandler) 
         url: i2b2.sharephe.rest.url + '/workbooks?source=web',
         headers: {
             'Accept': 'application/json',
-            'Authorization': 'Basic ' + apikey
+            'Authorization': 'Basic ' + btoa(apikey + ':')
+        },
+        success: successHandler,
+        error: errorHandler
+    });
+};
+i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, errorHandler) {
+    phenotypeId = encodeURIComponent(encodeURIComponent(phenotypeId));
+    const apikey = i2b2.sharephe.user.apiKey.value;
+    jQuery.ajax({
+        type: 'GET', // For jQuery < 1.9
+        method: 'GET',
+        cache: false,
+        dataType: 'json',
+        url: i2b2.sharephe.rest.url + '/workbooks/' + phenotypeId + '?source=web',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Basic ' + btoa(apikey + ':')
         },
         success: successHandler,
         error: errorHandler

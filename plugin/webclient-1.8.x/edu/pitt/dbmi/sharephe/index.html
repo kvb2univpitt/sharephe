@@ -7,6 +7,8 @@
         <link rel="stylesheet"  href="assets/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/bootstrap-icons/bootstrap-icons.min.css" />
         <link rel="stylesheet" href="assets/datatables/datatables.min.css" />
+        <link rel="stylesheet" href="assets/highlight/languages/xml.min.js" />
+        <link rel="stylesheet" href="assets/highlight/styles/intellij-light.min.css" />
         <link rel="stylesheet" href="css/sharephe-main.css" />
         <script src="js/i2b2-loader.js"></script>
     </head>
@@ -14,7 +16,7 @@
         <div class="py-2 px-4">
             <!-- settings -->
             <ul class="nav justify-content-end">
-                <li class="nav-item dropdown">
+                <li class="nav-item">
                     <a class="nav-link active" id="sharephe-settings" aria-current="page" href="#"><i class="bi bi-gear-fill h6"></i> Settings</a>
                 </li>
             </ul>
@@ -67,7 +69,147 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-workbooks" role="tabpanel" aria-labelledby="nav-workbook-tab"></div>
+                <div class="tab-pane fade" id="nav-workbooks" role="tabpanel" aria-labelledby="nav-workbook-tab">
+                    <div class="card" id="sharephe-workbook">
+                        <div class="card-header d-flex justify-content-between align-items-center sharephe-border">
+                            <h6 class="m-0 sharephe-panel-title">Phenotype Workbook</h6>
+                            <ul class="nav nav-pills" id="sharephe-workbook-options" style="display: none;">
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill" id="sharephe-workbook-create-btn">
+                                        <i class="bi bi-plus-lg"></i> Create New
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-primary rounded-pill ms-2" id="sharephe-workbook-edit-btn">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-warning rounded-pill ms-2" id="sharephe-workbook-cancel-btn" style="display: none;">
+                                        <i class="bi bi-x-circle"></i> Cancel
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body sharephe-border" id="sharephe-workbook-form-area">
+                            <form id="sharephe-workbook-form" enctype="multipart/form-data" method="post">
+                                <input id="workbook_query_xml" name="workbook_query_xml" type="hidden" value="" />
+                                <input id="workbook_attachments" name="workbook_attachments" type="hidden" value="" />
+                                <div class="mb-2 row">
+                                    <label for="workbook_is_public" class="col-sm-2 col-form-label fw-bold">Public</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-check-input" id="workbook_is_public" name="workbook_is_public" type="checkbox" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_id" class="col-sm-2 col-form-label fw-bold">Workbook ID</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="workbook_id" name="workbook_id" type="text" value="" required="required" disabled="disabled" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_type" class="col-sm-2 col-form-label fw-bold">Workbook Type</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select form-select-sm" id="workbook_type" name="workbook_type" required="required">
+                                            <option value="">Please select one.</option>
+                                            <option value="Clinical Trial">Clinical Trial</option>
+                                            <option value="Computable Phenotypes">Computable Phenotypes</option>
+                                            <option value="Concept Set">Concept Set</option>
+                                            <option value="Cohort">Cohort</option>
+                                            <option value="ML Phenotype">ML Phenotype</option>
+                                            <option value="Others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_title" class="col-sm-2 col-form-label fw-bold">Workbook Title</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="workbook_title" name="workbook_title" type="text" value="" required="required" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_authors" class="col-sm-2 col-form-label fw-bold">Main Authors</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="workbook_authors" name="workbook_authors" type="text" value="" required="required" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_institution" class="col-sm-2 col-form-label fw-bold">Institution</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="workbook_institution" name="workbook_institution" type="text" value="" required="required" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_files" class="col-sm-2 col-form-label fw-bold">Supporting Attachments</label>
+                                    <div class="col-sm-10" id="sharephe-attachment-list-area" style="display: none;">
+                                        <div class="sharephe-panel" id="sharephe-attachment-list"></div>
+                                    </div>
+                                    <div class="col-sm-10" id="workbook-files-area">
+                                        <input id="workbook_files" multiple name="workbook_files" type="file" />
+                                        <div class="mt-2" id="sharephe-selected-files">
+                                            <table class="table table-sm table-borderless table-hover m-0" id="sharephe-selected-file-table">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 row" id="sharephe-current-attachement-area" style="display: none;">
+                                    <label class="col-sm-2 col-form-label fw-bold">Current Attachments</label>
+                                    <div class="col-sm-10">
+                                        <div class="sharephe-panel" id="sharephe-current-attachements">
+                                            <table class="table table-sm table-borderless table-hover m-0" id="sharephe-current-attachement-table">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label class="col-sm-2 col-form-label fw-bold">Queries</label>
+                                    <div class="col-sm-10">
+                                        <div class="sharephe-panel">
+                                            <table class="table table-sm table-borderless table-hover m-0" id="sharephe-xml-query-table">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_is_validated" class="col-sm-2 col-form-label fw-bold">Validated</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-check-input" id="workbook_is_validated" name="workbook_is_validated" type="checkbox" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_validated_by" class="col-sm-2 col-form-label fw-bold">Validated By</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="workbook_validated_by" name="workbook_validated_by" type="text" value="" disabled="disabled" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="workbook_time_validated" class="col-sm-2 col-form-label fw-bold">Validation Date</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control form-control-sm" id="workbook_time_validated" name="workbook_time_validated" type="date" value="" disabled="disabled" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-success mt-2" id="sharephe-workbook-submit-btn">
+                                        <i class="bi bi-save"></i> Save and Publish to Cloud
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer sharephe-border" id="sharephe-workbook-footer">
+                            <table style="font-size: 12px;">
+                                <tbody>
+                                    <tr>
+                                        <th>Created On:</th>
+                                        <td id="workbook-created-on"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Updated On:</th>
+                                        <td id="workbook-updated-on"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="nav-query-details" role="tabpanel" aria-labelledby="nav-query-details-tab"></div>
             </div>
             <!-- end of tab contents -->
@@ -145,12 +287,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="float-end">
-                            <a class="nav-link active" id="sharephe-query-copy-clipboard" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard">
-                                <i class="bi bi-clipboard" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <pre><code class="hljs language-xml" id="sharephe-query-view-modal-message"></code></pre>
+                        <!-- copy -->
+                        <ul class="nav justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link active p-0 pb-2" id="sharephe-query-copy-clipboard" aria-current="page" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard">
+                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end of copy -->
+
+                        <!-- query XML -->
+                        <pre><code class="language-xml" id="sharephe-query-view-modal-message"></code></pre>
+                        <!-- end of query XML -->
                     </div>
                 </div>
             </div>
@@ -162,10 +311,12 @@
         <script src="assets/jquery-validation/jquery.validate.min.js"></script>
         <script src="assets/xml-beautify/XmlBeautify.js"></script>
         <script src="assets/highlight/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script>
+        <script src="js/sharephe-hive_helpers.js"></script>
+        <script src="js/sharephe-query-xml.js"></script>
         <script src="js/sharephe-modals.js"></script>
         <script src="js/sharephe-rest.js"></script>
         <script src="js/sharephe-events.js"></script>
+        <script src="js/sharephe-workbook.js"></script>
         <script src="js/sharephe-main.js"></script>
     </body>
 </html>
