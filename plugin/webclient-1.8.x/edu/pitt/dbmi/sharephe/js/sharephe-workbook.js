@@ -144,8 +144,25 @@ i2b2.sharephe.workbook.form.clearDDFields = function () {
         table.deleteRow(-1);
     }
 };
-i2b2.sharephe.workbook.form.cancelEdit = function (workbook) {};
-i2b2.sharephe.workbook.form.edit = function (workbook) {};
+i2b2.sharephe.workbook.form.cancelEdit = function (workbook) {
+    i2b2.sharephe.workbook.form.populateReadOnly(workbook);
+    i2b2.sharephe.tab.enableDisableDetailTab();
+};
+i2b2.sharephe.workbook.form.edit = function (workbook) {
+    i2b2.sharephe.workbook.form.setInputFieldsReadOnly(false);
+    i2b2.sharephe.workbook.form.populate(workbook);
+
+    $('#sharephe-workbook-create-btn').hide();
+    $('#sharephe-workbook-edit-btn').hide();
+    $('#sharephe-workbook-cancel-btn').show();
+
+    $('#sharephe-workbook-submit-btn').show();
+
+    $('#sharephe-attachment-list-area').hide();
+    $('#workbook-files-area').show();
+
+    $('#sharephe-current-attachement-area').show();
+};
 i2b2.sharephe.workbook.form.createNew = function () {
     i2b2.sharephe.workbook.form.setInputFieldsReadOnly(false);
     i2b2.sharephe.workbook.form.populate({
@@ -226,18 +243,24 @@ i2b2.sharephe.workbook.form.removeSelectedAttachment = function (obj, fileName) 
 };
 
 i2b2.sharephe.workbook.form.queryXml = function () {};
+i2b2.sharephe.workbook.form.queryXml.delete = function (obj, index) {
+    i2b2.sharephe.workbook.form.queryXmls[index] = null;
+    $(obj).closest('tr').remove();
+
+    i2b2.sharephe.tab.enableDisableDetailTab();
+};
 i2b2.sharephe.workbook.form.queryXml.createPSDDField = function (row, id, text) {
     let queryDropElement = document.createElement('div');
     queryDropElement.className = 'droptrgt SDX-QM p-1 text-bg-light';
     queryDropElement.innerHTML = i2b2.sharephe.workbook.form.isReadOnly
             ? text
-            : `${text} <a class="text-danger float-end" title="Delete Query" onclick="i2b2.sharephe.workbook.form.deleteQueryXml(${id}, this);"><i class="bi bi-trash3"></i></a>`;
+            : `${text} <a class="text-danger float-end" title="Delete Query" onclick="i2b2.sharephe.workbook.form.queryXml.delete(${id}, this);"><i class="bi bi-trash3"></i></a>`;
 
     row.insertCell(0).appendChild(queryDropElement);
 };
 i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, id, name, queryXML) {
-    const queryRunBtnElement = i2b2.sharephe.workbook.form.createRunQueryButton(id, name, queryXML);
-    const viewQueryBtnElement = i2b2.sharephe.workbook.form.createViewQueryButton(id, name, queryXML);
+    const queryRunBtnElement = i2b2.sharephe.workbook.form.queryXml.createRunQueryButton(id, name, queryXML);
+    const viewQueryBtnElement = i2b2.sharephe.workbook.form.queryXml.createViewQueryButton(id, name, queryXML);
 
     const buttonGroup = document.createElement("div");
     buttonGroup.className = 'btn-group btn-group-sm';
@@ -249,7 +272,7 @@ i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, id, name, qu
     queryBtnCell.className = "sharephe-xml-query-btn";
     queryBtnCell.appendChild(buttonGroup);
 };
-i2b2.sharephe.workbook.form.createViewQueryButton = function (id, name, queryXML) {
+i2b2.sharephe.workbook.form.queryXml.createViewQueryButton = function (id, name, queryXML) {
     const queryViewBtnElement = document.createElement("button");
     queryViewBtnElement.id = 'detail-query-' + id;
     queryViewBtnElement.className = 'btn btn-secondary btn-sm';
@@ -262,7 +285,7 @@ i2b2.sharephe.workbook.form.createViewQueryButton = function (id, name, queryXML
 
     return queryViewBtnElement;
 };
-i2b2.sharephe.workbook.form.createRunQueryButton = function (id, name, queryXML) {
+i2b2.sharephe.workbook.form.queryXml.createRunQueryButton = function (id, name, queryXML) {
     let queryRunBtnElement = document.createElement("button");
     queryRunBtnElement.id = `SharepheBtn-viewRun-${id}`;
     queryRunBtnElement.className = 'viewRun SDX btn btn-info btn-sm mr-2';
