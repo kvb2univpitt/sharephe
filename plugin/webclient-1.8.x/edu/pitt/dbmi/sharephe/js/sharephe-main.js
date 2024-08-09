@@ -111,9 +111,16 @@ i2b2.sharephe.setActionListeners = function () {
 
     // workbook form validation checkbox
     $(document).on('click', '#workbook_is_validated', i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox);
+    
+    // query XML view
+    $(document).on('click', '#sharephe-query-copy-clipboard', i2b2.sharephe.event.queryXml.onclickCopyAndPaste);
 
-    // detail tab
+    // detail tab on show
     $(document).on('show.bs.tab', '#nav-query-details-tab', i2b2.sharephe.event.tab.details.onShow);
+    
+    // detail tab: copy and export data
+    $(document).on('click', '#sharephe-copy-details', i2b2.sharephe.event.queryXml.details.onclickCopy);
+    $(document).on('click', '#sharephe-export-details', i2b2.sharephe.event.queryXml.details.onclickExport);
 };
 
 // *********************** i2b2 plugin configurations **************************

@@ -410,3 +410,16 @@ i2b2.sharephe.queryXml.details.extractAndDisplay = function (mainElement) {
         }
     }
 };
+
+i2b2.sharephe.queryXml.details.copy = function () {
+    i2b2.sharephe.utils.clipboard.copyConceptDetails(i2b2.sharephe.workbook.form.detailData);
+
+    const tooltip = bootstrap.Tooltip.getInstance('#sharephe-copy-details');
+    tooltip.setContent({'.tooltip-inner': 'Copied!'});
+    setTimeout(() => {
+        tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
+    }, 2000);
+};
+i2b2.sharephe.queryXml.details.export = function () {
+    i2b2.sharephe.utils.export.conceptDetails.exportToFile(i2b2.sharephe.workbook.form.detailData);
+};

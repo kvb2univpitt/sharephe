@@ -141,6 +141,26 @@ i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox = function () {
     }
 };
 
+i2b2.sharephe.event.queryXml = {};
+i2b2.sharephe.event.queryXml.onclickCopyAndPaste = function () {
+    i2b2.sharephe.utils.clipboard.copyQueryXml(document.getElementById('sharephe-query-view-modal-message').textContent);
+
+    const tooltip = bootstrap.Tooltip.getInstance('#sharephe-query-copy-clipboard');
+    tooltip.setContent({'.tooltip-inner': 'Copied!'});
+    setTimeout(() => {
+        tooltip.setContent({'.tooltip-inner': 'Copy to clipboard'});
+    }, 2000);
+};
+
+
+i2b2.sharephe.event.queryXml.details = {};
+i2b2.sharephe.event.queryXml.details.onclickCopy = function () {
+    i2b2.sharephe.queryXml.details.copy();
+};
+i2b2.sharephe.event.queryXml.details.onclickExport = function () {
+    i2b2.sharephe.queryXml.details.export();
+};
+
 i2b2.sharephe.event.tab = {};
 i2b2.sharephe.event.tab.details = {};
 i2b2.sharephe.event.tab.details.onShow = function () {
