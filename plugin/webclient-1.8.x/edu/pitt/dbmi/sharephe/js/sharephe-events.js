@@ -121,7 +121,6 @@ i2b2.sharephe.event.workbook.form.onclickEdit = function () {
 i2b2.sharephe.event.workbook.form.onclickCancelEdit = function () {
     i2b2.sharephe.workbook.form.cancelEdit(i2b2.sharephe.workbook.form.currentWorkbook);
 };
-
 i2b2.sharephe.event.workbook.form.validation = {};
 i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox = function () {
     if (!i2b2.sharephe.workbook.form.isReadOnly) {

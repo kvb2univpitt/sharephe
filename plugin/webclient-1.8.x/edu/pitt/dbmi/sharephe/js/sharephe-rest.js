@@ -61,7 +61,7 @@ i2b2.sharephe.rest.workbook.fetchList = function (successHandler, errorHandler) 
 i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, errorHandler) {
     phenotypeId = encodeURIComponent(encodeURIComponent(phenotypeId));
     const apikey = i2b2.sharephe.user.apiKey.value;
-    jQuery.ajax({
+    $.ajax({
         type: 'GET', // For jQuery < 1.9
         method: 'GET',
         cache: false,
@@ -75,12 +75,31 @@ i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, error
         error: errorHandler
     });
 };
+i2b2.sharephe.rest.workbook.save = function (formData, successHandler, errorHandler) {
+    const apikey = i2b2.sharephe.user.apiKey.value;
+    $.ajax({
+        url: i2b2.sharephe.rest.url + '/workbooks?source=web',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Basic ' + btoa(apikey + ':')
+        },
+        data: formData,
+        enctype: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST', // For jQuery < 1.9
+        success: successHandler,
+        error: errorHandler
+    });
+};
 
 i2b2.sharephe.rest.queryXml = {};
 i2b2.sharephe.rest.queryXml.details = {};
 i2b2.sharephe.rest.queryXml.details.fetchConcepts = function (term, successHandler, errorHandler) {
     const key = encodeURIComponent(encodeURIComponent(term.key));
-    jQuery.ajax({
+    $.ajax({
         type: 'GET', // For jQuery < 1.9
         method: 'GET',
         cache: true,

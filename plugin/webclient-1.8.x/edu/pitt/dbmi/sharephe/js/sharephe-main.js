@@ -90,6 +90,32 @@ i2b2.sharephe.tab.enableDisableDetailTab = function () {
     }
 };
 
+/**
+ * Phenotypes (workbook list).
+ */
+i2b2.sharephe.phenotypes = {};
+i2b2.sharephe.phenotypes.refresh = function () {
+    const successHandler = function (workbooks) {
+        setTimeout(function () {
+            i2b2.sharephe.datatable.clear();
+            workbooks.forEach(function (workbook) {
+                i2b2.sharephe.datatable.row.add([
+                    workbook.phenotypeId,
+                    workbook.type,
+                    workbook.title,
+                    workbook.authors.join(', '),
+                    workbook.institution,
+                    workbook.files.join(', ')
+                ]);
+            });
+
+            i2b2.sharephe.datatable.draw();
+        }, 500);
+    };
+    const errorHandler = function () { };
+    i2b2.sharephe.rest.workbook.fetchList(successHandler, errorHandler);
+};
+
 i2b2.sharephe.setActionListeners = function () {
     $(document).on('click', '#sharephe-settings', i2b2.sharephe.event.settings.onclick);
 
