@@ -6,6 +6,7 @@ i2b2.sharephe.workbook = {};
 
 i2b2.sharephe.workbook.form = {};
 i2b2.sharephe.workbook.form.isReadOnly = false;
+i2b2.sharephe.workbook.form.isBackButtonShown = false;
 i2b2.sharephe.workbook.form.queryXmls = [];
 i2b2.sharephe.workbook.form.detailData = [];
 i2b2.sharephe.workbook.form.tempAttachments = new DataTransfer();
@@ -258,6 +259,7 @@ i2b2.sharephe.workbook.form.queryXml.createPSDDField = function (row, id, text) 
 
     row.insertCell(0).appendChild(queryDropElement);
 };
+i2b2.sharephe.workbook.form.queryXml.run = function (id, queryName, queryXML) {};
 i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, id, name, queryXML) {
     const queryRunBtnElement = i2b2.sharephe.workbook.form.queryXml.createRunQueryButton(id, name, queryXML);
     const viewQueryBtnElement = i2b2.sharephe.workbook.form.queryXml.createViewQueryButton(id, name, queryXML);
@@ -292,7 +294,7 @@ i2b2.sharephe.workbook.form.queryXml.createRunQueryButton = function (id, name, 
     queryRunBtnElement.type = 'button';
     queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query';
     queryRunBtnElement.addEventListener("click", function () {
-//        i2b2.sharephe.workbook.form.queryXml.masterView(index);
+        i2b2.sharephe.workbook.form.queryXml.run(id, name, queryXML);
     }, false);
 
     return queryRunBtnElement;
@@ -339,6 +341,15 @@ i2b2.sharephe.workbook.form.addSelectedAttachments = function (files) {
 
     // update the actual attachment storage
     document.getElementById("workbook_files").files = i2b2.sharephe.workbook.form.tempAttachments.files;
+};
+i2b2.sharephe.workbook.form.backToPlugIn = function () {
+    $('#sharephe-back-btn').hide();
+    i2b2.hive.MasterView.setViewMode('Analysis');
+};
+i2b2.sharephe.workbook.form.createBackToPlugInButton = function () {
+    if (!$('#sharephe-back-btn').length) {
+        $('body').prepend('<button id="sharephe-back-btn" onclick="i2b2.sharephe.workbook.form.backToPlugIn();"><i class="bi bi-arrow-left-square-fill"></i> Back to Sharephe</button>');
+    }
 };
 i2b2.sharephe.workbook.form.submit = function (form) {
     i2b2.sharephe.modal.progress.show('Saving Phenotype');

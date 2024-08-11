@@ -115,6 +115,33 @@ div.droptrgt {
     text-align: right;
 }
 
+#sharephe-back-btn {
+    display: inline-block;
+    font-weight: bold;
+    font-family: arial,helvetica;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #E86850;
+    border: 1px solid #dc3545;
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    margin-left: 45%;
+    margin-top: 21px;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
 /*** Details tab ***/
 
 table.table-concepts {

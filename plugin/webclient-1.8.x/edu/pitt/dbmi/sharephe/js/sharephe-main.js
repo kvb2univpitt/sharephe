@@ -162,5 +162,7 @@ window.addEventListener("I2B2_READY", () => {
 
         i2b2.sharephe.setActionListeners();
         i2b2.sharephe.settings.apikey.fetch();
+
+        i2b2.sharephe.workbook.form.createBackToPlugInButton();
     });
 });

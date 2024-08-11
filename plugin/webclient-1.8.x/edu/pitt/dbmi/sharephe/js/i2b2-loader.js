@@ -128,3 +128,8 @@ window.addEventListener("message", (event) => {
         }
     }
 });
+
+i2b2.h.StripCRLF = function (input) {
+    let ret = String(input).replace(/\r/g, ">");
+    return ret.replace(/\n/g, ">");
+};
