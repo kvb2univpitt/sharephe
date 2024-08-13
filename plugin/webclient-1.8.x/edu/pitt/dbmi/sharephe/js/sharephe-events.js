@@ -113,7 +113,7 @@ i2b2.sharephe.event.workbook.form.onchangeAddAttachments = function () {
     i2b2.sharephe.workbook.form.addSelectedAttachments(this.files);
 };
 i2b2.sharephe.event.workbook.form.onclickCreate = function () {
-    i2b2.sharephe.workbook.form.create();
+    i2b2.sharephe.workbook.form.createNew();
 };
 i2b2.sharephe.event.workbook.form.onclickEdit = function () {
     i2b2.sharephe.workbook.form.edit(i2b2.sharephe.workbook.form.currentWorkbook);
