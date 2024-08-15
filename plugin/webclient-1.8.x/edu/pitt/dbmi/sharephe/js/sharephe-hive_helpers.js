@@ -108,3 +108,15 @@ i2b2.sharephe.h.getXNodeVal = function (xmlElement, nodeName, includeChildren) {
     }
     return final;
 };
+
+i2b2.sharephe.h.Escape = function (inStrValue) {
+    if (typeof inStrValue === "number") {
+        var t = inStrValue.toString();
+    } else {
+        var t = new String(inStrValue);
+    }
+    t = t.replace(/&/g, "&amp;");
+    t = t.replace(/</g, "&lt;");
+    t = t.replace(/>/g, "&gt;");
+    return t;
+};
