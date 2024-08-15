@@ -308,6 +308,8 @@ i2b2.sharephe.workbook.form.queryXml.qmDropHandler = function (sdxData, droppedO
     });
 };
 i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML) {
+    i2b2.sharephe.modal.progress.runQuery.show(queryName);
+
     let queryDef = '<query_definition>';
     if (queryXML.getElementsByTagName('query_definition').length > 0) {
         queryDef += queryXML.getElementsByTagName('query_definition')[0].innerHTML;
@@ -328,7 +330,12 @@ i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML)
         query_run_method: ''
     };
     i2b2.ajax.CRC.runQueryInstance_fromQueryDefinition(params).then(data => {
+        const resultXml = i2b2.sharephe.h.parseXml(data);
+        const queryStatusType = resultXml.getElementsByTagName('query_status_type')[0];
+        const statusType_id = i2b2.sharephe.h.getXNodeVal(queryStatusType, 'status_type_id');
+
         setTimeout(parent.i2b2.CRC.view.history.doRefreshAll, 500);
+        setTimeout(i2b2.sharephe.modal.progress.runQuery.hide, 500);
     });
 };
 i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, index, name, queryXML) {

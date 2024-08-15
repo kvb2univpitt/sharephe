@@ -23,6 +23,16 @@ i2b2.sharephe.modal.progress.show = function (title) {
 i2b2.sharephe.modal.progress.hide = function () {
     $('#sharephe-progress-modal').modal('hide');
 };
+
+i2b2.sharephe.modal.progress.runQuery = {};
+i2b2.sharephe.modal.progress.runQuery.show = function (queryName) {
+    $('#sharephe-run-query-modal-queryName').text(queryName);
+    $('#sharephe-run-query-modal').modal('show');
+};
+i2b2.sharephe.modal.progress.runQuery.hide = function () {
+    $('#sharephe-run-query-modal').modal('hide');
+};
+
 // message modals
 i2b2.sharephe.modal.message = {};
 i2b2.sharephe.modal.message.show = function (title, message) {
