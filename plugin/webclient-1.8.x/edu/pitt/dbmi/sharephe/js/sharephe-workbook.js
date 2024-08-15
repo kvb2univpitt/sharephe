@@ -274,7 +274,6 @@ i2b2.sharephe.workbook.form.queryXml.createNewPSDDField = function (id) {
     const table = document.getElementById('sharephe-xml-query-table');
     table.insertRow(-1).insertCell(0).appendChild(queryDropElement);
 };
-
 i2b2.sharephe.workbook.form.queryXml.qmDropHandler = function (sdxData, droppedOn) {
     if (i2b2.sharephe.workbook.form.isReadOnly) {
         return;
@@ -308,8 +307,30 @@ i2b2.sharephe.workbook.form.queryXml.qmDropHandler = function (sdxData, droppedO
         i2b2.sharephe.workbook.form.queryXml.createNewPSDDField(droppedIndex + 1);
     });
 };
+i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML) {
+    let queryDef = '<query_definition>';
+    if (queryXML.getElementsByTagName('query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns3:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns3:query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns4:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns4:query_definition')[0].innerHTML;
+    } else if (queryXML.getElementsByTagName('ns5:query_definition').length > 0) {
+        queryDef += queryXML.getElementsByTagName('ns5:query_definition')[0].innerHTML;
+    }
+    queryDef += '</query_definition>';
 
-i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML) {};
+    const params = {
+        result_wait_time: 180,
+        psm_query_definition: queryDef,
+        psm_result_output: '<result_output_list><result_output priority_index="9" name="patient_count_xml"/></result_output_list>',
+        shrine_topic: '',
+        query_run_method: ''
+    };
+    i2b2.ajax.CRC.runQueryInstance_fromQueryDefinition(params).then(data => {
+        setTimeout(parent.i2b2.CRC.view.history.doRefreshAll, 500);
+    });
+};
 i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, index, name, queryXML) {
     const queryRunBtnElement = i2b2.sharephe.workbook.form.queryXml.createRunQueryButton(index, name, queryXML);
     const viewQueryBtnElement = i2b2.sharephe.workbook.form.queryXml.createViewQueryButton(index, name, queryXML);
@@ -337,14 +358,14 @@ i2b2.sharephe.workbook.form.queryXml.createViewQueryButton = function (index, na
 
     return queryViewBtnElement;
 };
-i2b2.sharephe.workbook.form.queryXml.createRunQueryButton = function (id, name, queryXML) {
+i2b2.sharephe.workbook.form.queryXml.createRunQueryButton = function (index, name, queryXML) {
     let queryRunBtnElement = document.createElement("button");
-    queryRunBtnElement.id = `SharepheBtn-viewRun-${id}`;
+    queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
     queryRunBtnElement.className = 'viewRun SDX btn btn-info btn-sm mr-2';
     queryRunBtnElement.type = 'button';
     queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query';
     queryRunBtnElement.addEventListener("click", function () {
-        i2b2.sharephe.workbook.form.queryXml.run(id, name, queryXML);
+        i2b2.sharephe.workbook.form.queryXml.run(index, name, queryXML);
     }, false);
 
     return queryRunBtnElement;
