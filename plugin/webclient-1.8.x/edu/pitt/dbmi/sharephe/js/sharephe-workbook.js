@@ -331,11 +331,23 @@ i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML)
     };
     i2b2.ajax.CRC.runQueryInstance_fromQueryDefinition(params).then(data => {
         const resultXml = i2b2.sharephe.h.parseXml(data);
-        const queryStatusType = resultXml.getElementsByTagName('query_status_type')[0];
-        const statusType_id = i2b2.sharephe.h.getXNodeVal(queryStatusType, 'status_type_id');
+        const queryResultInstance = resultXml.getElementsByTagName('query_result_instance')[0];
+        const statusType_id = parseInt(i2b2.sharephe.h.getXNodeVal(queryResultInstance, 'status_type_id').trim());
 
         setTimeout(parent.i2b2.CRC.view.history.doRefreshAll, 500);
-        setTimeout(i2b2.sharephe.modal.progress.runQuery.hide, 500);
+
+        setTimeout(function () {
+            i2b2.sharephe.modal.progress.runQuery.hide();
+
+            if (statusType_id === 3) {
+                const numOfPatients = parseInt(i2b2.sharephe.h.getXNodeVal(queryResultInstance, 'set_size').trim());
+
+                i2b2.sharephe.modal.progress.runQuery.result.show(queryName, `Number of patients: ${numOfPatients}.`, true);
+            } else {
+                i2b2.sharephe.modal.progress.runQuery.result.show(queryName, 'ERROR', false);
+            }
+            i2b2.sharephe.modal.progress.runQuery.result.show(queryName, `Number of patients: ${numOfPatients}.`, true);
+        }, 500);
     });
 };
 i2b2.sharephe.workbook.form.queryXml.createButtons = function (row, index, name, queryXML) {

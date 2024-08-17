@@ -24,6 +24,7 @@ i2b2.sharephe.modal.progress.hide = function () {
     $('#sharephe-progress-modal').modal('hide');
 };
 
+// run query modals
 i2b2.sharephe.modal.progress.runQuery = {};
 i2b2.sharephe.modal.progress.runQuery.show = function (queryName) {
     $('#sharephe-run-query-modal-queryName').text(queryName);
@@ -31,6 +32,24 @@ i2b2.sharephe.modal.progress.runQuery.show = function (queryName) {
 };
 i2b2.sharephe.modal.progress.runQuery.hide = function () {
     $('#sharephe-run-query-modal').modal('hide');
+};
+
+// run query result modals
+i2b2.sharephe.modal.progress.runQuery.result = {};
+i2b2.sharephe.modal.progress.runQuery.result.show = function (queryName, message, isSuccess) {
+    $('#sharephe-run-query-result-modal-queryName').text(queryName);
+
+    if (isSuccess) {
+        $('#sharephe-run-query-result-msg').removeClass('alert-danger').addClass('alert-success');
+    } else {
+        $('#sharephe-run-query-result-msg').removeClass('alert-success').addClass('alert-danger');
+    }
+    $('#sharephe-run-query-result-msg').text(message);
+
+    $('#sharephe-run-query-result-modal').modal('show');
+};
+i2b2.sharephe.modal.progress.runQuery.result.hide = function () {
+    $('#sharephe-run-query-result-modal').modal('hide');
 };
 
 // message modals

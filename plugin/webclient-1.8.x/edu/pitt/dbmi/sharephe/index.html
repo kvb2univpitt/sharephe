@@ -250,7 +250,8 @@
         </div>
         <!-- end of page padding -->
 
-        <!-- models -->
+        <!-- modals -->
+        <!-- settings modal -->
         <div class="modal fade" id="sharephe-settings-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-settings-modal-title" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -283,6 +284,8 @@
                 </div>
             </div>
         </div>
+        <!-- end of settings modal -->
+        <!-- message modal -->
         <div class="modal fade" id="sharephe-message-modal" tabindex="-1" aria-labelledby="sharephe-message-modal-title" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -297,6 +300,8 @@
                 </div>
             </div>
         </div>
+        <!-- end of message modal -->
+        <!-- progress modal -->
         <div class="modal fade" id="sharephe-progress-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-progress-modal-title" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -313,6 +318,8 @@
                 </div>
             </div>
         </div>
+        !-- end of progress modal -->
+        <!-- view query modal -->
         <div class="modal fade" id="sharephe-query-view-modal" tabindex="-1" aria-labelledby="sharephe-query-view-modal-title" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -338,6 +345,8 @@
                 </div>
             </div>
         </div>
+        <!-- end of view query modal -->
+        <!-- run query modal -->
         <div class="modal fade" id="sharephe-run-query-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-run-query-modal-title" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -353,7 +362,27 @@
                 </div>
             </div>
         </div>
-        <!-- end of models -->
+        <!-- end of run query modal -->
+        <!-- run query result modal -->
+        <div class="modal fade" id="sharephe-run-query-result-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="sharephe-run-query-result-modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="sharephe-run-query-result-modal-title">Query Run Result</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>Query Name: </b><span id="sharephe-run-query-result-modal-queryName">Query name goes here.</span></p>
+                        <div class="alert" id="sharephe-run-query-result-msg"></div>
+                    </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of run query result modal -->
+        <!-- end of modals -->
         <script src="assets/jquery/jquery-3.6.3.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/datatables/datatables.min.js"></script>

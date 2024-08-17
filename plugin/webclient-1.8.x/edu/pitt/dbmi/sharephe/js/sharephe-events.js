@@ -43,6 +43,8 @@ i2b2.sharephe.event.settings.apiKey.setApiKey = function () {
 // phenotype list
 i2b2.sharephe.event.phenotypes = {};
 i2b2.sharephe.event.phenotypes.syncFromCloud = function () {
+    i2b2.sharephe.modal.progress.show('Sync From Cloud');
+
     const successHandler = function (workbooks) {
         setTimeout(function () {
             // populate i2b2.sharephe.datatables
@@ -59,9 +61,6 @@ i2b2.sharephe.event.phenotypes.syncFromCloud = function () {
             });
             i2b2.sharephe.datatable.draw();
 
-            i2b2.sharephe.workbook.form.createNew();
-            i2b2.sharephe.tab.enableDisableOnAuthentication();
-
             i2b2.sharephe.modal.progress.hide();
         }, 500);
     };
@@ -75,8 +74,10 @@ i2b2.sharephe.event.phenotypes.syncFromCloud = function () {
                     'Unable to retrieve phenotypes from cloud.');
         }, 500);
     };
-    i2b2.sharephe.modal.progress.show('Sync From Cloud');
     i2b2.sharephe.rest.workbook.fetchList(successHandler, errorHandler);
+
+    i2b2.sharephe.workbook.form.createNew();
+    i2b2.sharephe.tab.enableDisableOnAuthentication();
 };
 i2b2.sharephe.event.phenotypes.onclickTableRow = function () {
     i2b2.sharephe.modal.progress.show('Fetching Phenotype Workbook');
