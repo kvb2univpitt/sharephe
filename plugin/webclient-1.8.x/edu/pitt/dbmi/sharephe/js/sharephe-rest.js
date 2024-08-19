@@ -49,7 +49,7 @@ i2b2.sharephe.rest.workbook.fetchList = function (successHandler, errorHandler) 
         type: 'GET', // For jQuery < 1.9
         method: 'GET',
         cache: false,
-        url: i2b2.sharephe.rest.url + '/workbooks?source=web',
+        url: i2b2.sharephe.rest.url + '/workbooks/',
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Basic ' + btoa(apikey + ':')
@@ -66,7 +66,7 @@ i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, error
         method: 'GET',
         cache: false,
         dataType: 'json',
-        url: i2b2.sharephe.rest.url + '/workbooks/' + phenotypeId + '?source=web',
+        url: i2b2.sharephe.rest.url + '/workbooks/' + phenotypeId,
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Basic ' + btoa(apikey + ':')
@@ -78,7 +78,7 @@ i2b2.sharephe.rest.workbook.fetch = function (phenotypeId, successHandler, error
 i2b2.sharephe.rest.workbook.save = function (formData, successHandler, errorHandler) {
     const apikey = i2b2.sharephe.user.apiKey.value;
     $.ajax({
-        url: i2b2.sharephe.rest.url + '/workbooks?source=web',
+        url: i2b2.sharephe.rest.url + '/workbooks/',
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Basic ' + btoa(apikey + ':')
@@ -104,7 +104,7 @@ i2b2.sharephe.rest.queryXml.details.fetchConcepts = function (term, successHandl
         method: 'GET',
         cache: true,
         dataType: 'json',
-        url: `${i2b2.sharephe.rest.url}/terms/${key}?source=web`,
+        url: `${i2b2.sharephe.rest.url}/terms/${key}`,
         headers: {
             'Accept': 'application/json'
         },
