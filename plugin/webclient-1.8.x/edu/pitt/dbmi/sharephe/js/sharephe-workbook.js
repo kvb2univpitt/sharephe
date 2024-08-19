@@ -334,7 +334,7 @@ i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML)
         const queryResultInstance = resultXml.getElementsByTagName('query_result_instance')[0];
         const statusType_id = parseInt(i2b2.sharephe.h.getXNodeVal(queryResultInstance, 'status_type_id').trim());
 
-        setTimeout(parent.i2b2.CRC.view.history.doRefreshAll, 500);
+        setTimeout(i2b2.authorizedTunnel.function["i2b2.CRC.view.history.doRefreshAll"], 500);
 
         setTimeout(function () {
             i2b2.sharephe.modal.progress.runQuery.hide();
