@@ -2,6 +2,9 @@ if (typeof i2b2.sharephe === 'undefined') {
     i2b2.sharephe = {};
 }
 
+i2b2.sharephe.params = {};
+i2b2.sharephe.params.resultWaitTime = 180;
+
 i2b2.sharephe.user = {};
 i2b2.sharephe.user.isAuthenticated = false;
 i2b2.sharephe.user.apiKey = {
@@ -164,5 +167,9 @@ window.addEventListener("I2B2_READY", () => {
         i2b2.sharephe.settings.apikey.fetch();
 
         i2b2.sharephe.workbook.form.createBackToPlugInButton();
+
+        i2b2.authorizedTunnel.variable["i2b2.CRC.view.QT.params.queryTimeout"].then((queryTimeout) => {
+            i2b2.sharephe.params.resultWaitTime = queryTimeout;
+        });
     });
 });

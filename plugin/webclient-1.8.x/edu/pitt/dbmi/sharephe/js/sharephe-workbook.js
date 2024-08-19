@@ -323,7 +323,7 @@ i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML)
     queryDef += '</query_definition>';
 
     const params = {
-        result_wait_time: 180,
+        result_wait_time: i2b2.sharephe.params.resultWaitTime,
         psm_query_definition: queryDef,
         psm_result_output: '<result_output_list><result_output priority_index="9" name="patient_count_xml"/></result_output_list>',
         shrine_topic: '',
@@ -341,12 +341,10 @@ i2b2.sharephe.workbook.form.queryXml.run = function (index, queryName, queryXML)
 
             if (statusType_id === 3) {
                 const numOfPatients = parseInt(i2b2.sharephe.h.getXNodeVal(queryResultInstance, 'set_size').trim());
-
                 i2b2.sharephe.modal.progress.runQuery.result.show(queryName, `Number of patients: ${numOfPatients}.`, true);
             } else {
                 i2b2.sharephe.modal.progress.runQuery.result.show(queryName, 'ERROR', false);
             }
-            i2b2.sharephe.modal.progress.runQuery.result.show(queryName, `Number of patients: ${numOfPatients}.`, true);
         }, 500);
     });
 };

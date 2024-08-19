@@ -11,6 +11,9 @@
     "base": "index.html",
     "sandbox": true,
     "authorizedTunnel": {
+        "variables": {
+            "i2b2.CRC.view.QT.params.queryTimeout": "RO"
+        },
         "functions": [
             "i2b2.h.getUser",
             "i2b2.CRC.view.history.doRefreshAll"
