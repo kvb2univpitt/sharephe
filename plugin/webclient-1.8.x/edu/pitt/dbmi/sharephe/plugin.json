@@ -12,7 +12,8 @@
     "sandbox": true,
     "authorizedTunnel": {
         "functions": [
-            "i2b2.h.getUser"
+            "i2b2.h.getUser",
+            "i2b2.CRC.view.history.doRefreshAll"
         ]
     }
 }
