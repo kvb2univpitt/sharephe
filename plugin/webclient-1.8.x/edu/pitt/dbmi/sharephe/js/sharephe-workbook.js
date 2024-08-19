@@ -380,7 +380,7 @@ i2b2.sharephe.workbook.form.queryXml.createViewQueryButton = function (index, na
 i2b2.sharephe.workbook.form.queryXml.createRunQueryButton = function (index, name, queryXML) {
     let queryRunBtnElement = document.createElement("button");
     queryRunBtnElement.id = `SharepheBtn-viewRun-${index}`;
-    queryRunBtnElement.className = 'viewRun SDX btn btn-info btn-sm mr-2';
+    queryRunBtnElement.className = 'viewRun SDX btn btn-sea-green btn-sm mr-2';
     queryRunBtnElement.type = 'button';
     queryRunBtnElement.innerHTML = '<i class="bi bi-play-fill"></i> Run Query';
     queryRunBtnElement.addEventListener("click", function () {

@@ -161,3 +161,22 @@ table.table-concepts tr:hover td {
     border-bottom: 1px solid #63758C;
     background-color: #f8f9fa;
 }
+
+/*** Bootstrap custom components ***/
+
+.btn-sea-green {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #3CB371;
+    --bs-btn-border-color: #198754;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #2E8B57;
+    --bs-btn-hover-border-color: #146c43;
+    --bs-btn-focus-shadow-rgb: 60, 153, 110;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #146c43;
+    --bs-btn-active-border-color: #13653f;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #198754;
+    --bs-btn-disabled-border-color: #198754;
+}
