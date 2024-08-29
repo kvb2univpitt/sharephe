@@ -12,6 +12,56 @@ i2b2.sharephe.workbook.form.detailData = [];
 i2b2.sharephe.workbook.form.tempAttachments = new DataTransfer();
 i2b2.sharephe.workbook.form.currentWorkbook = null;
 
+i2b2.sharephe.workbook.form.stringify = {};
+i2b2.sharephe.workbook.form.stringify.authors = function () {
+    const workbook_authors = $('#workbook_authors').val();
+    const authors = workbook_authors
+            .replace(/[\r\n\t\s]+/g, ' ')
+            .trim()
+            .split(',')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+    return JSON.stringify(authors);
+};
+i2b2.sharephe.workbook.form.stringify.currentAttachments = function () {
+    const saveFiles = [];
+    const attachmentTable = document.getElementById('sharephe-current-attachement-table');
+    for (let i = 0; i < attachmentTable.rows.length; i++) {
+        let anchorTag = attachmentTable.rows.item(i).cells.item(0).getElementsByTagName("a")[0];
+        if (anchorTag) {
+            saveFiles.push(anchorTag.innerHTML.trim());
+        }
+    }
+
+    return JSON.stringify(saveFiles);
+};
+i2b2.sharephe.workbook.form.stringify.queryXml = function () {
+    const queryXmlData = [];
+    const xmlSerializer = new window.XMLSerializer();
+    const queryXmls = i2b2.sharephe.workbook.form.queryXmls;
+    for (let i = 0; i < queryXmls.length; i++) {
+        if (queryXmls[i]) {
+            let strXML = xmlSerializer.serializeToString(queryXmls[i]);
+            let data = strXML.trim().split('\n').map(line => line.trim()).filter(line => line);
+            queryXmlData.push(data.join('\n'));
+        }
+    }
+
+    return JSON.stringify(queryXmlData);
+};
+i2b2.sharephe.workbook.form.stringify.validatedBy = function () {
+    let workbook_validated_by = $('#workbook_validated_by').val();
+    const validated_by = workbook_validated_by
+            .replace(/[\r\n\t\s]+/g, ' ')
+            .trim()
+            .split(',')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+    return JSON.stringify(validated_by);
+};
+
 i2b2.sharephe.workbook.form.clear = function () {
     // clear all temporary variables
     i2b2.sharephe.workbook.form.queryXmls = [];
@@ -443,49 +493,18 @@ i2b2.sharephe.workbook.form.submit = function (form) {
     i2b2.sharephe.modal.progress.show('Saving Phenotype');
 
     // save author
-    let workbook_authors = $('#workbook_authors').val();
-    const authors = workbook_authors
-            .replace(/[\r\n\t\s]+/g, ' ')
-            .trim()
-            .split(',')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
-    $('#workbook_authors').val(JSON.stringify(authors));
+    $('#workbook_authors').val(i2b2.sharephe.workbook.form.stringify.authors());
 
     // save current attachement files
-    const saveFiles = [];
-    const attachmentTable = document.getElementById('sharephe-current-attachement-table');
-    for (let i = 0; i < attachmentTable.rows.length; i++) {
-        let anchorTag = attachmentTable.rows.item(i).cells.item(0).getElementsByTagName("a")[0];
-        if (anchorTag) {
-            saveFiles.push(anchorTag.innerHTML.trim());
-        }
-    }
-    $('#workbook_attachments').val(JSON.stringify(saveFiles));
+    $('#workbook_attachments').val(i2b2.sharephe.workbook.form.stringify.currentAttachments());
 
     // save query-xml data
-    const queryXmlData = [];
-    const xmlSerializer = new window.XMLSerializer();
-    const queryXmls = i2b2.sharephe.workbook.form.queryXmls;
-    for (let i = 0; i < queryXmls.length; i++) {
-        if (queryXmls[i]) {
-            let strXML = xmlSerializer.serializeToString(queryXmls[i]);
-            let data = strXML.trim().split('\n').map(line => line.trim()).filter(line => line);
-            queryXmlData.push(data.join('\n'));
-        }
-    }
-    $('#workbook_query_xml').val(JSON.stringify(queryXmlData));
+    $('#workbook_query_xml').val(i2b2.sharephe.workbook.form.stringify.queryXml());
 
     // save validated-by
-    let workbook_validated_by = $('#workbook_validated_by').val();
-    const validated_by = workbook_validated_by
-            .replace(/[\r\n\t\s]+/g, ' ')
-            .trim()
-            .split(',')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
+
     if ($("#workbook_is_validated").is(':checked')) {
-        $('#workbook_validated_by').val(JSON.stringify(validated_by));
+        $('#workbook_validated_by').val(i2b2.sharephe.workbook.form.stringify.validatedBy());
     }
 
     $('#workbook_id').prop("disabled", false);
@@ -517,8 +536,17 @@ i2b2.sharephe.workbook.form.submit = function (form) {
 
     i2b2.sharephe.rest.workbook.save(formData, successHandler, errorHandler);
     $('#workbook_id').prop("disabled", true);
-    $('#workbook_authors').val(authors.join(', '));
-    $('#workbook_validated_by').val(validated_by.join(', '));
+
+    let value = $('#workbook_authors').val();
+    if (value) {
+        $('#workbook_authors').val(JSON.parse(value).join(', '));
+    }
+    if ($("#workbook_is_validated").is(':checked')) {
+        let value = $('#workbook_validated_by').val();
+        if (value) {
+            $('#workbook_validated_by').val(JSON.parse(value).join(', '));
+        }
+    }
 };
 i2b2.sharephe.workbook.form.resetValidation = function () {
     i2b2.sharephe.workbook.form.validator.resetForm();
