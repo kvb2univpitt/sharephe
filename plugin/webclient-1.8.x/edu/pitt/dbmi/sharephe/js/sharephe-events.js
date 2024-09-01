@@ -140,6 +140,9 @@ i2b2.sharephe.event.workbook.form.validation.onchangeCheckbox = function () {
         }
     }
 };
+i2b2.sharephe.event.workbook.form.onchangeInputs = function (evt) {
+    i2b2.sharephe.workbook.form.alertModification(evt.target.id);
+};
 
 i2b2.sharephe.event.queryXml = {};
 i2b2.sharephe.event.queryXml.onclickCopyAndPaste = function () {

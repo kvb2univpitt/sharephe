@@ -150,6 +150,9 @@ i2b2.sharephe.setActionListeners = function () {
     // detail tab: copy and export data
     $(document).on('click', '#sharephe-copy-details', i2b2.sharephe.event.queryXml.details.onclickCopy);
     $(document).on('click', '#sharephe-export-details', i2b2.sharephe.event.queryXml.details.onclickExport);
+
+    // alert user when the workbook has been modified.
+    $(document).on('change', '#sharephe-workbook-form :input', i2b2.sharephe.event.workbook.form.onchangeInputs);
 };
 
 // *********************** i2b2 plugin configurations **************************
