@@ -160,8 +160,10 @@ i2b2.sharephe.workbook.form.alertModification = function (id) {
     // determine to hide or show workbook modified notification
     if (modifiedFields.size > 0) {
         $('#modification_alert').show();
+        $('#sharephe-workbook-submit-btn').prop("disabled", false);
     } else {
         $('#modification_alert').hide();
+        $('#sharephe-workbook-submit-btn').prop("disabled", true);
     }
 };
 
@@ -174,6 +176,7 @@ i2b2.sharephe.workbook.form.clear = function () {
     i2b2.sharephe.workbook.form.modifiedFields.clear();
 
     $('#modification_alert').hide();
+    $('#sharephe-workbook-submit-btn').prop("disabled", true);
 
     // clean all form inputs
     $('#sharephe-workbook-form :input').val('');
