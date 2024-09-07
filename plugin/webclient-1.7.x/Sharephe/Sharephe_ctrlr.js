@@ -136,6 +136,9 @@ i2b2.Sharephe.Init = function (loadedDiv) {
     jQuery('#Sharephe-QueryXMLCopyClipboard').click(i2b2.Sharephe.event.queryXml.onclickCopyToClipboard);
     jQuery('#Sharephe-ExportFile').click(i2b2.Sharephe.event.queryDetail.onclickExportToFile);
 
+    // alert user when the workbook has been modified.
+    jQuery(document).on('change', '#Sharephe-WorkbookForm :input', i2b2.Sharephe.event.workbook.onchangeInputs);
+
     i2b2.Sharephe.datatable = jQuery('#Sharephe-WorkbookTable').DataTable({
         "columnDefs": [{
                 "targets": [0, 5],

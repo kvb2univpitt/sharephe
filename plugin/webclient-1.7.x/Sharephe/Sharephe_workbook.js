@@ -4,7 +4,8 @@ i2b2.Sharephe.workbook = {
     showBckBtn: false,
     queryXmls: [],
     detailData: [],
-    tempAttachments: new DataTransfer()
+    tempAttachments: new DataTransfer(),
+    modifiedFields: new Set()
 };
 i2b2.Sharephe.workbook.refreshList = function () {
     const successHandler = function (data) {
@@ -32,6 +33,161 @@ i2b2.Sharephe.workbook.refreshList = function () {
 i2b2.Sharephe.workbook.form = {
     isReadOnly: false
 };
+
+i2b2.Sharephe.workbook.form.stringify = {};
+i2b2.Sharephe.workbook.form.stringify.authors = function () {
+    const workbook_authors = jQuery('#workbook_authors').val();
+    const authors = workbook_authors
+            .replace(/[\r\n\t\s]+/g, ' ')
+            .trim()
+            .split(',')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+    return JSON.stringify(authors);
+};
+i2b2.Sharephe.workbook.form.stringify.currentAttachments = function () {
+    const saveFiles = [];
+    const attachmentTable = document.getElementById('Sharephe-CurrentAttachementTable');
+    for (let i = 0; i < attachmentTable.rows.length; i++) {
+        let anchorTag = attachmentTable.rows.item(i).cells.item(0).getElementsByTagName("a")[0];
+        if (anchorTag) {
+            saveFiles.push(anchorTag.innerHTML.trim());
+        }
+    }
+
+    return JSON.stringify(saveFiles);
+};
+i2b2.Sharephe.workbook.form.stringify.queryXml = function () {
+    const queryXmlData = [];
+    const xmlSerializer = i2b2.Sharephe.utils.xmlSerializer;
+    const queryXmls = i2b2.Sharephe.workbook.queryXmls;
+    for (let i = 0; i < queryXmls.length; i++) {
+        if (queryXmls[i]) {
+            let strXML = xmlSerializer.serializeToString(queryXmls[i]);
+            let data = strXML.trim().split('\n').map(line => line.trim()).filter(line => line);
+            queryXmlData.push(data.join('\n'));
+        }
+    }
+
+    return JSON.stringify(queryXmlData);
+};
+i2b2.Sharephe.workbook.form.stringify.validatedBy = function () {
+    const workbook_validated_by = jQuery('#workbook_validated_by').val();
+    const validated_by = workbook_validated_by
+            .replace(/[\r\n\t\s]+/g, ' ')
+            .trim()
+            .split(',')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+    return JSON.stringify(validated_by);
+};
+
+i2b2.Sharephe.workbook.form.alertModification = function (id) {
+    const currentWorkbook = i2b2.Sharephe.workbook.currentWorkbook;
+    const modifiedFields = i2b2.Sharephe.workbook.modifiedFields;
+
+    let sanitizedFormValue = '';
+    let currentValue = '';
+    if (id === 'workbook_type') {
+        sanitizedFormValue = jQuery('#workbook_type').val().trim();
+        currentValue = currentWorkbook.type;
+
+        jQuery('#workbook_type').val(sanitizedFormValue);
+    } else if (id === 'workbook_title') {
+        sanitizedFormValue = jQuery('#workbook_title').val().trim();
+        currentValue = currentWorkbook.title;
+
+        jQuery('#workbook_title').val(sanitizedFormValue);
+    } else if (id === 'workbook_authors') {
+        sanitizedFormValue = i2b2.Sharephe.workbook.form.stringify.authors();
+        currentValue = JSON.stringify(currentWorkbook.authors);
+
+        // update author form field with sanitized input
+        if (sanitizedFormValue) {
+            jQuery('#workbook_authors').val(JSON.parse(sanitizedFormValue).join(', '));
+        }
+    } else if (id === 'workbook_institution') {
+        sanitizedFormValue = jQuery('#workbook_institution').val().trim();
+        currentValue = currentWorkbook.institution;
+
+        if (sanitizedFormValue) {
+            jQuery('#workbook_institution').val(sanitizedFormValue);
+        }
+    } else if (id === 'workbook_files') {
+        if (document.getElementById("workbook_files").files.length > 0) {
+            sanitizedFormValue = id;
+        }
+    } else if (id === 'workbook_query_xml') {
+        sanitizedFormValue = i2b2.Sharephe.workbook.form.stringify.queryXml();
+        currentValue = JSON.stringify(currentWorkbook.queryXML);
+    } else if (id === 'workbook_is_validated') {
+        sanitizedFormValue = jQuery("#workbook_is_validated").is(':checked');
+
+        // If form is checked modification alert is raised regardless if the
+        // current workbook is validated or not.  However, if the form is not
+        // checked, make sure the current workbook is checked for validation.
+        if (!sanitizedFormValue) {
+            currentValue = currentWorkbook.isValidated;
+
+            // clear previous modifications
+            modifiedFields.delete('workbook_validated_by');
+            modifiedFields.delete('workbook_time_validated');
+        }
+    } else if (id === 'workbook_validated_by') {
+        // remove workbook_is_validated alert if workbook_time_validated field is not empty
+        if (jQuery("#workbook_is_validated").is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_time_validated').val() !== '')) {
+            modifiedFields.delete('workbook_is_validated');
+        }
+
+        sanitizedFormValue = i2b2.Sharephe.workbook.form.stringify.validatedBy();
+        currentValue = JSON.stringify(currentWorkbook.validatedBy);
+
+        if (sanitizedFormValue) {
+            jQuery('#workbook_validated_by').val(JSON.parse(sanitizedFormValue).join(', '));
+        }
+    } else if (id === 'workbook_time_validated') {
+        // remove workbook_is_validated alert if workbook_is_validated field is not empty
+        if (jQuery("#workbook_is_validated").is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_validated_by').val() !== '')) {
+            modifiedFields.delete('workbook_is_validated');
+        }
+
+        sanitizedFormValue = jQuery('#workbook_time_validated').val();
+        if (sanitizedFormValue) {
+            sanitizedFormValue = new Date(sanitizedFormValue).getTime() / 86400000;
+        }
+        currentValue = currentWorkbook.timeValidated;
+        if (currentValue === null) {
+            currentValue = '';
+        } else {
+            currentValue = parseInt(new Date(currentValue).getTime() / 86400000);
+        }
+    } else {
+        // modification has to be cancelled to reset workbook
+        sanitizedFormValue = id;
+    }
+
+    if (sanitizedFormValue === currentValue) {
+        // remove input ID to the modification list if the form value is the
+        // SAME as the value in the current workbook
+        modifiedFields.delete(id);
+    } else {
+        // add input ID to the modification list if the form value is DIFFERENT
+        // from the value in the current workbook
+        modifiedFields.add(id);
+    }
+
+    // determine to hide or show workbook modified notification
+    if (modifiedFields.size > 0) {
+        jQuery('#modification_alert').show();
+        jQuery('#Sharephe-SubmitButton').prop("disabled", false);
+    } else {
+        jQuery('#modification_alert').hide();
+        jQuery('#Sharephe-SubmitButton').prop("disabled", true);
+    }
+};
+
 i2b2.Sharephe.workbook.form.queryXml = function () {};
 i2b2.Sharephe.workbook.form.queryXml.beautify = function (queryXML) {
     let queryXmlStr = i2b2.Sharephe.utils.xmlSerializer.serializeToString(queryXML).trim();
@@ -147,6 +303,9 @@ i2b2.Sharephe.workbook.form.queryXml.qmDropped = function (sdxData, droppedOnID)
         let requestXml = result.refXML.documentElement.getElementsByTagName('request_xml')[0];
         i2b2.Sharephe.workbook.queryXmls.push(jQuery.parseXML(requestXml.innerHTML));
         i2b2.Sharephe.tab.enableDisableOnQueryXml();
+
+        // raise modification alert
+        i2b2.Sharephe.workbook.form.alertModification('workbook_query_xml');
     });
 
     // Change appearance of the drop field
@@ -201,6 +360,10 @@ i2b2.Sharephe.workbook.form.clear = function () {
     i2b2.Sharephe.workbook.tempAttachments.items.clear();
     i2b2.Sharephe.workbook.form.queryXml.clearDDFields();
     i2b2.Sharephe.queryDetail.details = [];
+    i2b2.Sharephe.workbook.modifiedFields.clear();
+
+    jQuery('#modification_alert').hide();
+    jQuery('#Sharephe-SubmitButton').prop("disabled", true);
 
     jQuery('#Sharephe-WorkbookForm :input').val('');
     jQuery('#Sharephe-WorkbookCreatedOn').text('');
@@ -306,9 +469,15 @@ i2b2.Sharephe.workbook.form.deleteQueryXml = function (obj, index) {
     $(obj).closest('tr').remove();
 
     i2b2.Sharephe.tab.enableDisableOnQueryXml();
+
+    // raise modification alert
+    i2b2.Sharephe.workbook.form.alertModification('workbook_query_xml');
 };
 i2b2.Sharephe.workbook.form.deleteAttachement = function (obj) {
     $(obj).closest('tr').remove();
+
+    // raise modification alert
+    i2b2.Sharephe.workbook.form.alertModification('workbook_attachments');
 };
 i2b2.Sharephe.workbook.form.removeSelectedAttachment = function (obj, fileName) {
     $(obj).closest('tr').remove();
@@ -319,7 +488,12 @@ i2b2.Sharephe.workbook.form.removeSelectedAttachment = function (obj, fileName) 
             break;
         }
     }
+
+    // update the actual attachment storage
     document.getElementById("workbook_files").files = i2b2.Sharephe.workbook.tempAttachments.files;
+
+    // raise modification alert
+    i2b2.Sharephe.workbook.form.alertModification('workbook_files');
 };
 i2b2.Sharephe.workbook.form.updateAttachementSelections = function (files) {
     let selectedFileTable = document.getElementById('Sharephe-SelectedFilesTable');
@@ -462,49 +636,17 @@ i2b2.Sharephe.workbook.form.save = function () {
     i2b2.Sharephe.modal.progress.show('Saving Phenotype');
 
     // save author
-    let workbook_authors = jQuery('#workbook_authors').val();
-    const authors = workbook_authors
-            .replace(/[\r\n\t\s]+/g, ' ')
-            .trim()
-            .split(',')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
-    jQuery('#workbook_authors').val(JSON.stringify(authors));
+    jQuery('#workbook_authors').val(i2b2.Sharephe.workbook.form.stringify.authors());
 
     // save current attachement files
-    let saveFiles = [];
-    let attachmentTable = document.getElementById('Sharephe-CurrentAttachementTable');
-    for (let i = 0; i < attachmentTable.rows.length; i++) {
-        let anchorTag = attachmentTable.rows.item(i).cells.item(0).getElementsByTagName("a")[0];
-        if (anchorTag) {
-            saveFiles.push(anchorTag.innerHTML.trim());
-        }
-    }
-    jQuery('#workbook_attachments').val(JSON.stringify(saveFiles));
+    jQuery('#workbook_attachments').val(i2b2.Sharephe.workbook.form.stringify.currentAttachments());
 
     // save query-xml data
-    const queryXmlData = [];
-    const xmlSerializer = i2b2.Sharephe.utils.xmlSerializer;
-    const queryXmls = i2b2.Sharephe.workbook.queryXmls;
-    for (let i = 0; i < queryXmls.length; i++) {
-        if (queryXmls[i]) {
-            let strXML = xmlSerializer.serializeToString(queryXmls[i]);
-            let data = strXML.trim().split('\n').map(line => line.trim()).filter(line => line);
-            queryXmlData.push(data.join('\n'));
-        }
-    }
-    jQuery('#workbook_query_xml').val(JSON.stringify(queryXmlData));
+    jQuery('#workbook_query_xml').val(i2b2.Sharephe.workbook.form.stringify.queryXml());
 
     // save validated-by
-    let workbook_validated_by = jQuery('#workbook_validated_by').val();
-    const validated_by = workbook_validated_by
-            .replace(/[\r\n\t\s]+/g, ' ')
-            .trim()
-            .split(',')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
     if (jQuery("#workbook_is_validated").is(':checked')) {
-        jQuery('#workbook_validated_by').val(JSON.stringify(validated_by));
+        jQuery('#workbook_validated_by').val(i2b2.Sharephe.workbook.form.stringify.validatedBy());
     }
 
     jQuery('#workbook_id').prop("disabled", false);
@@ -537,8 +679,17 @@ i2b2.Sharephe.workbook.form.save = function () {
 
     i2b2.Sharephe.rest.workbook.save(formData, successHandler, errorHandler);
     jQuery('#workbook_id').prop("disabled", true);
-    jQuery('#workbook_authors').val(authors.join(', '));
-    jQuery('#workbook_validated_by').val(validated_by.join(', '));
+
+    let value = jQuery('#workbook_authors').val();
+    if (value) {
+        jQuery('#workbook_authors').val(JSON.parse(value).join(', '));
+    }
+    if (jQuery("#workbook_is_validated").is(':checked')) {
+        value = jQuery('#workbook_validated_by').val();
+        if (value) {
+            jQuery('#workbook_validated_by').val(JSON.parse(value).join(', '));
+        }
+    }
 };
 i2b2.Sharephe.workbook.form.backToPlugInWrapper = function () {
     jQuery('#Sharephe-bckBtn').hide();

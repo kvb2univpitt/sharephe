@@ -143,6 +143,9 @@ i2b2.Sharephe.event.workbook.onchangeAttachmentFiles = function () {
     i2b2.Sharephe.workbook.form.updateAttachementSelections(this.files);
     this.files = i2b2.Sharephe.workbook.tempAttachments.files;
 };
+i2b2.Sharephe.event.workbook.onchangeInputs = function (evt) {
+    i2b2.Sharephe.workbook.form.alertModification(evt.target.id);
+};
 
 i2b2.Sharephe.event.queryDetail = {};
 i2b2.Sharephe.event.queryDetail.onclickCopyToClipboard = function () {
