@@ -53,8 +53,14 @@ i2b2.sharephe.settings.apikey.set = function (newApiKey) {
                     : `<user_name>${username}</user_name><param datatype="T" name="shp_api_key">${newApiKey}</param>`
         };
         i2b2.ajax.PM.setParam(payload)
-                .then(xmlString => i2b2.sharephe.settings.apikey.fetch())
-                .catch(err => console.error(err));
+                .then(xmlString => {
+                    alert('API key set!');
+                    i2b2.sharephe.settings.apikey.fetch();
+                })
+                .catch(err => {
+                    alert('Set API key failed!');
+                    console.error(err);
+                });
     });
 };
 
