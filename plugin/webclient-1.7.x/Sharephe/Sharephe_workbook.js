@@ -90,7 +90,10 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
 
     let sanitizedFormValue = '';
     let currentValue = '';
-    if (id === 'workbook_type') {
+    if (id === 'workbook_is_public') {
+        sanitizedFormValue = jQuery('#workbook_is_public').is(':checked');
+        currentValue = currentWorkbook.isPublic;
+    } else if (id === 'workbook_type') {
         sanitizedFormValue = jQuery('#workbook_type').val().trim();
         currentValue = currentWorkbook.type;
 
@@ -116,14 +119,14 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
             jQuery('#workbook_institution').val(sanitizedFormValue);
         }
     } else if (id === 'workbook_files') {
-        if (document.getElementById("workbook_files").files.length > 0) {
+        if (document.getElementById('workbook_files').files.length > 0) {
             sanitizedFormValue = id;
         }
     } else if (id === 'workbook_query_xml') {
         sanitizedFormValue = i2b2.Sharephe.workbook.form.stringify.queryXml();
         currentValue = JSON.stringify(currentWorkbook.queryXML);
     } else if (id === 'workbook_is_validated') {
-        sanitizedFormValue = jQuery("#workbook_is_validated").is(':checked');
+        sanitizedFormValue = jQuery('#workbook_is_validated').is(':checked');
 
         // If form is checked modification alert is raised regardless if the
         // current workbook is validated or not.  However, if the form is not
@@ -137,7 +140,7 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
         }
     } else if (id === 'workbook_validated_by') {
         // remove workbook_is_validated alert if workbook_time_validated field is not empty
-        if (jQuery("#workbook_is_validated").is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_time_validated').val() !== '')) {
+        if (jQuery('#workbook_is_validated').is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_time_validated').val() !== '')) {
             modifiedFields.delete('workbook_is_validated');
         }
 
@@ -149,7 +152,7 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
         }
     } else if (id === 'workbook_time_validated') {
         // remove workbook_is_validated alert if workbook_is_validated field is not empty
-        if (jQuery("#workbook_is_validated").is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_validated_by').val() !== '')) {
+        if (jQuery('#workbook_is_validated').is(':checked') && currentWorkbook.isValidated && (jQuery('#workbook_validated_by').val() !== '')) {
             modifiedFields.delete('workbook_is_validated');
         }
 
@@ -181,10 +184,10 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
     // determine to hide or show workbook modified notification
     if (modifiedFields.size > 0) {
         jQuery('#modification_alert').show();
-        jQuery('#Sharephe-SubmitButton').prop("disabled", false);
+        jQuery('#Sharephe-SubmitButton').prop('disabled', false);
     } else {
         jQuery('#modification_alert').hide();
-        jQuery('#Sharephe-SubmitButton').prop("disabled", true);
+        jQuery('#Sharephe-SubmitButton').prop('disabled', true);
     }
 };
 
