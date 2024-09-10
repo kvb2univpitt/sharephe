@@ -188,6 +188,8 @@ i2b2.Sharephe.workbook.form.alertModification = function (id) {
     } else {
         jQuery('#modification_alert').hide();
         jQuery('#Sharephe-SubmitButton').prop('disabled', true);
+
+        i2b2.Sharephe.workbook.form.resetValidation();
     }
 };
 
@@ -354,6 +356,12 @@ i2b2.Sharephe.workbook.form.queryXml.viewXmlCode = function (index) {
     }
 };
 
+i2b2.Sharephe.workbook.form.resetValidation = function () {
+    i2b2.Sharephe.workbook.form.validator.resetForm();
+
+    jQuery('#Sharephe-WorkbookForm :input.is-valid').removeClass('is-valid');
+    jQuery('#Sharephe-WorkbookForm :input.is-invalid').removeClass('is-invalid');
+};
 i2b2.Sharephe.workbook.form.clear = function () {
     i2b2.Sharephe.workbook.selectedPhenotypeId = null;
     i2b2.Sharephe.workbook.currentWorkbook = null;
@@ -381,7 +389,7 @@ i2b2.Sharephe.workbook.form.clear = function () {
     jQuery('#Sharephe-WorkbookEditBtn').show();
     jQuery('#Sharephe-SubmitButton').hide();
 
-    jQuery('#Sharephe-WorkbookForm').removeClass('is-valid').removeClass('is-invalid');
+    i2b2.Sharephe.workbook.form.resetValidation();
 };
 i2b2.Sharephe.workbook.form.setReadOnly = function (isReadOnly) {
     i2b2.Sharephe.workbook.form.isReadOnly = isReadOnly;

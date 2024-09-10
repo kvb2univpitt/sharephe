@@ -167,6 +167,8 @@ i2b2.sharephe.workbook.form.alertModification = function (id) {
     } else {
         $('#modification_alert').hide();
         $('#sharephe-workbook-submit-btn').prop('disabled', true);
+
+        i2b2.sharephe.workbook.form.resetValidation();
     }
 };
 
