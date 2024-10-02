@@ -718,10 +718,10 @@ i2b2.sharephe.workbook.form.validator = $('#sharephe-workbook-form').validate({
         }
     },
     highlight: function (element, errorClass, validClass) {
-        jQuery(element).addClass("is-invalid").removeClass("is-valid");
+        $(element).addClass("is-invalid").removeClass("is-valid");
     },
     unhighlight: function (element, errorClass, validClass) {
-        jQuery(element).addClass("is-valid").removeClass("is-invalid");
+        $(element).addClass("is-valid").removeClass("is-invalid");
     },
     submitHandler: function () {
         i2b2.sharephe.workbook.form.submit(document.getElementById('sharephe-workbook-form'));
