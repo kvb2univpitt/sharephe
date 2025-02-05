@@ -12,10 +12,9 @@ The following instructions assume that the i2b2 webclient directory is ```/var/w
 
 ### 1. Add the Plugin to the i2b2 Webclient
 
-- Click on the link to download [sharephe_plugin.zip](https://pitt-dbmi.s3.amazonaws.com/sharephe/sharephe_plugin.zip).
+- Click on the link to download [sharephe_plugin_1.8.x.zip](https://pitt-dbmi.s3.amazonaws.com/sharephe/sharephe_plugin_1.8.x.zip).
 
-- Extract file ***sharephe_plugin.zip*** to the following i2b2 webclient plugin directory:
-
+- Extract file ***sharephe_plugin_1.8.x.zip*** to the following i2b2 webclient plugin directory:
 
     ```
     /var/www/html/webclient/plugins/edu/pitt/dbmi
