@@ -45,22 +45,41 @@ i2b2.sharephe.settings.apikey.fetch = function () {
 i2b2.sharephe.settings.apikey.set = function (newApiKey) {
     i2b2.authorizedTunnel.function["i2b2.h.getUser"]().then(username => {
         const apiKeyId = i2b2.sharephe.user.apiKey.id;
-        let payload = {
-            table: "user_param",
-            msg_attrib: "",
-            msg_xml: apiKeyId
-                    ? `<user_name>${username}</user_name><param id="${apiKeyId}" datatype="T" name="shp_api_key">${newApiKey}</param>`
-                    : `<user_name>${username}</user_name><param datatype="T" name="shp_api_key">${newApiKey}</param>`
-        };
-        i2b2.ajax.PM.setParam(payload)
-                .then(xmlString => {
-                    alert('API key set!');
-                    i2b2.sharephe.settings.apikey.fetch();
-                })
-                .catch(err => {
-                    alert('Set API key failed!');
-                    console.error(err);
-                });
+        if (newApiKey && newApiKey !== "") {
+            let payload = {
+                table: "user_param",
+                msg_attrib: "",
+                msg_xml: apiKeyId
+                        ? `<user_name>${username}</user_name><param id="${apiKeyId}" datatype="T" name="shp_api_key">${newApiKey}</param>`
+                        : `<user_name>${username}</user_name><param datatype="T" name="shp_api_key">${newApiKey}</param>`
+            };
+            i2b2.ajax.PM.setParam(payload)
+                    .then(xmlString => {
+                        alert('API key set!');
+                        i2b2.sharephe.settings.apikey.fetch();
+                    })
+                    .catch(err => {
+                        alert('Set API key failed!');
+                        console.error(err);
+                    });
+        } else {
+            if (apiKeyId) {
+                let payload = {
+                    table: "user_param",
+                    msg_attrib: "",
+                    msg_xml: apiKeyId
+                };
+                i2b2.ajax.PM.deleteParam(payload)
+                        .then(xmlString => {
+                            alert('API key deleted!');
+                            i2b2.sharephe.settings.apikey.fetch();
+                        })
+                        .catch(err => {
+                            alert('Set API key failed!');
+                            console.error(err);
+                        });
+            }
+        }
     });
 };
 
