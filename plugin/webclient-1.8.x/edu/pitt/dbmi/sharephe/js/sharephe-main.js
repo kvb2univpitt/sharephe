@@ -71,6 +71,10 @@ i2b2.sharephe.settings.apikey.set = function (newApiKey) {
                 };
                 i2b2.ajax.PM.deleteParam(payload)
                         .then(xmlString => {
+                            i2b2.sharephe.user.apiKey = {
+                                id: null,
+                                value: ''
+                            };
                             alert('API key deleted!');
                             i2b2.sharephe.settings.apikey.fetch();
                         })
